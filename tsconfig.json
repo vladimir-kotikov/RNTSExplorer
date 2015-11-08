@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "declaration": false,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "outDir": "gen",
+        "jsx": "react",
+        "sourceMap": true,
+        "experimentalDecorators": true
+    },
+    "compileOnSave": true,
+    "filesGlob": [
+        "./typescript/**/*.ts",
+        "./typescript/**/*.tsx",
+        "./typings/**/*.d.ts"
+    ],
+    "files": [
+        "typescript/RNTSExplorer.tsx",
+        "typings/react-native/react-native.d.ts",
+        "typings/react/react.d.ts"
+    ]
+}
