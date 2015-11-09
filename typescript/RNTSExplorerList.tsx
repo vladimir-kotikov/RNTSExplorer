@@ -123,7 +123,7 @@ function makeRenderable( example: any ): RNTSExample {
 
 // Register suitable examples for snapshot tests
 COMPONENTS.concat( APIS ).forEach( ( Example: RNTSExample ) => {
-    console.log('EXAMPLE', Example)
+
     if ( Example.displayName ) {
         const Snapshotter = React.createClass(
             {
@@ -145,106 +145,7 @@ COMPONENTS.concat( APIS ).forEach( ( Example: RNTSExample ) => {
     }
 } )
 
-class RNTSExplorerList extends React.Component<any,any> {
-
-    constructor( props: any ) {
-        super( props );
-        this.state = {
-            dataSource: ds.cloneWithRowsAndSections(
-                {
-                    components: COMPONENTS,
-                    apis:       APIS,
-                }
-            ),
-        };
-    }
-
-    render() {
-        return (
-            <View style={styles.listContainer}>
-                <View style={styles.searchRow}>
-                    <TextInput
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        clearButtonMode="always"
-                        onChangeText={this._search}
-                        placeholder="Search..."
-                        style={styles.searchTextInput}
-                    />
-                </View>
-                <ListView
-                    style={styles.list}
-                    dataSource={this.state.dataSource}
-                    renderRow={this._renderRow}
-                    renderSectionHeader={this._renderSectionHeader}
-                    automaticallyAdjustContentInsets={false}
-                />
-            </View>
-        );
-    }
-
-    private _renderSectionHeader = ( data: any, section: string ): JSX.Element => {
-        return (
-            <View style={styles.sectionHeader}>
-                <Text style={styles.sectionHeaderTitle}>
-                    {section.toUpperCase()}
-                </Text>
-            </View>
-        )
-    }
-
-    private _renderRow = ( example: any, i: string ): JSX.Element => {
-        return (
-            <View key={i}>
-                <TouchableHighlight onPress={() => this._onPressRow(example)}>
-                    <View style={styles.row}>
-                        <Text style={styles.rowTitleText}>
-                            {example.title}
-                        </Text>
-                        <Text style={styles.rowDetailText}>
-                            {example.description}
-                        </Text>
-                    </View>
-                </TouchableHighlight>
-                <View style={styles.separator}/>
-            </View>
-        )
-    }
-
-    private _search = ( text: string ): void => {
-        var regex = new RegExp( text, 'i' );
-        var filter = ( component: any ) => regex.test( component.title );
-
-        this.setState(
-            {
-                dataSource: ds.cloneWithRowsAndSections(
-                    {
-                        components: COMPONENTS.filter( filter ),
-                        apis:       APIS.filter( filter ),
-                    }
-                )
-            }
-        )
-    }
-
-    _onPressRow( example: any ) {
-        if ( example === NavigatorExample ) {
-            this.props.onExternalExampleRequested(
-                NavigatorExample
-            )
-            return
-        }
-        var Component = makeRenderable( example );
-        this.props.navigator.push(
-            {
-                title:     Component.title,
-                component: Component,
-            }
-        )
-    }
-}
-
-var styles = StyleSheet.create(
+const styles = StyleSheet.create(
     {
         listContainer: {
             flex: 1,
@@ -299,8 +200,107 @@ var styles = StyleSheet.create(
             borderWidth:     1,
             height:          30,
             paddingLeft:     8,
-        },
+        }
     }
-);
+)
+
+class RNTSExplorerList extends React.Component<any,any> {
+
+    constructor( props: any ) {
+        super( props );
+        this.state = {
+            dataSource: ds.cloneWithRowsAndSections(
+                {
+                    components: COMPONENTS,
+                    apis:       APIS
+                }
+            )
+        }
+    }
+
+    render() {
+        return (
+            <View style={styles.listContainer}>
+                <View style={styles.searchRow}>
+                    <TextInput
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        clearButtonMode="always"
+                        onChangeText={this._search}
+                        placeholder="Search..."
+                        style={styles.searchTextInput}
+                    />
+                </View>
+                <ListView
+                    style={styles.list}
+                    dataSource={this.state.dataSource}
+                    renderRow={this._renderRow}
+                    renderSectionHeader={this._renderSectionHeader}
+                    automaticallyAdjustContentInsets={false}
+                />
+            </View>
+        )
+    }
+
+    private _renderSectionHeader = ( data: any, section: string ): JSX.Element => {
+        return (
+            <View style={styles.sectionHeader}>
+                <Text style={styles.sectionHeaderTitle}>
+                    {section.toUpperCase()}
+                </Text>
+            </View>
+        )
+    }
+
+    private _renderRow = ( example: any, i: string ): JSX.Element => {
+        return (
+            <View key={i}>
+                <TouchableHighlight onPress={() => this._onPressRow(example)}>
+                    <View style={styles.row}>
+                        <Text style={styles.rowTitleText}>
+                            {example.title}
+                        </Text>
+                        <Text style={styles.rowDetailText}>
+                            {example.description}
+                        </Text>
+                    </View>
+                </TouchableHighlight>
+                <View style={styles.separator}/>
+            </View>
+        )
+    }
+
+    private _search = ( text: string ): void => {
+        var regex = new RegExp( text, 'i' );
+        var filter = ( component: any ) => regex.test( component.title );
+
+        this.setState(
+            {
+                dataSource: ds.cloneWithRowsAndSections(
+                    {
+                        components: COMPONENTS.filter( filter ),
+                        apis:       APIS.filter( filter )
+                    }
+                )
+            }
+        )
+    }
+
+    private _onPressRow = ( example: any ): void => {
+        if ( example === NavigatorExample ) {
+            this.props.onExternalExampleRequested(
+                NavigatorExample
+            )
+            return
+        }
+        var Component = makeRenderable( example );
+        this.props.navigator.push(
+            {
+                title:     Component.title,
+                component: Component,
+            }
+        )
+    }
+}
 
 export default RNTSExplorerList
