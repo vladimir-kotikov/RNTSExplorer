@@ -18,7 +18,7 @@
 import React from 'react-native'
 const { NavigatorIOS } = React;
 
-import UIExplorerList from '../js/UIExplorerList'
+import RNTSExplorerList from './RNTSExplorerList'
 
 
 const styles = React.StyleSheet.create(
@@ -63,7 +63,7 @@ class RNTSExplorerApp extends React.Component<any, RNTSExplorerApp.State> {
                 style={styles.container}
                 initialRoute={{
                       title: 'RNTSExplorer',
-                      component: UIExplorerList,
+                      component: RNTSExplorerList,
                       passProps: {
                             onExternalExampleRequested: (example: any) => this.setState({ openExternalExample: example })
                             }

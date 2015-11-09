@@ -16,7 +16,9 @@
         "./typings/**/*.d.ts"
     ],
     "files": [
+        "typescript/RNTSExample.ts",
         "typescript/RNTSExplorer.tsx",
+        "typescript/RNTSExplorerList.tsx",
         "typings/react-native/react-native.d.ts",
         "typings/react/react.d.ts"
     ]
