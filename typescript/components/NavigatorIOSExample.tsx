@@ -35,20 +35,20 @@ const styles = StyleSheet.create(
         },
         emptyPage:          {
             flex:       1,
-            paddingTop: 64,
+            paddingTop: 64
         },
         emptyPageText:      {
-            margin: 10,
+            margin: 10
         },
         list:               {
             backgroundColor: '#eeeeee',
-            marginTop:       10,
+            marginTop:       10
         },
         group:              {
             backgroundColor: 'white',
         },
         groupSpace:         {
-            height: 15,
+            height: 15
         },
         line:               {
             backgroundColor: '#bbbbbb',
@@ -58,20 +58,20 @@ const styles = StyleSheet.create(
             backgroundColor:   'white',
             justifyContent:    'center',
             paddingHorizontal: 15,
-            paddingVertical:   15,
+            paddingVertical:   15
         },
         separator:          {
             height:          1 / PixelRatio.get(),
             backgroundColor: '#bbbbbb',
-            marginLeft:      15,
+            marginLeft:      15
         },
         rowNote:            {
-            fontSize: 17,
+            fontSize: 17
         },
         rowText:            {
             fontSize:   17,
-            fontWeight: '500',
-        },
+            fontWeight: '500'
+        }
     }
 )
 
@@ -115,7 +115,7 @@ class NavigatorIOSExample extends React.Component<NavigatorIOSExample.Props,any>
                 <View style={styles.group}>
                     <View style={styles.row}>
                         <Text style={styles.rowNote}>
-                            See&lt;UIExplorerApp/&gt;for top-level usage.
+                            See RNTSExplorerApp.tsx for top-level usage.
                         </Text>
                     </View>
                 </View>
@@ -173,7 +173,7 @@ class NavigatorIOSExample extends React.Component<NavigatorIOSExample.Props,any>
                 </View>
                 <View style={styles.line}/>
             </ScrollView>
-        );
+        )
     }
 
 
