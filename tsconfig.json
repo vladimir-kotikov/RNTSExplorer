@@ -19,6 +19,7 @@
         "typescript/RNTSExample.ts",
         "typescript/RNTSExplorer.tsx",
         "typescript/RNTSExplorerList.tsx",
+        "typescript/components/NavigatorIOSExample.tsx",
         "typings/react-native/react-native.d.ts",
         "typings/react/react.d.ts"
     ]

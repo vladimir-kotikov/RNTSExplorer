@@ -11,7 +11,7 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * Typescript rewriting by Bruno Grieder
+ * Typescript rewrite by Bruno Grieder
  */
 
 import React from 'react-native'
@@ -28,6 +28,7 @@ const {
 const { TestModule } = React.addons;
 
 import RNTSExample from './RNTSExample'
+import NavigatorIOSExample from './components/NavigatorIOSExample'
 
 
 import NavigatorExample from '../js/Navigator/NavigatorExample'
@@ -39,7 +40,6 @@ import ImageExample from '../js/ImageExample'
 import ListViewExample from '../js/ListViewExample'
 import ListViewPagingExample from '../js/ListViewPagingExample'
 import MapViewExample from '../js/MapViewExample'
-import NavigatorIOSExample from '../js/NavigatorIOSExample'
 import PickerIOSExample from '../js/PickerIOSExample'
 import ScrollViewExample from '../js/ScrollViewExample'
 import SliderIOSExample from '../js/SliderIOSExample'
@@ -71,7 +71,7 @@ const COMPONENTS: RNTSExample[] = [
     TouchableExample,
     ViewExample,
     WebViewExample
-];
+]
 
 import ActionSheetIOSExample from '../js/ActionSheetIOSExample'
 import AdSupportIOSExample from '../js/AdSupportIOSExample'
@@ -107,7 +107,7 @@ const APIS: RNTSExample[] = [
     StatusBarIOSExample,
     TimerExample,
     VibrationIOSExample
-];
+]
 
 const ds = new ListView.DataSource( {
     rowHasChanged:           ( r1, r2 ) => r1 !== r2,
@@ -152,11 +152,11 @@ const styles = StyleSheet.create(
         },
 
         list: {
-                  backgroundColor: '#eeeeee',
+                  backgroundColor: '#eeeeee'
               } as React.ScrollViewStyle,
 
         sectionHeader: {
-            padding: 5,
+            padding: 5
         },
 
         group:              {
@@ -164,18 +164,18 @@ const styles = StyleSheet.create(
         },
         sectionHeaderTitle: {
             fontWeight: '500',
-            fontSize:   11,
+            fontSize:   11
         },
         row:                {
             backgroundColor:   'white',
             justifyContent:    'center',
             paddingHorizontal: 15,
-            paddingVertical:   8,
+            paddingVertical:   8
         },
         separator:          {
             height:          1 / PixelRatio.get(),
             backgroundColor: '#bbbbbb',
-            marginLeft:      15,
+            marginLeft:      15
         },
         rowTitleText:       {
             fontSize:   17,
@@ -184,14 +184,14 @@ const styles = StyleSheet.create(
         rowDetailText:      {
             fontSize:   15,
             color:      '#888888',
-            lineHeight: 20,
+            lineHeight: 20
         },
         searchRow:          {
             backgroundColor: '#eeeeee',
             paddingTop:      75,
             paddingLeft:     10,
             paddingRight:    10,
-            paddingBottom:   10,
+            paddingBottom:   10
         },
         searchTextInput:    {
             backgroundColor: 'white',
@@ -199,7 +199,7 @@ const styles = StyleSheet.create(
             borderRadius:    3,
             borderWidth:     1,
             height:          30,
-            paddingLeft:     8,
+            paddingLeft:     8
         }
     }
 )
@@ -297,7 +297,7 @@ class RNTSExplorerList extends React.Component<any,any> {
         this.props.navigator.push(
             {
                 title:     Component.title,
-                component: Component,
+                component: Component
             }
         )
     }
