@@ -20,6 +20,9 @@
         "typescript/RNTSExplorer.tsx",
         "typescript/RNTSExplorerList.tsx",
         "typescript/components/NavigatorIOSExample.tsx",
+        "typescript/components/navigator/JumpingNavSample.tsx",
+        "typescript/components/navigator/NavigationBarSample.tsx",
+        "typescript/components/navigator/NavigatorExample.tsx",
         "typings/react-native/react-native.d.ts",
         "typings/react/react.d.ts"
     ]

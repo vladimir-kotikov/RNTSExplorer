@@ -29,9 +29,9 @@ const { TestModule } = React.addons;
 
 import RNTSExample from './RNTSExample'
 import NavigatorIOSExample from './components/NavigatorIOSExample'
+import NavigatorExample from './components/navigator/NavigatorExample'
 
 
-import NavigatorExample from '../js/Navigator/NavigatorExample'
 import createExamplePage from '../js/createExamplePage'
 
 import ActivityIndicatorIOSExample from '../js/ActivityIndicatorIOSExample'
