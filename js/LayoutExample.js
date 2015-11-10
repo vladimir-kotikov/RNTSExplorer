@@ -22,8 +22,8 @@ var {
   View,
 } = React;
 
-var UIExplorerBlock = require('./UIExplorerBlock');
-var UIExplorerPage = require('./UIExplorerPage');
+var UIExplorerBlock = require('../gen/RNTSExplorerBlock');
+var UIExplorerPage = require('../gen/RNTSExplorerPage');
 
 var Circle = React.createClass({
   render: function() {

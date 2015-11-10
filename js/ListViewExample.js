@@ -25,7 +25,7 @@ var {
   View,
 } = React;
 
-var UIExplorerPage = require('./UIExplorerPage');
+var UIExplorerPage = require('../gen/RNTSExplorerPage');
 
 var ListViewSimpleExample = React.createClass({
   statics: {

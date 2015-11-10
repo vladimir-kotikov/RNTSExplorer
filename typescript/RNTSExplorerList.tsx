@@ -29,12 +29,14 @@ const {
           } = React;
 const { TestModule } = React.addons;
 
+import createExamplePage from './createExamplePage'
+//import createExamplePage from '../js/createExamplePage'
+
 import RNTSExample from './RNTSExample'
 import NavigatorIOSExample from './components/NavigatorIOSExample'
 import NavigatorExample from './components/navigator/NavigatorExample'
 
 
-import createExamplePage from '../js/createExamplePage'
 
 import ActivityIndicatorIOSExample from '../js/ActivityIndicatorIOSExample'
 import DatePickerIOSExample from '../js/DatePickerIOSExample'

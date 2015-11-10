@@ -17,8 +17,9 @@
 'use strict'
 
 import React from 'react-native'
+import createExamplePage from '../createExamplePage'
+
 import ViewExample from '../../js/ViewExample'
-import createExamplePage from '../../js/createExamplePage'
 
 const {
           PixelRatio,
