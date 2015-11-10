@@ -14,6 +14,8 @@
  * Typescript rewrite by Bruno Grieder
  */
 
+'use strict'
+
 import React from 'react-native'
 import ViewExample from '../../js/ViewExample'
 import createExamplePage from '../../js/createExamplePage'

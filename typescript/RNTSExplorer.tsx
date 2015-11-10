@@ -15,6 +15,8 @@
  *
  */
 
+'use strict'
+
 import React from 'react-native'
 const { NavigatorIOS } = React;
 

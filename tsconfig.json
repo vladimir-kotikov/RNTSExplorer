@@ -20,6 +20,7 @@
         "typescript/RNTSExplorer.tsx",
         "typescript/RNTSExplorerList.tsx",
         "typescript/components/NavigatorIOSExample.tsx",
+        "typescript/components/navigator/BreadcrumbNavSample.tsx",
         "typescript/components/navigator/JumpingNavSample.tsx",
         "typescript/components/navigator/NavigationBarSample.tsx",
         "typescript/components/navigator/NavigatorExample.tsx",

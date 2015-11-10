@@ -27,7 +27,7 @@ const {
           } = React
 import NavigationBarSample from './NavigationBarSample'
 import  JumpingNavSample from './JumpingNavSample'
-import BreadcrumbNavSample from '../../../js/Navigator/BreadcrumbNavSample'
+import BreadcrumbNavSample from './BreadcrumbNavSample'
 
 const styles = StyleSheet.create(
     {
