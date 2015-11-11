@@ -21,7 +21,7 @@ Work in Progress
 Directories
 -----------
  
-  - `js`: the not yet converted files
+  - `js`: the original, not yet converted, files
   - `typescript`: the converted files
   - `gen`: the js generated from typescript
  
@@ -37,7 +37,8 @@ Installing
 Building
 --------
  
- Use `grunt dev` to compile or have your IDE output the JS in the `gen` folder
+ Use `grunt dev` to compile or have your IDE output the JS in the `gen` folder.
+ 
  The RN server will automatically pick-up the new js
  
  
