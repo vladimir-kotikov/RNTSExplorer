@@ -26,8 +26,8 @@ const {
           TextInput,
           TouchableHighlight,
           View
-          } = React;
-const { TestModule } = React.addons;
+          } = React
+const { TestModule } = React.addons
 
 import createExamplePage from './createExamplePage'
 //import createExamplePage from '../js/createExamplePage'
@@ -35,25 +35,25 @@ import createExamplePage from './createExamplePage'
 import RNTSExample from './RNTSExample'
 import NavigatorIOSExample from './components/NavigatorIOSExample'
 import NavigatorExample from './components/navigator/NavigatorExample'
+import ViewExample from './components/ViewExample'
+import ActivityIndicatorIOSExample from './components/ActivityIndicatorIOSExample'
+import DatePickerIOSExample from './components/DatePickerIOSExample'
 
 
 
-import ActivityIndicatorIOSExample from '../js/ActivityIndicatorIOSExample'
-import DatePickerIOSExample from '../js/DatePickerIOSExample'
-import ImageExample from '../js/ImageExample'
-import ListViewExample from '../js/ListViewExample'
-import ListViewPagingExample from '../js/ListViewPagingExample'
-import MapViewExample from '../js/MapViewExample'
-import PickerIOSExample from '../js/PickerIOSExample'
-import ScrollViewExample from '../js/ScrollViewExample'
-import SliderIOSExample from '../js/SliderIOSExample'
-import SwitchIOSExample from '../js/SwitchIOSExample'
-import TabBarIOSExample from '../js/TabBarIOSExample'
-import TextExample from '../js/TextExample.ios'
-import TextInputExample from '../js/TextInputExample'
-import TouchableExample from '../js/TouchableExample'
-import ViewExample from '../js/ViewExample'
-import WebViewExample from '../js/WebViewExample'
+const ImageExample = require( '../js/ImageExample')
+const ListViewExample = require('../js/ListViewExample')
+const ListViewPagingExample = require('../js/ListViewPagingExample')
+const MapViewExample = require('../js/MapViewExample')
+const PickerIOSExample = require('../js/PickerIOSExample')
+const ScrollViewExample = require('../js/ScrollViewExample')
+const SliderIOSExample = require('../js/SliderIOSExample')
+const SwitchIOSExample = require('../js/SwitchIOSExample')
+const TabBarIOSExample = require('../js/TabBarIOSExample')
+const TextExample = require('../js/TextExample.ios')
+const TextInputExample = require('../js/TextInputExample')
+const TouchableExample = require('../js/TouchableExample')
+const WebViewExample = require('../js/WebViewExample')
 
 
 const COMPONENTS: RNTSExample[] = [
@@ -77,22 +77,22 @@ const COMPONENTS: RNTSExample[] = [
     WebViewExample
 ]
 
-import ActionSheetIOSExample from '../js/ActionSheetIOSExample'
-import AdSupportIOSExample from '../js/AdSupportIOSExample'
-import AlertIOSExample from '../js/AlertIOSExample'
-import AppStateIOSExample from '../js/AppStateIOSExample'
-import AsyncStorageExample from '../js/AsyncStorageExample'
-import BorderExample from '../js/BorderExample'
-import CameraRollExample from '../js/CameraRollExample.ios'
-import GeolocationExample from '../js/GeolocationExample'
-import LayoutExample from '../js/LayoutExample'
-import NetInfoExample from '../js/NetInfoExample'
-import PanResponderExample from '../js/PanResponderExample'
-import PointerEventsExample from '../js/PointerEventsExample'
-import PushNotificationIOSExample from '../js/PushNotificationIOSExample'
-import StatusBarIOSExample from '../js/StatusBarIOSExample'
-import TimerExample from '../js/TimerExample'
-import VibrationIOSExample from '../js/VibrationIOSExample'
+const ActionSheetIOSExample  = require('../js/ActionSheetIOSExample')
+const AdSupportIOSExample  = require('../js/AdSupportIOSExample')
+const AlertIOSExample  = require('../js/AlertIOSExample')
+const AppStateIOSExample  = require('../js/AppStateIOSExample')
+const AsyncStorageExample  = require('../js/AsyncStorageExample')
+const BorderExample  = require('../js/BorderExample')
+const CameraRollExample  = require('../js/CameraRollExample.ios')
+const GeolocationExample  = require('../js/GeolocationExample')
+const LayoutExample  = require('../js/LayoutExample')
+const NetInfoExample  = require('../js/NetInfoExample')
+const PanResponderExample  = require('../js/PanResponderExample')
+const PointerEventsExample  = require('../js/PointerEventsExample')
+const PushNotificationIOSExample  = require('../js/PushNotificationIOSExample')
+const StatusBarIOSExample  = require('../js/StatusBarIOSExample')
+const TimerExample  = require('../js/TimerExample')
+const VibrationIOSExample  = require('../js/VibrationIOSExample')
 
 const APIS: RNTSExample[] = [
     ActionSheetIOSExample,
@@ -211,7 +211,7 @@ const styles = StyleSheet.create(
 class RNTSExplorerList extends React.Component<any,any> {
 
     constructor( props: any ) {
-        super( props );
+        super( props )
         this.state = {
             dataSource: ds.cloneWithRowsAndSections(
                 {
@@ -275,8 +275,8 @@ class RNTSExplorerList extends React.Component<any,any> {
     }
 
     private _search = ( text: string ): void => {
-        var regex = new RegExp( text, 'i' );
-        var filter = ( component: any ) => regex.test( component.title );
+        var regex = new RegExp( text, 'i' )
+        var filter = ( component: any ) => regex.test( component.title )
 
         this.setState(
             {
@@ -297,7 +297,7 @@ class RNTSExplorerList extends React.Component<any,any> {
             )
             return
         }
-        var Component = makeRenderable( example );
+        var Component = makeRenderable( example )
         this.props.navigator.push(
             {
                 title:     Component.title,

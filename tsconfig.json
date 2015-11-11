@@ -17,19 +17,25 @@
     ],
     "files": [
         "typescript/RNTSExample.ts",
+        "typescript/RNTSExampleModule.ts",
         "typescript/RNTSExplorer.tsx",
         "typescript/RNTSExplorerBlock.tsx",
         "typescript/RNTSExplorerList.tsx",
         "typescript/RNTSExplorerPage.tsx",
         "typescript/RNTSExplorerTitle.tsx",
+        "typescript/components/ActivityIndicatorIOSExample.tsx",
+        "typescript/components/DatePickerIOSExample.tsx",
         "typescript/components/NavigatorIOSExample.tsx",
+        "typescript/components/ViewExample.tsx",
         "typescript/components/navigator/BreadcrumbNavSample.tsx",
         "typescript/components/navigator/JumpingNavSample.tsx",
         "typescript/components/navigator/NavigationBarSample.tsx",
         "typescript/components/navigator/NavigatorExample.tsx",
         "typescript/createExamplePage.tsx",
         "typings/invariant/invariant.d.ts",
+        "typings/react-mixin/react-mixin.d.ts",
         "typings/react-native/react-native.d.ts",
+        "typings/react-timer-mixin/react-timer-mixin.d.ts",
         "typings/react/react.d.ts"
     ]
 }

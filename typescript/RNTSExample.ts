@@ -7,7 +7,10 @@
 interface RNTSExample extends React.ComponentClass<any> {
 
     title: string
+    description: string
     displayName?: string
+
+    render: () => React.ReactElement<any>
 }
 
 export default RNTSExample

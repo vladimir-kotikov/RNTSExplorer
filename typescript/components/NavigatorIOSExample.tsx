@@ -19,7 +19,7 @@
 import React from 'react-native'
 import createExamplePage from '../createExamplePage'
 
-import ViewExample from '../../js/ViewExample'
+import ViewExample from './ViewExample'
 
 const {
           PixelRatio,

@@ -20,28 +20,11 @@ import invariant from 'invariant'
 
 import RNTSExplorerBlock from './RNTSExplorerBlock'
 import RNTSExplorerPage from  './RNTSExplorerPage'
+import RNTSExample from './RNTSExample'
+import RNTSExampleModule from './RNTSExampleModule'
 
 
-class Example extends React.Component<any,any> {
-    title: string;
-    description: string;
-
-    private renderedEl: React.ReactElement<any>
-    
-    renderComponent( element: React.ReactElement<any>, container?: React.ReactElement<any> ) {
-        this.renderedEl = element
-    }
-    
-    
-}
-
-type ExampleModule = {
-    title: string;
-    description: string;
-    examples: Array<Example>;
-}
-
-const createExamplePage = ( title: string, exampleModule: ExampleModule ): React.ComponentClass<any> => {
+const createExamplePage = ( title: string, exampleModule: RNTSExampleModule ): React.ComponentClass<any> => {
 
     invariant ( !!exampleModule.examples ,'The module must have examples')
     //if ( !exampleModule.examples ) throw('The module must have examples')
@@ -53,7 +36,7 @@ const createExamplePage = ( title: string, exampleModule: ExampleModule ): React
         public static get description() { return exampleModule.description }
 
 
-        private getBlock = ( example: Example, i: number ): JSX.Element => {
+        private getBlock = ( example: RNTSExample, i: number ): JSX.Element => {
 
             // Hack warning: This is a hack because the www UI explorer requires
             // renderComponent to be called.

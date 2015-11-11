@@ -5,9 +5,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// This work is based on an original work made by Bernd Paradies: https://github.com/bparadie
-//
 // These definitions are meant to be used with the TSC compiler target set to ES6
+//
+// This work is based on an original work made by Bernd Paradies: https://github.com/bparadie
 //
 // WARNING: this work is very much beta:
 //            -it is still missing react-native definitions
@@ -436,7 +436,7 @@ declare namespace  ReactNative {
         /**
          * Callback that is called when the text input's text changes.
          */
-        onChange?: () => void
+        onChange?: (event: {nativeEvent: {text: string}}) => void
 
         /**
          * Callback that is called when the text input's text changes.
@@ -447,7 +447,7 @@ declare namespace  ReactNative {
         /**
          * Callback that is called when text input ends.
          */
-        onEndEditing?: () => void
+        onEndEditing?: (event: {nativeEvent: {text: string}}) => void
 
         /**
          * Callback that is called when the text input is focused
@@ -457,12 +457,12 @@ declare namespace  ReactNative {
         /**
          * Invoked on mount and layout changes with {x, y, width, height}.
          */
-        onLayout?: () => void
+        onLayout?: (event: {nativeEvent: {x: number, y: number, width: number, height: number}}) => void
 
         /**
          * Callback that is called when the text input's submit button is pressed.
          */
-        onSubmitEditing?: () => void
+        onSubmitEditing?: (event: {nativeEvent: {text: string}}) => void
 
         /**
          * The string that will be rendered before text input has been entered
@@ -834,10 +834,94 @@ declare namespace  ReactNative {
 
 
     /**
-     * @see
+     * @see https://facebook.github.io/react-native/docs/activityindicatorios.html#props
      */
-    export interface ActivityIndicatorIOSProperties {
-        /// TODO
+    export interface ActivityIndicatorIOSProperties extends React.Props<ActivityIndicatorIOSStatic> {
+
+        /**
+         * Whether to show the indicator (true, the default) or hide it (false).
+         */
+        animating?: boolean
+
+        /**
+         * The foreground color of the spinner (default is gray).
+         */
+        color?: string
+
+        /**
+         * Whether the indicator should hide when not animating (true by default).
+         */
+        hidesWhenStopped?: boolean
+
+        /**
+         * Invoked on mount and layout changes with
+         */
+        onLayout?: ( event: {nativeEvent: { layout: {x: number, y: number , width: number, height: number}}} ) => void
+
+        /**
+         * Size of the indicator.
+         * Small has a height of 20, large has a height of 36.
+         *
+         * enum('small', 'large')
+         */
+        size?: string
+
+        style?: ViewStyle
+    }
+
+    export interface ActivityIndicatorIOSStatic extends React.ComponentClass<ActivityIndicatorIOSProperties> {
+    }
+
+
+    export interface DatePickerIOSProperties extends React.Props<DatePickerIOSStatic> {
+
+        /**
+         * The currently selected date.
+         */
+        date?: Date
+
+
+        /**
+         * Maximum date.
+         * Restricts the range of possible date/time values.
+         */
+        maximumDate?: Date
+
+        /**
+         * Maximum date.
+         * Restricts the range of possible date/time values.
+         */
+        minimumDate?: Date
+
+        /**
+         *  enum(1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30)
+         *  The interval at which minutes can be selected.
+         */
+        minuteInterval?: number
+
+        /**
+         *  enum('date', 'time', 'datetime')
+         *  The date picker mode.
+         */
+        mode?: string
+
+        /**
+         * Date change handler.
+         * This is called when the user changes the date or time in the UI.
+         * The first and only argument is a Date object representing the new date and time.
+         */
+        onDateChange?: (newDate: Date) => void
+
+        /**
+         * Timezone offset in minutes.
+         * By default, the date picker will use the device's timezone. With this parameter, it is possible to force a certain timezone offset.
+         * For instance, to show times in Pacific Standard Time, pass -7 * 60.
+         */
+        timeZoneOffsetInMinutes?: number
+
+    }
+
+    export interface DatePickerIOSStatic extends React.ComponentClass<DatePickerIOSProperties> {
     }
 
     /**
@@ -1470,7 +1554,7 @@ declare namespace  ReactNative {
         /**
          * @see NavigatorNavigationBar.js
          */
-        export interface NavigationBarProperties extends React.Props<NavigationBarStatic>{
+        export interface NavigationBarProperties extends React.Props<NavigationBarStatic> {
             navigator?: Navigator
             routeMapper?: NavigationBarRouteMapper
             navState?: NavState
@@ -1485,31 +1569,31 @@ declare namespace  ReactNative {
         export type NavigationBar = NavigationBarStatic
         export var NavigationBar: NavigationBarStatic
 
-        
+
         export interface BreadcrumbNavigationBarStyle {
             //TODO &see NavigatorBreadcrumbNavigationBar.js
         }
 
         export interface BreadcrumbNavigationBarRouteMapper {
-            rightContentForRoute: (route: Route, navigator: Navigator) => React.ReactElement<any>
-            titleContentForRoute: (route: Route, navigator: Navigator) => React.ReactElement<any>
-            iconForRoute: (route: Route, navigator: Navigator) => React.ReactElement<any>
+            rightContentForRoute: ( route: Route, navigator: Navigator ) => React.ReactElement<any>
+            titleContentForRoute: ( route: Route, navigator: Navigator ) => React.ReactElement<any>
+            iconForRoute: ( route: Route, navigator: Navigator ) => React.ReactElement<any>
             //in samples...
-            separatorForRoute: (route: Route, navigator: Navigator) => React.ReactElement<any>
+            separatorForRoute: ( route: Route, navigator: Navigator ) => React.ReactElement<any>
         }
 
         /**
          * @see NavigatorNavigationBar.js
          */
-        export interface BreadcrumbNavigationBarProperties extends React.Props<BreadcrumbNavigationBarStatic>{
+        export interface BreadcrumbNavigationBarProperties extends React.Props<BreadcrumbNavigationBarStatic> {
             navigator?: Navigator
             routeMapper?: BreadcrumbNavigationBarRouteMapper
             navState?: NavState
             style?: ViewStyle
         }
-        
+
         export interface BreadcrumbNavigationBarStatic extends React.ComponentClass<BreadcrumbNavigationBarProperties> {
-            Styles: BreadcrumbNavigationBarStyle 
+            Styles: BreadcrumbNavigationBarStyle
         }
 
         export type BreadcrumbNavigationBar = BreadcrumbNavigationBarStatic
@@ -2084,11 +2168,19 @@ declare namespace  ReactNative {
 
     // exported singletons:
     // export var AppRegistry: AppRegistryStatic;
+
+
+    export var ActivityIndicatorIOS: ActivityIndicatorIOSStatic;
+    export type ActivityIndicatorIOS = ActivityIndicatorIOSStatic;
+
     export var AsyncStorage: AsyncStorageStatic;
     export type AsyncStorage = AsyncStorageStatic;
 
     export var CameraRoll: CameraRollStatic;
     export type CameraRoll = CameraRollStatic;
+
+    export var DatePickerIOS: DatePickerIOSStatic
+    export type DatePickerIOS = DatePickerIOSStatic
 
     export var Image: ImageStatic;
     export type Image = ImageStatic;
@@ -2098,12 +2190,6 @@ declare namespace  ReactNative {
 
     export var Navigator: NavigatorStatic;
     export type Navigator = NavigatorStatic;
-
-    //export var NavigationBar: NavigationBarStatic
-    //export type NavigationBar = NavigationBarStatic
-
-    //export var BreadcrumbNavigationBar: BreadcrumbNavigationBarStatic
-    //export type BreadcrumbNavigationBar = BreadcrumbNavigationBarStatic
 
     export var NavigatorIOS: NavigatorIOSStatic;
     export type NavigatorIOS = NavigatorIOSStatic;
@@ -2141,7 +2227,7 @@ declare namespace  ReactNative {
     export var AlertIOS: React.ComponentClass<AlertIOSProperties>;
     export var SegmentedControlIOS: React.ComponentClass<SegmentedControlIOSProperties>;
     export var SwitchIOS: React.ComponentClass<SwitchIOSProperties>;
-    export var ActivityIndicatorIOS: React.ComponentClass<ActivityIndicatorIOSProperties>;
+
     export var PixelRatio: PixelRatioStatic;
     export var DeviceEventEmitter: DeviceEventEmitterStatic;
     export var DeviceEventSubscription: DeviceEventSubscriptionStatic;
@@ -2378,6 +2464,24 @@ declare namespace  ReactNative {
 
     }
 
+    //
+    // Add-Ons
+    //
+    namespace addons {
+
+        //FIXME: Documentation ?
+        export interface TestModuleStatic {
+
+            verifySnapshot: (done: (indicator?: any) => void) => void
+            markTestPassed: (indicator: any) => void
+            markTestCompleted: () => void
+        }
+
+        export var TestModule: TestModuleStatic
+        export type TestModule = TestModuleStatic
+    }
+
+
 }
 
 declare module "react-native" {
@@ -2399,4 +2503,4 @@ declare module "Dimensions" {
 
 declare var global: ReactNative.GlobalStatic
 
-declare function require(name: string): any
+declare function require( name: string ): any

@@ -6,6 +6,7 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "react-mixin": "^2.0.2",
     "react-native": "^0.14.1"
   },
   "devDependencies": {

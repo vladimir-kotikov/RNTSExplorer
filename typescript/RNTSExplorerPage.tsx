@@ -43,9 +43,9 @@ const styles = StyleSheet.create(
 
 namespace RNTSExplorerPage {
     export interface Props extends React.Props<RNTSExplorerPage> {
-        keyboardShouldPersistTaps: boolean,
-        noScroll:                  boolean,
-        noSpacer:                  boolean,
+        keyboardShouldPersistTaps?: boolean,
+        noScroll?:                  boolean,
+        noSpacer?:                  boolean,
         title?:                    string
     }
 }
