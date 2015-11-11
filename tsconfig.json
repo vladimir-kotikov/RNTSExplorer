@@ -25,6 +25,8 @@
         "typescript/RNTSExplorerTitle.tsx",
         "typescript/components/ActivityIndicatorIOSExample.tsx",
         "typescript/components/DatePickerIOSExample.tsx",
+        "typescript/components/ImageCapInsetsExample.tsx",
+        "typescript/components/ImageExample.tsx",
         "typescript/components/NavigatorIOSExample.tsx",
         "typescript/components/ViewExample.tsx",
         "typescript/components/navigator/BreadcrumbNavSample.tsx",

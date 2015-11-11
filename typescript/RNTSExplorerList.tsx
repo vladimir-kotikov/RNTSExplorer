@@ -38,10 +38,10 @@ import NavigatorExample from './components/navigator/NavigatorExample'
 import ViewExample from './components/ViewExample'
 import ActivityIndicatorIOSExample from './components/ActivityIndicatorIOSExample'
 import DatePickerIOSExample from './components/DatePickerIOSExample'
+import ImageExample from './components/ImageExample'
 
 
 
-const ImageExample = require( '../js/ImageExample')
 const ListViewExample = require('../js/ListViewExample')
 const ListViewPagingExample = require('../js/ListViewPagingExample')
 const MapViewExample = require('../js/MapViewExample')
