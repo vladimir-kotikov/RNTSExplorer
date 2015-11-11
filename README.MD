@@ -1,19 +1,20 @@
 RNTSExplorer
 ============
 
-This project is a conversion of the React Native UIExplorer in Typescript.
+React-Native UI Explorer written in Typescript
 
+This project is a direct port to Typescript of the original React Native UIExplorer that comes as part of the react-native distribution
 
 The two main goals are to provide:
 
- - a testbed for the react-native type definitions
+ - a testbed for the react-native type definitions I am wotking on : https://github.com/DefinitelyTyped/DefinitelyTyped/pull/6651
  - copy/paste examples of React Native in Typescript
 
 
 Work in Progress
 ----------------
 
- I perform  this work on scarce spare time.
+ I perform this work on scarce spare time.
  Help is welcome
  
  
@@ -24,13 +25,20 @@ Directories
   - `typescript`: the converted files
   - `gen`: the js generated from typescript
  
- Import statements of (not-yet-converted) js files in Typescript will show as a warning but will not prevent emitting the js code.
- 
+
+Installing
+----------
+
+ 1. Run `npm install` once to install various dependencies (`grunt-cli` must be installed globally)
+ 2. Run `grunt dev` to transpile the Typescript in JS
+ 3. Open the IOS project in XCode (Android is untested at this stage) and run it
+
  
 Building
 --------
  
- Use `grunt dev` to compile. (`grunt-cli` must be installed) 
+ Use `grunt dev` to compile or have your IDE output the JS in the `gen` folder
+ The RN server will automatically pick-up the new js
  
  
 License
