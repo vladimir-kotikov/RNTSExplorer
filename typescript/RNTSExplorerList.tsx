@@ -39,12 +39,10 @@ import ViewExample from './components/ViewExample'
 import ActivityIndicatorIOSExample from './components/ActivityIndicatorIOSExample'
 import DatePickerIOSExample from './components/DatePickerIOSExample'
 import ImageExample from './components/ImageExample'
+import ListViewExample from './components/ListViewExample'
+import ListViewPagingExample from './components/ListViewPagingExample'
+import MapViewExample from './components/MapViewExample'
 
-
-
-const ListViewExample = require('../js/ListViewExample')
-const ListViewPagingExample = require('../js/ListViewPagingExample')
-const MapViewExample = require('../js/MapViewExample')
 const PickerIOSExample = require('../js/PickerIOSExample')
 const ScrollViewExample = require('../js/ScrollViewExample')
 const SliderIOSExample = require('../js/SliderIOSExample')
