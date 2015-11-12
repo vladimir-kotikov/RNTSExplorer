@@ -42,12 +42,12 @@ import ImageExample from './components/ImageExample'
 import ListViewExample from './components/ListViewExample'
 import ListViewPagingExample from './components/ListViewPagingExample'
 import MapViewExample from './components/MapViewExample'
+import PickerIOSExample from './components/PickerIOSExample'
+import ScrollViewExample from './components/ScrollViewExample'
+import SliderIOSExample from './components/SliderIOSExample'
+import SwitchIOSExample from './components/SwitchIOSExample'
+import TabBarIOSExample from './components/TabBarIOSExample'
 
-const PickerIOSExample = require('../js/PickerIOSExample')
-const ScrollViewExample = require('../js/ScrollViewExample')
-const SliderIOSExample = require('../js/SliderIOSExample')
-const SwitchIOSExample = require('../js/SwitchIOSExample')
-const TabBarIOSExample = require('../js/TabBarIOSExample')
 const TextExample = require('../js/TextExample.ios')
 const TextInputExample = require('../js/TextInputExample')
 const TouchableExample = require('../js/TouchableExample')
