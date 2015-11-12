@@ -47,8 +47,8 @@ import ScrollViewExample from './components/ScrollViewExample'
 import SliderIOSExample from './components/SliderIOSExample'
 import SwitchIOSExample from './components/SwitchIOSExample'
 import TabBarIOSExample from './components/TabBarIOSExample'
+import TextExample from './components/TextExample.ios'
 
-const TextExample = require('../js/TextExample.ios')
 const TextInputExample = require('../js/TextInputExample')
 const TouchableExample = require('../js/TouchableExample')
 const WebViewExample = require('../js/WebViewExample')

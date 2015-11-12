@@ -36,6 +36,7 @@
         "typescript/components/SliderIOSExample.tsx",
         "typescript/components/SwitchIOSExample.tsx",
         "typescript/components/TabBarIOSExample.tsx",
+        "typescript/components/TextExample.ios.tsx",
         "typescript/components/ViewExample.tsx",
         "typescript/components/navigator/BreadcrumbNavSample.tsx",
         "typescript/components/navigator/JumpingNavSample.tsx",
