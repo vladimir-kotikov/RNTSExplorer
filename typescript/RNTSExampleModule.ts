@@ -7,8 +7,9 @@ import RNTSExample from './RNTSExample'
 
 interface  RNTSExampleModule {
     title: string
-    description: string
-    examples: Array<RNTSExample>
+    description?: string
+    displayName?: string
+    examples?: RNTSExample[]
 }
 
 export default RNTSExampleModule

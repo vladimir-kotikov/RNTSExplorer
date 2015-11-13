@@ -1,3 +1,4 @@
+import RNTSExampleModule from "./RNTSExampleModule";
 /**
  * The examples provided by Facebook are for non-commercial testing and
  * evaluation purposes only.
@@ -48,13 +49,12 @@ import SliderIOSExample from './components/SliderIOSExample'
 import SwitchIOSExample from './components/SwitchIOSExample'
 import TabBarIOSExample from './components/TabBarIOSExample'
 import TextExample from './components/TextExample.ios'
+import TextInputExample from './components/TextInputExample'
+import TouchableExample from './components/TouchableExample'
+import WebViewExample from './components/WebViewExample'
 
-const TextInputExample = require('../js/TextInputExample')
-const TouchableExample = require('../js/TouchableExample')
-const WebViewExample = require('../js/WebViewExample')
 
-
-const COMPONENTS: RNTSExample[] = [
+const COMPONENTS: RNTSExampleModule[] = [
     ActivityIndicatorIOSExample,
     DatePickerIOSExample,
     ImageExample,
@@ -92,7 +92,7 @@ const StatusBarIOSExample  = require('../js/StatusBarIOSExample')
 const TimerExample  = require('../js/TimerExample')
 const VibrationIOSExample  = require('../js/VibrationIOSExample')
 
-const APIS: RNTSExample[] = [
+const APIS: RNTSExampleModule[] = [
     ActionSheetIOSExample,
     AdSupportIOSExample,
     AlertIOSExample,
@@ -124,7 +124,7 @@ function makeRenderable( example: any ): RNTSExample {
 }
 
 // Register suitable examples for snapshot tests
-COMPONENTS.concat( APIS ).forEach( ( Example: RNTSExample ) => {
+COMPONENTS.concat( APIS ).forEach( ( Example: RNTSExampleModule ) => {
 
     if ( Example.displayName ) {
         const Snapshotter = React.createClass(

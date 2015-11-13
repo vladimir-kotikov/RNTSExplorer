@@ -3,13 +3,12 @@
  * This file is not part of the original UIExplorer
  */
 
+import React from 'react-native'
 
 interface RNTSExample extends React.ComponentClass<any> {
 
     title: string
-    description: string
-    displayName?: string
-
+    description?: string
     render: () => React.ReactElement<any>
 }
 

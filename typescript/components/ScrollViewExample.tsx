@@ -101,7 +101,7 @@ export default {
     examples:    [
                      {
                          title:       '<ScrollView>',
-                         description: 'To make content scrollable, wrap it within a <ScrollView> component',
+                         //description: 'To make content scrollable, wrap it within a <ScrollView> component',
                          render:      (): React.ReactElement<any> => {
                              return (
                                  <ScrollView
@@ -113,10 +113,10 @@ export default {
                                  </ScrollView>
                              )
                          }
-                     },
+                     } as RNTSExample,
                      {
-                         title:       '<ScrollView> (horizontal = true)',
-                         description: 'You can display <ScrollView>\'s child components horizontally rather than vertically',
+                         title:       "<ScrollView> (horizontal = true)",
+                         //description: "You can display <ScrollView>\'s child components horizontally rather than vertically",
                          render:      (): React.ReactElement<any> => {
                              return (
                                  <ScrollView
@@ -127,7 +127,8 @@ export default {
                                  </ScrollView>
                              )
                          }
-                     } ] as RNTSExample[]
+                     } as RNTSExample
+                 ] as RNTSExample[]
 
 } as RNTSExampleModule
 
