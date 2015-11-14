@@ -75,9 +75,10 @@ const COMPONENTS: RNTSExampleModule[] = [
     WebViewExample
 ]
 
-const ActionSheetIOSExample  = require('../js/ActionSheetIOSExample')
-const AdSupportIOSExample  = require('../js/AdSupportIOSExample')
-const AlertIOSExample  = require('../js/AlertIOSExample')
+import ActionSheetIOSExample from './apis/ActionSheetIOSExample'
+import AdSupportIOSExample  from './apis/AdSupportIOSExample'
+import AlertIOSExample from './apis/AlertIOSExample'
+
 const AppStateIOSExample  = require('../js/AppStateIOSExample')
 const AsyncStorageExample  = require('../js/AsyncStorageExample')
 const BorderExample  = require('../js/BorderExample')
@@ -116,11 +117,8 @@ const ds = new ListView.DataSource( {
     sectionHeaderHasChanged: ( h1, h2 ) => h1 !== h2
 } )
 
-function makeRenderable( example: any ): RNTSExample {
-    return example.examples ?
-           createExamplePage( null, example )
-        :
-           example
+const makeRenderable = ( example: any ): RNTSExample  => {
+    return example.examples ? createExamplePage( null, example ) : example
 }
 
 // Register suitable examples for snapshot tests
