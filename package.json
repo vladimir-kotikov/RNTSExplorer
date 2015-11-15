@@ -1,18 +1,23 @@
 {
-  "name": "RNTSExplorer",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "react-native start"
-  },
-  "dependencies": {
-    "react-mixin": "^2.0.2",
-    "react-native": "^0.14.1",
-    "react-timer-mixin": "^0.13.3"
-  },
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-clean": "^0.6.0",
-    "grunt-ts": "^5.1.0"
-  }
+    "name": "RNTSExplorer",
+    "version": "0.0.1",
+    "description": "React Native UI Explorer in Typescript",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bgrieder/RNTSExplorer.git"
+    },
+    "private": false,
+    "scripts": {
+        "start": "react-native start"
+    },
+    "dependencies": {
+        "react-mixin": "^2.0.2",
+        "react-native": "^0.14.1",
+        "react-timer-mixin": "^0.13.3"
+    },
+    "devDependencies": {
+        "grunt": "^0.4.5",
+        "grunt-contrib-clean": "^0.6.0",
+        "grunt-ts": "^5.1.0"
+    }
 }

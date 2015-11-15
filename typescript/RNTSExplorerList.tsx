@@ -78,10 +78,10 @@ const COMPONENTS: RNTSExampleModule[] = [
 import ActionSheetIOSExample from './apis/ActionSheetIOSExample'
 import AdSupportIOSExample  from './apis/AdSupportIOSExample'
 import AlertIOSExample from './apis/AlertIOSExample'
+import AppStateIOSExample from './apis/AppStateIOSExample'
+import AsyncStorageExample from './apis/AsyncStorageExample'
+import BorderExample from './apis/BorderExample'
 
-const AppStateIOSExample  = require('../js/AppStateIOSExample')
-const AsyncStorageExample  = require('../js/AsyncStorageExample')
-const BorderExample  = require('../js/BorderExample')
 const CameraRollExample  = require('../js/CameraRollExample.ios')
 const GeolocationExample  = require('../js/GeolocationExample')
 const LayoutExample  = require('../js/LayoutExample')

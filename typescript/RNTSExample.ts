@@ -8,7 +8,7 @@ import React from 'react-native'
 interface RNTSExample extends React.ComponentClass<any> {
 
     title: string
-    description?: string
+    description: string
     render: () => React.ReactElement<any>
 }
 
