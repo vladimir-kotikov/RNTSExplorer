@@ -2829,7 +2829,7 @@ declare namespace  ReactNative {
     export interface CameraRollFetchParams {
         first: number;
         after?: string;
-        groupTypes?: string; //  'Album','All','Event','Faces','Library','PhotoStream','SavedPhotos'
+        groupTypes: string; //  'Album','All','Event','Faces','Library','PhotoStream','SavedPhotos'
         groupName?: string
         assetType?: string
     }
@@ -2858,10 +2858,7 @@ declare namespace  ReactNative {
      */
     export interface CameraRollStatic {
 
-        /**
-         * @enum('Album','All','Event','Faces','Library','PhotoStream','SavedPhotos')
-         */
-        GroupTypesOptions: string[]
+        GroupTypesOptions: string[] //'Album','All','Event','Faces','Library','PhotoStream','SavedPhotos'
 
         /**
          * Saves the image to the camera roll / gallery.
@@ -3011,8 +3008,8 @@ declare namespace  ReactNative {
 
     export interface DOMElement<P> extends React.DOMElement<P> {}
 
-    export type HTMLElement =React.HTMLElement;
-    export type SVGElement = React.SVGElement;
+    export type HTMLElement =React.ReactHTMLElement;
+    export type SVGElement = React.ReactSVGElement;
 
     //
     // Factories
@@ -3026,7 +3023,6 @@ declare namespace  ReactNative {
 
     export type HTMLFactory = React.HTMLFactory;
     export type SVGFactory = React.SVGFactory;
-    export type SVGElementFactory = React.SVGElementFactory;
 
     //
     // React Nodes
@@ -3088,9 +3084,6 @@ declare namespace  ReactNative {
     export interface DOMComponent<P> extends ClassicComponent<P, any> {
         tagName: string;
     }
-
-    export type HTMLComponent = React.HTMLComponent;
-    export type SVGComponent = React.SVGComponent
 
     export interface ChildContextProvider<CC> extends React.ChildContextProvider<CC> {}
 
@@ -3159,19 +3152,13 @@ declare namespace  ReactNative {
 
     export interface Props<T> extends React.Props<T> {}
 
-    export interface DOMAttributesBase<T> extends React.DOMAttributesBase<T> {}
-
     export interface DOMAttributes extends React.DOMAttributes {}
 
     // This interface is not complete. Only properties accepting
     // unitless numbers are listed here (see CSSProperty.js in React)
     export interface CSSProperties extends React.CSSProperties {}
 
-    export interface HTMLAttributesBase<T> extends React.HTMLAttributesBase<T> {}
-
     export interface HTMLAttributes extends React.HTMLAttributes {}
-
-    export interface SVGElementAttributes extends React.SVGElementAttributes {}
 
     export interface SVGAttributes extends React.SVGAttributes {}
 
