@@ -1255,12 +1255,6 @@ declare namespace  ReactNative {
 
     }
 
-    /**
-     * @see
-     */
-    export interface CameraRollProperties {
-        /// TODO
-    }
 
     /**
      * @see ImageResizeMode.js
@@ -2284,36 +2278,6 @@ declare namespace  ReactNative {
         Item: TabBarItemStatic;
     }
 
-    export interface CameraRollFetchParams {
-        first: number;
-        groupTypes: string;
-        after?: string;
-    }
-
-    export interface CameraRollNodeInfo {
-        image: Image;
-        group_name: string;
-        timestamp: number;
-        location: any;
-    }
-
-    export interface CameraRollEdgeInfo {
-        node: CameraRollNodeInfo;
-    }
-
-    export interface CameraRollAssetInfo {
-        edges: CameraRollEdgeInfo[];
-        page_info: {
-            has_next_page: boolean;
-            end_cursor: string;
-        };
-    }
-
-    export interface CameraRollStatic extends React.ComponentClass<CameraRollProperties> {
-        getPhotos( fetch: CameraRollFetchParams,
-                   onAsset: ( assetInfo: CameraRollAssetInfo ) => void,
-                   logError: ()=> void ): void;
-    }
 
     export interface PanHandlers {
 
@@ -2796,12 +2760,12 @@ declare namespace  ReactNative {
     }
 
     /**
-     * AsyncStorage is a simple, asynchronous, persistent, key-value storage system that is global to the app. 
+     * AsyncStorage is a simple, asynchronous, persistent, key-value storage system that is global to the app.
      * It should be used instead of LocalStorage.
-     * 
-     * It is recommended that you use an abstraction on top of AsyncStorage 
+     *
+     * It is recommended that you use an abstraction on top of AsyncStorage
      * instead of AsyncStorage directly for anything more than light usage since it operates globally.
-     * 
+     *
      * @see https://facebook.github.io/react-native/docs/asyncstorage.html#content
      */
     export interface AsyncStorageStatic {
@@ -2862,6 +2826,72 @@ declare namespace  ReactNative {
     }
 
 
+    export interface CameraRollFetchParams {
+        first: number;
+        after?: string;
+        groupTypes?: string; //  'Album','All','Event','Faces','Library','PhotoStream','SavedPhotos'
+        groupName?: string
+        assetType?: string
+    }
+
+    export interface CameraRollNodeInfo {
+        image: Image;
+        group_name: string;
+        timestamp: number;
+        location: any;
+    }
+
+    export interface CameraRollEdgeInfo {
+        node: CameraRollNodeInfo;
+    }
+
+    export interface CameraRollAssetInfo {
+        edges: CameraRollEdgeInfo[];
+        page_info: {
+            has_next_page: boolean;
+            end_cursor: string;
+        };
+    }
+
+    /**
+     * CameraRoll provides access to the local camera roll / gallery.
+     */
+    export interface CameraRollStatic {
+
+        /**
+         * @enum('Album','All','Event','Faces','Library','PhotoStream','SavedPhotos')
+         */
+        GroupTypesOptions: string[]
+
+        /**
+         * Saves the image to the camera roll / gallery.
+         *
+         * The CameraRoll API is not yet implemented for Android.
+         *
+         * @tag On Android, this is a local URI, such as "file:///sdcard/img.png".
+         * On iOS, the tag can be one of the following:
+         *      local URI
+         *      assets-library tag
+         *      a tag not maching any of the above, which means the image data will be stored in memory (and consume memory as long as the process is alive)
+         *
+         * @param successCallback Invoked with the value of tag on success.
+         * @param errorCallback Invoked with error message on error.
+         */
+        saveImageWithTag( tag: string, successCallback: ( tag?: string ) => void, errorCallback: ( error: Error ) => void ): void
+
+        /**
+         * Invokes callback with photo identifier objects from the local camera roll of the device matching shape defined by getPhotosReturnChecker.
+         *
+         * @param {object} params See getPhotosParamChecker.
+         * @param {function} callback Invoked with arg of shape defined by getPhotosReturnChecker on success.
+         * @param {function} errorCallback Invoked with error message on error.
+         */
+        getPhotos( fetch: CameraRollFetchParams,
+                   callback: ( assetInfo: CameraRollAssetInfo ) => void,
+                   errorCallback: ( error: Error )=> void ): void;
+    }
+
+
     //////////////////////////////////////////////////////////////////////////
     //
     //  R E - E X P O R T S
@@ -2873,9 +2903,6 @@ declare namespace  ReactNative {
 
     export var ActivityIndicatorIOS: ActivityIndicatorIOSStatic;
     export type ActivityIndicatorIOS = ActivityIndicatorIOSStatic;
-
-    export var CameraRoll: CameraRollStatic;
-    export type CameraRoll = CameraRollStatic;
 
     export var DatePickerIOS: DatePickerIOSStatic
     export type DatePickerIOS = DatePickerIOSStatic
@@ -2953,6 +2980,9 @@ declare namespace  ReactNative {
 
     export var AsyncStorage: AsyncStorageStatic
     export type AsyncStorage = AsyncStorageStatic
+
+    export var CameraRoll: CameraRollStatic;
+    export type CameraRoll = CameraRollStatic;
 
 
     export var SegmentedControlIOS: React.ComponentClass<SegmentedControlIOSProperties>;

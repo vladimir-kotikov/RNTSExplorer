@@ -81,10 +81,11 @@ import AlertIOSExample from './apis/AlertIOSExample'
 import AppStateIOSExample from './apis/AppStateIOSExample'
 import AsyncStorageExample from './apis/AsyncStorageExample'
 import BorderExample from './apis/BorderExample'
+import CameraRollExample from './apis/CameraRollExample.ios'
+import GeolocationExample from './apis/GeolocationExample'
+import LayoutExample from './apis/LayoutExample'
 
-const CameraRollExample  = require('../js/CameraRollExample.ios')
-const GeolocationExample  = require('../js/GeolocationExample')
-const LayoutExample  = require('../js/LayoutExample')
+//const LayoutExample  = require('../js/LayoutExample')
 const NetInfoExample  = require('../js/NetInfoExample')
 const PanResponderExample  = require('../js/PanResponderExample')
 const PointerEventsExample  = require('../js/PointerEventsExample')

@@ -107,7 +107,7 @@ const styles = StyleSheet.create(
         spinner:             {
             width:       20,
             marginRight: 6,
-        },
+        }
     }
 )
 

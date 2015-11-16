@@ -71,7 +71,7 @@ const styles = StyleSheet.create(
 namespace RNTSExplorerBlock {
     export interface Props extends React.Props<RNTSExplorerBlock>{
         title: string
-        description: string
+        description?: string
     }
 
     export interface State {
