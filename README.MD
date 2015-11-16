@@ -7,7 +7,7 @@ This project is a direct port to Typescript of the original React Native UIExplo
 
 The two main goals are to provide:
 
- - a testbed for the [react-native type definitions](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/react-native) I am wotking on
+ - a testbed for the [react-native type definitions](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/react-native) I am working on
  - copy/paste examples of React Native in Typescript
 
 
@@ -37,7 +37,7 @@ Installing
 Building
 --------
  
- Use `grunt dev` to compile or have your IDE output the JS in the `gen` folder.
+ Use `grunt dev` to compile or have your IDE output the JS to the `gen` folder.
  
  The RN server will automatically pick-up the new js
  
