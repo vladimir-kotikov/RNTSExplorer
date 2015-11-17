@@ -63,13 +63,13 @@ const styles = StyleSheet.create(
 
 namespace DatePickerExample {
     export interface Props {
-        date: Date
-        timeZoneOffsetInHours: number
+        date?: Date
+        timeZoneOffsetInHours?: number
     }
 
     export interface State {
-        date: Date
-        timeZoneOffsetInHours: number
+        date?: Date
+        timeZoneOffsetInHours?: number
     }
 }
 
