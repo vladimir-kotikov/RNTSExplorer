@@ -84,8 +84,8 @@ import BorderExample from './apis/BorderExample'
 import CameraRollExample from './apis/CameraRollExample.ios'
 import GeolocationExample from './apis/GeolocationExample'
 import LayoutExample from './apis/LayoutExample'
+import NetInfoExample from './apis/NetInfoExample'
 
-const NetInfoExample  = require('../js/NetInfoExample')
 const PanResponderExample  = require('../js/PanResponderExample')
 const PointerEventsExample  = require('../js/PointerEventsExample')
 const PushNotificationIOSExample  = require('../js/PushNotificationIOSExample')
