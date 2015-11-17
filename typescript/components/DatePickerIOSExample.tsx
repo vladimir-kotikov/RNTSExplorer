@@ -73,12 +73,10 @@ namespace DatePickerExample {
     }
 }
 
-class DatePickerExample extends React.Component<any,any> {
-    getDefaultProps() {
-        return {
-            date:                  new Date(),
-            timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
-        }
+class DatePickerExample extends React.Component<DatePickerExample.Props,DatePickerExample.State> {
+    static defaultProps: DatePickerExample.Props = {
+        date:                  new Date(),
+        timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
     }
 
     componentWillMount() {
