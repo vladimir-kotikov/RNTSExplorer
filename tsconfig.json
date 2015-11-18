@@ -34,6 +34,7 @@
         "typescript/apis/GeolocationExample.tsx",
         "typescript/apis/LayoutExample.tsx",
         "typescript/apis/NetInfoExample.tsx",
+        "typescript/apis/PanResponderExample.tsx",
         "typescript/components/ActivityIndicatorIOSExample.tsx",
         "typescript/components/DatePickerIOSExample.tsx",
         "typescript/components/ImageCapInsetsExample.tsx",
