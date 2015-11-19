@@ -35,6 +35,7 @@
         "typescript/apis/LayoutExample.tsx",
         "typescript/apis/NetInfoExample.tsx",
         "typescript/apis/PanResponderExample.tsx",
+        "typescript/apis/PointerEventsExample.tsx",
         "typescript/components/ActivityIndicatorIOSExample.tsx",
         "typescript/components/DatePickerIOSExample.tsx",
         "typescript/components/ImageCapInsetsExample.tsx",
