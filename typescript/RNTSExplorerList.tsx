@@ -86,9 +86,8 @@ import GeolocationExample from './apis/GeolocationExample'
 import LayoutExample from './apis/LayoutExample'
 import NetInfoExample from './apis/NetInfoExample'
 import PanResponderExample from './apis/PanResponderExample'
+import PointerEventsExample from './apis/PointerEventsExample'
 
-//const PanResponderExample  = require('../js/PanResponderExample')
-const PointerEventsExample  = require('../js/PointerEventsExample')
 const PushNotificationIOSExample  = require('../js/PushNotificationIOSExample')
 const StatusBarIOSExample  = require('../js/StatusBarIOSExample')
 const TimerExample  = require('../js/TimerExample')

@@ -47,7 +47,7 @@ declare namespace  ReactNative {
 
 
         // not in lib.es6.d.ts but called by react-native
-        done(callback?: (value: T) => void): void;
+        done( callback?: ( value: T ) => void ): void;
     }
 
     export interface PromiseConstructor {
@@ -147,8 +147,23 @@ declare namespace  ReactNative {
         right?: number
     }
 
+    /**
+     * //FIXME: need to find documentation on which compoenent is a native (i.e. non composite component)
+     */
     export interface NativeComponent {
-        setNativeProps: (props: Object) => void
+        setNativeProps: ( props: Object ) => void
+    }
+
+    /**
+     * //FIXME: need to find documentation on which compoenent is a touchable and can implement that interface
+     * @see React.DOMAtributes
+     */
+    export interface Touchable {
+        onTouchStart?: React.TouchEventHandler
+        onTouchMove?: React.TouchEventHandler
+        onTouchEnd?: React.TouchEventHandler
+        onTouchCancel?: React.TouchEventHandler
+        onTouchEndCapture?: React.TouchEventHandler
     }
 
     export type AppConfig = {
@@ -667,12 +682,12 @@ declare namespace  ReactNative {
         /**
          * Does this view want to become responder on the start of a touch?
          */
-        onStartShouldSetResponder?: (event: GestureResponderEvent) => boolean
+        onStartShouldSetResponder?: ( event: GestureResponderEvent ) => boolean
 
         /**
          * Called for every touch move on the View when it is not the responder: does this view want to "claim" touch responsiveness?
          */
-        onMoveShouldSetResponder?: (event: GestureResponderEvent) => boolean
+        onMoveShouldSetResponder?: ( event: GestureResponderEvent ) => boolean
 
         /**
          * If the View returns true and attempts to become the responder, one of the following will happen:
@@ -682,12 +697,12 @@ declare namespace  ReactNative {
          * The View is now responding for touch events.
          * This is the time to highlight and show the user what is happening
          */
-        onResponderGrant?: (event: GestureResponderEvent) => void
+        onResponderGrant?: ( event: GestureResponderEvent ) => void
 
         /**
          * Something else is the responder right now and will not release it
          */
-        onResponderReject?: (event: GestureResponderEvent) => void
+        onResponderReject?: ( event: GestureResponderEvent ) => void
 
         /**
          * If the view is responding, the following handlers can be called:
@@ -696,26 +711,26 @@ declare namespace  ReactNative {
         /**
          * The user is moving their finger
          */
-        onResponderMove?: (event: GestureResponderEvent) => void
+        onResponderMove?: ( event: GestureResponderEvent ) => void
 
         /**
          * Fired at the end of the touch, ie "touchUp"
          */
-        onResponderRelease?: (event: GestureResponderEvent) => void
+        onResponderRelease?: ( event: GestureResponderEvent ) => void
 
         /**
          *  Something else wants to become responder.
          *  Should this view release the responder? Returning true allows release
          */
-        onResponderTerminationRequest?: (event: GestureResponderEvent) => boolean
+        onResponderTerminationRequest?: ( event: GestureResponderEvent ) => boolean
 
         /**
-         * The responder has been taken from the View. 
-         * Might be taken by other views after a call to onResponderTerminationRequest, 
+         * The responder has been taken from the View.
+         * Might be taken by other views after a call to onResponderTerminationRequest,
          * or might be taken by the OS without asking (happens with control center/ notification center on iOS)
          */
-        onResponderTerminate?: (event: GestureResponderEvent) => void
-        
+        onResponderTerminate?: ( event: GestureResponderEvent ) => void
+
         /**
          * onStartShouldSetResponder and onMoveShouldSetResponder are called with a bubbling pattern,
          * where the deepest node is called first.
@@ -729,7 +744,7 @@ declare namespace  ReactNative {
          * So if a parent View wants to prevent the child from becoming responder on a touch start,
          * it should have a onStartShouldSetResponderCapture handler which returns true.
          */
-        onStartShouldSetResponderCapture?: (event: GestureResponderEvent) => boolean
+        onStartShouldSetResponderCapture?: ( event: GestureResponderEvent ) => boolean
 
         /**
          * onStartShouldSetResponder and onMoveShouldSetResponder are called with a bubbling pattern,
@@ -864,7 +879,7 @@ declare namespace  ReactNative {
     /**
      * @see https://facebook.github.io/react-native/docs/view.html#props
      */
-    export interface ViewProperties extends ViewPropertiesAndroid, ViewPropertiesIOS, GestureResponderHandlers, React.Props<ViewStatic> {
+    export interface ViewProperties extends ViewPropertiesAndroid, ViewPropertiesIOS, GestureResponderHandlers, Touchable, React.Props<ViewStatic> {
 
         /**
          * Overrides the text that's read by the screen reader when the user interacts with the element. By default, the label is constructed by traversing all the children and accumulating all the Text nodes separated by space.
@@ -1680,7 +1695,7 @@ declare namespace  ReactNative {
         showsPointsOfInterest?: boolean
     }
 
-    export interface MapViewProperties extends MapViewPropertiesIOS, React.Props<MapViewStatic> {
+    export interface MapViewProperties extends MapViewPropertiesIOS, Touchable, React.Props<MapViewStatic> {
 
         /**
          * Map annotations with title/subtitle.
@@ -2423,7 +2438,6 @@ declare namespace  ReactNative {
     }
 
 
-
     export interface PixelRatioStatic {
         get(): number;
     }
@@ -2632,7 +2646,7 @@ declare namespace  ReactNative {
         zoomScale?: number
     }
 
-    export interface ScrollViewProperties extends ScrollViewIOSProperties {
+    export interface ScrollViewProperties extends ScrollViewIOSProperties, Touchable {
 
         /**
          * These styles will be applied to the scroll view content container which
@@ -2962,13 +2976,13 @@ declare namespace  ReactNative {
          * eventName is expected to be `change`
          * //FIXME: No doc - inferred from NetInfo.js
          */
-        addEventListener: (eventName: string, listener: (result: T) => void) => void
+        addEventListener: ( eventName: string, listener: ( result: T ) => void ) => void
 
         /**
          * eventName is expected to be `change`
          * //FIXME: No doc - inferred from NetInfo.js
          */
-        removeEventListener: (eventName: string, listener: (result: T) => void) => void
+        removeEventListener: ( eventName: string, listener: ( result: T ) => void ) => void
     }
 
     /**
@@ -3019,7 +3033,7 @@ declare namespace  ReactNative {
         type: any
 
     }
-    
+
 
     export interface PanResponderGestureState {
 
@@ -3146,7 +3160,6 @@ declare namespace  ReactNative {
     }
 
 
-
     //////////////////////////////////////////////////////////////////////////
     //
     //  R E - E X P O R T S
@@ -3247,7 +3260,7 @@ declare namespace  ReactNative {
 
     export var PanResponder: PanResponderStatic
     export type PanResponder = PanResponderStatic
-    
+
     export var SegmentedControlIOS: React.ComponentClass<SegmentedControlIOSProperties>
 
     export var PixelRatio: PixelRatioStatic
@@ -3255,8 +3268,6 @@ declare namespace  ReactNative {
     export var DeviceEventSubscription: DeviceEventSubscriptionStatic
     export type DeviceEventSubscription = DeviceEventSubscriptionStatic
     export var InteractionManager: InteractionManagerStatic
-    
-
 
 
     //////////////////////////////////////////////////////////////////////////

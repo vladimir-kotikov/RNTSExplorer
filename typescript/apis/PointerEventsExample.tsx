@@ -66,8 +66,13 @@ interface ExampleBoxState {
     log: string[]
 }
 
+namespace ExampleBox {
+    export interface Props extends React.Props<ExampleBox> {
+        Component: React.ComponentClass<any>
+    }
+}
 
-class ExampleBox extends React.Component<any,ExampleBoxState> {
+class ExampleBox extends React.Component<ExampleBox.Props,ExampleBoxState> {
     componentWillMount() {
         this.setState({ log: [] } )
     }
@@ -89,12 +94,15 @@ class ExampleBox extends React.Component<any,ExampleBoxState> {
     }
 
     render() {
+
+        const Comp = this.props.Component
+
         return (
             <View>
                 <View
                     onTouchEndCapture={this.handleTouchCapture}
                     onTouchStart={this.flushReactChanges}>
-                    <this.props.Component onLog={this.handleLog}/>
+                    <Comp onLog={this.handleLog}/>
                 </View>
                 <View
                     style={styles.logBox}>
