@@ -135,6 +135,74 @@ declare namespace  ReactNative {
     export type Runnable = ( appParameters: any ) => void;
 
 
+    // Similar to React.SyntheticEvent except for nativeEvent
+    interface NativeSyntheticEvent<T> {
+        bubbles: boolean
+        cancelable: boolean
+        currentTarget: EventTarget
+        defaultPrevented: boolean
+        eventPhase: number
+        isTrusted: boolean
+        nativeEvent: T
+        preventDefault(): void
+        stopPropagation(): void
+        target: EventTarget
+        timeStamp: Date
+        type: string
+    }
+
+    export interface NativeTouchEvent {
+        /**
+         * Array of all touch events that have changed since the last event
+         */
+        changedTouches: NativeTouchEvent[]
+
+        /**
+         * The ID of the touch
+         */
+        identifier: string
+
+        /**
+         * The X position of the touch, relative to the element
+         */
+        locationX: number
+
+        /**
+         * The Y position of the touch, relative to the element
+         */
+        locationY: number
+
+        /**
+         * The X position of the touch, relative to the screen
+         */
+        pageX: number
+
+        /**
+         * The Y position of the touch, relative to the screen
+         */
+        pageY: number
+
+        /**
+         * The node id of the element receiving the touch event
+         */
+        target: string
+
+        /**
+         * A time identifier for the touch, useful for velocity calculation
+         */
+        timestamp: number
+
+        /**
+         * Array of all current touches on the screen
+         */
+        touches : NativeTouchEvent[]
+    }
+
+    export interface GestureResponderEvent extends NativeSyntheticEvent<NativeTouchEvent> {
+    }
+
+
+
     export interface  PointProperties {
         x: number
         y: number
@@ -155,15 +223,15 @@ declare namespace  ReactNative {
     }
 
     /**
-     * //FIXME: need to find documentation on which compoenent is a touchable and can implement that interface
+     * //FIXME: need to find documentation on which component is a TTouchable and can implement that interface
      * @see React.DOMAtributes
      */
     export interface Touchable {
-        onTouchStart?: React.TouchEventHandler
-        onTouchMove?: React.TouchEventHandler
-        onTouchEnd?: React.TouchEventHandler
-        onTouchCancel?: React.TouchEventHandler
-        onTouchEndCapture?: React.TouchEventHandler
+        onTouchStart?: (event: GestureResponderEvent) => void
+        onTouchMove?: (event: GestureResponderEvent) => void
+        onTouchEnd?: (event: GestureResponderEvent) => void
+        onTouchCancel?: (event: GestureResponderEvent) => void
+        onTouchEndCapture?: (event: GestureResponderEvent) => void
     }
 
     export type AppConfig = {
@@ -597,55 +665,7 @@ declare namespace  ReactNative {
         focus: () => void
     }
 
-
-    export interface GestureResponderEvent {
-        nativeEvent : {
-            /**
-             * Array of all touch events that have changed since the last event
-             */
-            changedTouches: any[]
-
-            /**
-             * The ID of the touch
-             */
-            identifier: string
-
-            /**
-             * The X position of the touch, relative to the element
-             */
-            locationX: number
-
-            /**
-             * The Y position of the touch, relative to the element
-             */
-            locationY: number
-
-            /**
-             * The X position of the touch, relative to the screen
-             */
-            pageX: number
-
-            /**
-             * The Y position of the touch, relative to the screen
-             */
-            pageY: number
-
-            /**
-             * The node id of the element receiving the touch event
-             */
-            target: string
-
-            /**
-             * A time identifier for the touch, useful for velocity calculation
-             */
-            timestamp: number
-
-            /**
-             * Array of all current touches on the screen
-             */
-            touches : any[]
-        }
-    }
+    
 
     /**
      * Gesture recognition on mobile devices is much more complicated than web.
@@ -3010,29 +3030,6 @@ declare namespace  ReactNative {
         isConnectionMetered: any
     }
 
-    /**
-     * //FIXME: Documentation ?
-     */
-    export interface PanResponderEvent {
-
-        bubbles: boolean
-        cancelable: boolean
-        currentTarget: number
-        defaultPrevented: boolean
-        dispatchConfig: any
-        dispatchMarker: any
-        eventPhase: any
-        isDefaultPrevented: () => boolean
-        isPropagationStopped: () => boolean
-        isTrusted: boolean
-        nativeEvent: GestureResponderEvent
-        path: any
-        target: number
-        timeStamp: number
-        touchHistory: any[]
-        type: any
-
-    }
 
 
     export interface PanResponderGestureState {
@@ -3097,19 +3094,19 @@ declare namespace  ReactNative {
      * @see documentation of GestureResponderHandlers
      */
     export interface PanResponderCallbacks {
-        onMoveShouldSetPanResponder?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => boolean
-        onStartShouldSetPanResponder?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => void
-        onPanResponderGrant?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => void
-        onPanResponderMove?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => void
-        onPanResponderRelease?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => void
-        onPanResponderTerminate?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => void
+        onMoveShouldSetPanResponder?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => boolean
+        onStartShouldSetPanResponder?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => void
+        onPanResponderGrant?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => void
+        onPanResponderMove?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => void
+        onPanResponderRelease?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => void
+        onPanResponderTerminate?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => void
 
-        onMoveShouldSetPanResponderCapture?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => boolean
-        onStartShouldSetPanResponderCapture?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => boolean
-        onPanResponderReject?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => void
-        onPanResponderStart?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => void
-        onPanResponderEnd?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => void
-        onPanResponderTerminationRequest?: ( e: PanResponderEvent, gestureState: PanResponderGestureState ) => boolean
+        onMoveShouldSetPanResponderCapture?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => boolean
+        onStartShouldSetPanResponderCapture?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => boolean
+        onPanResponderReject?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => void
+        onPanResponderStart?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => void
+        onPanResponderEnd?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => void
+        onPanResponderTerminationRequest?: ( e: GestureResponderEvent, gestureState: PanResponderGestureState ) => boolean
     }
 
     export interface PanResponderInstance {

@@ -120,7 +120,7 @@ class NoneExample extends React.Component<any,any> {
     render() {
         return (
             <View
-                onTouchStart={() => this.props.onLog('A unspecified touched')}
+                onTouchStart={(e: React.GestureResponderEvent) => this.props.onLog(`A (unspecified) touched at ${Math.floor(e.nativeEvent.locationX)}:${Math.floor(e.nativeEvent.locationY)}`)}
                 style={styles.box}>
                 <DemoText style={styles.text}>
                     A: unspecified

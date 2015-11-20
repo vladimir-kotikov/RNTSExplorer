@@ -115,27 +115,27 @@ class NavigatorIOSExample extends React.Component<any,any> {
         this.circle && this.circle.setNativeProps( { style: this._circleStyles } )
     }
 
-    private _handleStartShouldSetPanResponder = ( e: React.PanResponderEvent, gestureState: React.PanResponderGestureState ): boolean => {
+    private _handleStartShouldSetPanResponder = ( e: React.GestureResponderEvent, gestureState: React.PanResponderGestureState ): boolean => {
         // Should we become active when the user presses down on the circle?
         return true
     }
 
-    private _handleMoveShouldSetPanResponder = ( e: React.PanResponderEvent, gestureState: React.PanResponderGestureState ): boolean => {
+    private _handleMoveShouldSetPanResponder = ( e: React.GestureResponderEvent, gestureState: React.PanResponderGestureState ): boolean => {
         // Should we become active when the user moves a touch over the circle?
         return true
     }
 
-    private _handlePanResponderGrant = ( e: React.PanResponderEvent, gestureState: React.PanResponderGestureState ): void => {
+    private _handlePanResponderGrant = ( e: React.GestureResponderEvent, gestureState: React.PanResponderGestureState ): void => {
         this._highlight()
     }
 
-    private _handlePanResponderMove = ( e: React.PanResponderEvent, gestureState: React.PanResponderGestureState ): void => {
+    private _handlePanResponderMove = ( e: React.GestureResponderEvent, gestureState: React.PanResponderGestureState ): void => {
         this._circleStyles.left = this._previousLeft + gestureState.dx
         this._circleStyles.top = this._previousTop + gestureState.dy
         this._updatePosition()
     }
 
-    private _handlePanResponderEnd = ( e: React.PanResponderEvent, gestureState: React.PanResponderGestureState ): void => {
+    private _handlePanResponderEnd = ( e: React.GestureResponderEvent, gestureState: React.PanResponderGestureState ): void => {
         this._unHighlight()
         this._previousLeft += gestureState.dx
         this._previousTop += gestureState.dy
