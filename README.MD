@@ -3,12 +3,17 @@ RNTSExplorer
 
 React-Native UI Explorer written in Typescript
 
+![Main Page Screenshot](MainPage-Screenshot.png)
+
+
 This project is a port to Typescript of the original React Native UIExplorer that comes as part of the react-native distribution
 
 The two main goals are to provide:
 
  - a testbed for the [react-native type definitions](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/react-native) I am producing
  - copy/paste examples of React Native in Typescript
+
+
 
 
 Requirements
