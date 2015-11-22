@@ -38,6 +38,7 @@
         "typescript/apis/PointerEventsExample.tsx",
         "typescript/apis/PushNotificationIOSExample.tsx",
         "typescript/apis/StatusBarIOSExample.tsx",
+        "typescript/apis/TimerExample.tsx",
         "typescript/components/ActivityIndicatorIOSExample.tsx",
         "typescript/components/DatePickerIOSExample.tsx",
         "typescript/components/ImageCapInsetsExample.tsx",

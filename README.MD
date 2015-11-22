@@ -3,7 +3,7 @@ RNTSExplorer
 
 React-Native UI Explorer written in Typescript
 
-This project is a direct port to Typescript of the original React Native UIExplorer that comes as part of the react-native distribution
+This project is a port to Typescript of the original React Native UIExplorer that comes as part of the react-native distribution
 
 The two main goals are to provide:
 
@@ -15,7 +15,7 @@ Work in Progress
 ----------------
 
  I perform this work on scarce spare time.
- Help is welcome
+ 90% complete
  
  
 Directories
@@ -31,15 +31,16 @@ Installing
 
  1. Run `npm install` once to install various dependencies (`grunt-cli` must be installed globally)
  2. Run `grunt dev` to transpile the Typescript in JS
- 3. Open the IOS project in XCode (Android is untested at this stage) and run it
+ 3. Open the IOS project in Xcode (Android is untested at this stage) and run it
 
  
 Building
 --------
  
  Use `grunt dev` to compile or have your IDE output the JS to the `gen` folder.
+ Make sure the target of the Typescript compiler is set to `es6`
  
- The RN server will automatically pick-up the new js
+ The RN server will automatically pick-up the new js as you edit the Typescript
  
  
 License
