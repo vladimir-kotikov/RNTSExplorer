@@ -202,7 +202,6 @@ declare namespace  ReactNative {
     }
 
 
-
     export interface  PointProperties {
         x: number
         y: number
@@ -227,11 +226,11 @@ declare namespace  ReactNative {
      * @see React.DOMAtributes
      */
     export interface Touchable {
-        onTouchStart?: (event: GestureResponderEvent) => void
-        onTouchMove?: (event: GestureResponderEvent) => void
-        onTouchEnd?: (event: GestureResponderEvent) => void
-        onTouchCancel?: (event: GestureResponderEvent) => void
-        onTouchEndCapture?: (event: GestureResponderEvent) => void
+        onTouchStart?: ( event: GestureResponderEvent ) => void
+        onTouchMove?: ( event: GestureResponderEvent ) => void
+        onTouchEnd?: ( event: GestureResponderEvent ) => void
+        onTouchCancel?: ( event: GestureResponderEvent ) => void
+        onTouchEndCapture?: ( event: GestureResponderEvent ) => void
     }
 
     export type AppConfig = {
@@ -665,7 +664,6 @@ declare namespace  ReactNative {
         focus: () => void
     }
 
-    
 
     /**
      * Gesture recognition on mobile devices is much more complicated than web.
@@ -3031,7 +3029,6 @@ declare namespace  ReactNative {
     }
 
 
-
     export interface PanResponderGestureState {
 
         /**
@@ -3156,6 +3153,124 @@ declare namespace  ReactNative {
         create( config: PanResponderCallbacks ): PanResponderInstance
     }
 
+    export interface PushNotificationPermissions {
+        alert?: boolean
+        badge?: boolean
+        sound?: boolean
+    }
+
+    export interface PushNotification {
+
+
+        /**
+         * An alias for `getAlert` to get the notification's main message string
+         */
+        getMessage(): string | Object
+
+        /**
+         * Gets the sound string from the `aps` object
+         */
+        getSound(): string
+
+        /**
+         * Gets the notification's main message from the `aps` object
+         */
+        getAlert(): string | Object
+
+        /**
+         * Gets the badge count number from the `aps` object
+         */
+        getBadgeCount(): number
+
+        /**
+         * Gets the data object on the notif
+         */
+        getData(): Object
+
+    }
+
+
+    /**
+     * Handle push notifications for your app, including permission handling and icon badge number.
+     * @see https://facebook.github.io/react-native/docs/pushnotificationios.html#content
+     *
+     * //FIXME: BGR: The documentation seems completely off compared to the actual js implementation. I could never get the example to run
+     */
+    export interface PushNotificationIOSStatic {
+
+        /**
+         * Sets the badge number for the app icon on the home screen
+         */
+        setApplicationIconBadgeNumber( number: number ): void
+
+        /**
+         * Gets the current badge number for the app icon on the home screen
+         */
+        getApplicationIconBadgeNumber( callback: ( badge: number ) => void ): void
+
+        /**
+         * Attaches a listener to remote notifications while the app is running in the
+         * foreground or the background.
+         *
+         * The handler will get be invoked with an instance of `PushNotificationIOS`
+         *
+         * The type MUST be 'notification'
+         */
+        addEventListener( type: string, handler: ( notification: PushNotification ) => void ):void
+
+        /**
+         * Requests all notification permissions from iOS, prompting the user's
+         * dialog box.
+         */
+        requestPermissions(): void
+
+        /**
+         * See what push permissions are currently enabled. `callback` will be
+         * invoked with a `permissions` object:
+         *
+         *  - `alert` :boolean
+         *  - `badge` :boolean
+         *  - `sound` :boolean
+         */
+        checkPermissions( callback: ( permissions: PushNotificationPermissions ) => void ): void
+
+        /**
+         * Removes the event listener. Do this in `componentWillUnmount` to prevent
+         * memory leaks
+         */
+        removeEventListener( type: string, handler: ( notification: PushNotification ) => void ): void
+
+        /**
+         * An initial notification will be available if the app was cold-launched
+         * from a notification.
+         *
+         * The first caller of `popInitialNotification` will get the initial
+         * notification object, or `null`. Subsequent invocations will return null.
+         */
+        popInitialNotification(): PushNotification
+    }
+
+
+    /**
+     * @enum('default', 'light-content')
+     */
+    export type StatusBarStyle = string
+
+    /**
+     * @enum('none','fade', 'slide')
+     */
+    type StatusBarAnimation = string
+
+
+    export interface StatusBarIOSStatic {
+
+        setStyle(style: StatusBarStyle, animated?: boolean): void
+
+        setHidden(hidden: boolean, animation?: StatusBarAnimation): void
+
+        setNetworkActivityIndicatorVisible(visible: boolean): void
+    }
+
 
     //////////////////////////////////////////////////////////////////////////
     //
@@ -3257,6 +3372,12 @@ declare namespace  ReactNative {
 
     export var PanResponder: PanResponderStatic
     export type PanResponder = PanResponderStatic
+
+    export var PushNotificationIOS: PushNotificationIOSStatic
+    export type PushNotificationIOS = PushNotificationIOSStatic
+
+    export var StatusBarIOS: StatusBarIOSStatic
+    export type StatusBarIOS = StatusBarIOSStatic
 
     export var SegmentedControlIOS: React.ComponentClass<SegmentedControlIOSProperties>
 

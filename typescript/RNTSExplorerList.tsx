@@ -87,9 +87,9 @@ import LayoutExample from './apis/LayoutExample'
 import NetInfoExample from './apis/NetInfoExample'
 import PanResponderExample from './apis/PanResponderExample'
 import PointerEventsExample from './apis/PointerEventsExample'
+import PushNotificationIOSExample  from './apis/PushNotificationIOSExample'
+import StatusBarIOSExample from './apis/StatusBarIOSExample'
 
-const PushNotificationIOSExample  = require('../js/PushNotificationIOSExample')
-const StatusBarIOSExample  = require('../js/StatusBarIOSExample')
 const TimerExample  = require('../js/TimerExample')
 const VibrationIOSExample  = require('../js/VibrationIOSExample')
 
