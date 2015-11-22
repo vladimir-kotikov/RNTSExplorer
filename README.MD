@@ -7,23 +7,24 @@ This project is a port to Typescript of the original React Native UIExplorer tha
 
 The two main goals are to provide:
 
- - a testbed for the [react-native type definitions](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/react-native) I am working on
+ - a testbed for the [react-native type definitions](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/react-native) I am producing
  - copy/paste examples of React Native in Typescript
 
 
-Work in Progress
-----------------
+Requirements
+------------
 
- I perform this work on scarce spare time.
- 90% complete
- 
+ - Xcode 7.1
+ - Typescript 1.6
+ - grunt-cli installed globally
+
  
 Directories
 -----------
  
-  - `js`: the original, not yet converted, files
   - `typescript`: the converted files
-  - `gen`: the js generated from typescript
+  - `gen`: the js generated from typescript - auto-created on transpilation
+  - `js`: a couple of original, non converted files
  
 
 Installing

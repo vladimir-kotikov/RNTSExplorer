@@ -3262,6 +3262,11 @@ declare namespace  ReactNative {
     type StatusBarAnimation = string
 
 
+    /**
+     * //FIXME: No documentation is available (although this is self explanatory)
+     *
+     * @see https://facebook.github.io/react-native/docs/statusbarios.html#content
+     */
     export interface StatusBarIOSStatic {
 
         setStyle(style: StatusBarStyle, animated?: boolean): void
@@ -3271,6 +3276,20 @@ declare namespace  ReactNative {
         setNetworkActivityIndicatorVisible(visible: boolean): void
     }
 
+    /**
+     * The Vibration API is exposed at VibrationIOS.vibrate().
+     * On iOS, calling this function will trigger a one second vibration.
+     * The vibration is asynchronous so this method will return immediately.
+     *
+     * There will be no effect on devices that do not support Vibration, eg. the iOS simulator.
+     *
+     * Vibration patterns are currently unsupported.
+     *
+     * @see https://facebook.github.io/react-native/docs/vibrationios.html#content
+     */
+    export interface VibrationIOSStatic {
+        vibrate(): void
+    }
 
     //////////////////////////////////////////////////////////////////////////
     //
@@ -3378,6 +3397,14 @@ declare namespace  ReactNative {
 
     export var StatusBarIOS: StatusBarIOSStatic
     export type StatusBarIOS = StatusBarIOSStatic
+
+    export var VibrationIOS: VibrationIOSStatic
+    export type VibrationIOS = VibrationIOSStatic
+
+
+    //
+    // /TODO: BGR: These are leftovers of the initial port that must be revisited
+    //
 
     export var SegmentedControlIOS: React.ComponentClass<SegmentedControlIOSProperties>
 

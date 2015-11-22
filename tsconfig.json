@@ -39,6 +39,7 @@
         "typescript/apis/PushNotificationIOSExample.tsx",
         "typescript/apis/StatusBarIOSExample.tsx",
         "typescript/apis/TimerExample.tsx",
+        "typescript/apis/VibrationIOSExample.tsx",
         "typescript/components/ActivityIndicatorIOSExample.tsx",
         "typescript/components/DatePickerIOSExample.tsx",
         "typescript/components/ImageCapInsetsExample.tsx",

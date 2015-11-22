@@ -90,8 +90,7 @@ import PointerEventsExample from './apis/PointerEventsExample'
 import PushNotificationIOSExample  from './apis/PushNotificationIOSExample'
 import StatusBarIOSExample from './apis/StatusBarIOSExample'
 import TimerExample from './apis/TimerExample'
-
-const VibrationIOSExample  = require('../js/VibrationIOSExample')
+import VibrationIOSExample from './apis/VibrationIOSExample'
 
 const APIS: RNTSExampleModule[] = [
     ActionSheetIOSExample,
