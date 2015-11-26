@@ -1,4 +1,3 @@
-import TextInputStatic = ReactNative.TextInputStatic;
 /**
  * The examples provided by Facebook are for non-commercial testing and
  * evaluation purposes only.
