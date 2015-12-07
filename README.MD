@@ -25,7 +25,7 @@ Requirements
 ------------
 
  - Xcode 7.1
- - Typescript 1.6
+ - Typescript 1.7.3 (1.6.2 for v1.0 - should work for trunk as well)
  - grunt-cli installed globally
 
  
