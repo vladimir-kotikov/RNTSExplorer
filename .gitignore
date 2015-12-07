@@ -33,9 +33,7 @@ local.properties
 node_modules/
 npm-debug.log
 
-#
-# Project
-#
+#RNTSEXplorer specific
+.tscache
 gen/
 .baseDir.ts
-.tscache/
