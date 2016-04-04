@@ -6,7 +6,7 @@ React-Native UI Explorer written in Typescript.
 React-native:
 
     . 0.14 for v1.0
-    . 0.16 in trunk
+    . 0.19 in trunk (typescript 1.8.9 thanks to @PublicParadise)
 
 ![Main Page Screenshot](MainPage-Screenshot.png)
 
