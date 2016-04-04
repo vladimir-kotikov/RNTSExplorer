@@ -23,8 +23,8 @@ The two main goals are to provide:
 Requirements
 ------------
 
- - Xcode 7.1
- - Typescript 1.7.3 (1.6.2 for v1.0 - should work for trunk as well)
+ - Xcode 7.1+
+ - Typescript latest
  - grunt-cli installed globally
 
  
