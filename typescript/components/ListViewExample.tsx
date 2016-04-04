@@ -16,7 +16,7 @@
 
 'use strict'
 
-import React from 'react-native'
+import * as React from 'react-native';
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 import RNTSExplorerPage from '../RNTSExplorerPage'
