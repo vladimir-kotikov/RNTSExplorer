@@ -4,9 +4,8 @@ RNTSExplorer
 React-Native UI Explorer written in Typescript.
 
 React-native:
-
-    . 0.14 for v1.0
-    . 0.19 in trunk (typescript 1.8.9) -  thanks to [@PublicParadise](https://github.com/PublicParadise)
+ - 0.14 for v1.0
+ - 0.19 in trunk (typescript 1.8.9) -  thanks to [@PublicParadise](https://github.com/PublicParadise)
 
 ![Main Page Screenshot](MainPage-Screenshot.png)
 
