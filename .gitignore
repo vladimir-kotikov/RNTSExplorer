@@ -37,3 +37,4 @@ npm-debug.log
 .tscache
 gen/
 .baseDir.ts
+.vscode

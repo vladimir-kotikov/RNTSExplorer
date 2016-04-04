@@ -16,7 +16,7 @@
 
 'use strict'
 
-import React from 'react-native'
+import * as React from 'react-native';
 import createExamplePage from '../createExamplePage'
 
 import ViewExample from './ViewExample'

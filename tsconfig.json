@@ -7,7 +7,8 @@
         "outDir": "gen",
         "jsx": "react",
         "sourceMap": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "allowJs": true
     },
     "compileOnSave": true,
     "filesGlob": [
@@ -68,5 +69,8 @@
         "typings/react-native/react-native.d.ts",
         "typings/react-timer-mixin/react-timer-mixin.d.ts",
         "typings/react/react.d.ts"
+    ],
+    "exclude": [
+        "node_modules"
     ]
 }

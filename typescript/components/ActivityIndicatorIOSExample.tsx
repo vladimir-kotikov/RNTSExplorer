@@ -16,7 +16,7 @@
 
 'use strict'
 
-import React from 'react-native'
+import * as React from 'react-native';
 import * as reactMixin from 'react-mixin'
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
