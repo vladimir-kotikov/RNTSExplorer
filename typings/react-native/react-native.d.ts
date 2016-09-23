@@ -4372,7 +4372,7 @@ declare namespace  __React {
 
          type -- deprecated, do not use
          */
-        alert: ( title: string, message?: string, callbackOrButtons?: (value: string) => void| Array<AlertIOSButton>, type?: string ) => void
+        alert: ( title: string, message?: string, callbackOrButtons?: (() => void) | Array<AlertIOSButton>, type?: string ) => void
 
         /*
          Prompt the user to enter some text.
