@@ -1,12 +1,17 @@
-/**
- * Created by Bruno Grieder
- */
+// Type definitions for invariant 2.2.0
+// Project: https://github.com/zertosh/invariant
+// Definitions by: MichaelBennett <https://github.com/bennett000/>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-declare module Invariant {
-    export function invariant(someVal: boolean, throwMessage: string): void
-}
-
+declare let invariant:invariant.InvariantStatic;
 
 declare module "invariant" {
-    export default Invariant.invariant
+  export = invariant;
 }
+
+declare namespace invariant {
+  interface InvariantStatic {
+    (testValue:any, format?:string, ...extra:any[]):void;
+  }
+}
+
