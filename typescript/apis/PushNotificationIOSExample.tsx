@@ -29,7 +29,12 @@ const {
           View,
           } = React
 
-const styles = StyleSheet.create(
+interface Style { 
+  button: React.ViewStyle,
+  buttonLabel: React.TextStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         button:      {
             padding:        10,

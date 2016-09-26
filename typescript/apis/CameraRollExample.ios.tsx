@@ -34,7 +34,14 @@ import CameraRollView from './CameraRollView.ios'
 
 const CAMERA_ROLL_VIEW = 'camera_roll_view'
 
-const styles = StyleSheet.create(
+interface Style { 
+  row: React.ViewStyle,
+  url: React.TextStyle,
+  image: React.ViewStyle,
+  info: React.ViewStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         row:   {
             flexDirection: 'row',
@@ -54,7 +61,7 @@ const styles = StyleSheet.create(
 )
 
 interface State {
-    groupTypes?:  string
+    groupTypes?:  React.CameraRollGroupType
     sliderValue?: number
     bigImages?:   boolean
 
@@ -87,7 +94,7 @@ class CameraRollExample extends React.Component<any,State> {
                 />
                 <Text>{'Group Type: ' + this.state.groupTypes}</Text>
                 <CameraRollView
-                    ref={(c) => { this._cameraRollView = c}}
+                    ref={(c: CameraRollView) => { this._cameraRollView = c}}
                     batchSize={5}
                     groupTypes={this.state.groupTypes}
                     renderImage={this._renderImage}

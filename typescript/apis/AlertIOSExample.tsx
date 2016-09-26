@@ -28,6 +28,11 @@ const {
           AlertIOS,
           } = React
 
+interface Style { 
+  wrapper: React.ViewStyle,
+  button: React.ViewStyle,
+}
+
 const styles = StyleSheet.create(
     {
         wrapper: {
@@ -68,7 +73,7 @@ export default {
                                 null,
                                 null,
                                 [
-                                  {text: 'Button', onPress: () => console.log('Button Pressed!')},
+                                    {text: 'Button', onPress: () => console.log('Button Pressed!')},
                                 ]
                             )}
                         >

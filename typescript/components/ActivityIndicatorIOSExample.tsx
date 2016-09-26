@@ -28,8 +28,13 @@ const {
           View,
           } = React
 
+interface Style { 
+  centering: React.ViewStyle,
+  gray: React.ViewStyle,
+  horizontal: React.ViewStyle,
+}
 
-const styles = StyleSheet.create(
+const styles = StyleSheet.create<Style>(
     {
         centering:  {
             alignItems:     'center',

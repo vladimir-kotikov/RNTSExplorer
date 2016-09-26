@@ -27,8 +27,20 @@ const {
           View
           } = React
 
+interface Style { 
+  messageText: React.TextStyle,
+  button: React.ViewStyle,
+  buttonText: React.TextStyle,
+  navBar: React.ViewStyle,
+  navBarText: React.TextStyle,
+  navBarTitleText: React.TextStyle,
+  navBarLeftButton: React.ViewStyle,
+  navBarRightButton: React.ViewStyle,
+  navBarButtonText: React.TextStyle,
+  scene: React.ViewStyle,
+}
 
-const styles = StyleSheet.create(
+const styles = StyleSheet.create<Style>(
     {
         messageText:       {
             fontSize:   17,

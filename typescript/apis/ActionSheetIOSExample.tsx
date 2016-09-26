@@ -37,7 +37,11 @@ const BUTTONS = [
 const DESTRUCTIVE_INDEX = 3
 const CANCEL_INDEX = 4
 
-const style = StyleSheet.create(
+interface Style { 
+  button: React.TextStyle,
+}
+
+const style = StyleSheet.create<Style>(
     {
         button: {
             marginBottom: 10,

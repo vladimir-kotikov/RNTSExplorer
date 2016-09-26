@@ -26,8 +26,12 @@ const {
           View,
           } = React
 
+interface Style { 
+  backgroundColorText: React.ViewStyle,
+  entity: React.TextStyle,
+}
 
-const styles = StyleSheet.create(
+const styles = StyleSheet.create<Style>(
     {
         backgroundColorText: {
             left:            5,

@@ -29,8 +29,19 @@ const {
           View,
           } = React
 
+const NAVIGATOR_REF = 'navigator'
+const JUMPING_NAV_BAR_REF = 'jumpingNavBar'
 
-const styles = StyleSheet.create(
+interface Style { 
+  button: React.ViewStyle,
+  buttonText: React.TextStyle,
+  appContainer: React.ViewStyle,
+  messageText: React.TextStyle,
+  scene: React.ViewStyle,
+  tabs: React.ViewStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         button:       {
             backgroundColor:   'white',
@@ -168,14 +179,18 @@ class JumpingNavSample extends React.Component<any,any> {
         return (
             <Navigator
                 debugOverlay={false}
-                ref={(navigator: React.Navigator) => this._navigator = navigator}
+                //TODO: Fix this use case
+                //ref={(navigator: React.Navigator) => this._navigator = navigator}
+                ref={NAVIGATOR_REF}
                 initialRoute={ROUTE_STACK[INIT_ROUTE_INDEX]}
                 initialRouteStack={ROUTE_STACK}
                 renderScene={this.renderScene}
                 configureScene={() => React.Navigator.SceneConfigs.HorizontalSwipeJump}
                 navigationBar={
                     <JumpingNavBar
-                        ref={(navBar: React.NavigatorStatic.NavigationBar) => this._navBar = navBar }
+                        //TODO: Fix this use case
+                        //ref={(navBar: React.NavigatorStatic.NavigationBar) => this._navBar = navBar }
+                        ref={JUMPING_NAV_BAR_REF}
                         initTabIndex={INIT_ROUTE_INDEX}
                         routeStack={ROUTE_STACK}
                         onTabIndex={(index) => {

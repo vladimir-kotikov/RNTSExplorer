@@ -42,8 +42,14 @@ const hashCode = function ( str: string ) {
     return hash
 }
 
+interface Style { 
+  row: React.ViewStyle,
+  separator: React.ViewStyle,
+  thumb: React.ViewStyle,
+  text: React.ViewStyle,
+}
 
-const styles = StyleSheet.create(
+const styles = StyleSheet.create<Style>(
     {
         row:       {
             flexDirection:   'row',

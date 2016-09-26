@@ -30,8 +30,21 @@ const {
           View,
           } = React
 
+interface Style { 
+  customWrapperStyle: React.ViewStyle,
+  emptyPage: React.ViewStyle,
+  emptyPageText: React.TextStyle,
+  list: React.TextStyle,
+  group: React.TextStyle,
+  groupSpace: React.TextStyle,
+  line: React.TextStyle,
+  row: React.TextStyle,
+  separator: React.ViewStyle,
+  rowNote: React.TextStyle,
+  rowText: React.TextStyle,
+}
 
-const styles = StyleSheet.create(
+const styles = StyleSheet.create<Style>(
     {
         customWrapperStyle: {
             backgroundColor: '#bbdddd',

@@ -27,7 +27,12 @@ const {
           View,
           } = React
 
-const styles = StyleSheet.create(
+interface Style { 
+  slider: React.ViewStyle,
+  text: React.TextStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         slider: {
             height: 10,

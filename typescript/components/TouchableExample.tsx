@@ -30,8 +30,20 @@ const {
           View,
           } = React
 
+interface Style { 
+  row: React.ViewStyle,
+  icon: React.ViewStyle,
+  image: React.ViewStyle,
+  text: React.TextStyle,
+  button: React.TextStyle,
+  wrapper: React.ViewStyle,
+  wrapperCustom: React.ViewStyle,
+  logBox: React.ViewStyle,
+  eventLogBox: React.ViewStyle,
+  textBlock: React.TextStyle,
+}
 
-const styles = StyleSheet.create(
+const styles = StyleSheet.create<Style>(
     {
         row:           {
             justifyContent: 'center',

@@ -37,6 +37,19 @@ const TEXT_INPUT_REF = 'urlInput'
 const WEBVIEW_REF = 'webview'
 const DEFAULT_URL = 'https://m.facebook.com'
 
+interface Style { 
+  container: React.ViewStyle,
+  addressBarRow: React.ViewStyle,
+  webView: React.ViewStyle,
+  addressBarTextInput: React.TextStyle,
+  navButton: React.FlexStyle,
+  disabledButton: React.FlexStyle,
+  goButton: React.ViewStyle,
+  statusBar: React.ViewStyle,
+  statusBarText: React.ViewStyle,
+  spinner: React.TextStyle,
+}
+
 const styles = StyleSheet.create(
     {
         container:           {
@@ -67,8 +80,8 @@ const styles = StyleSheet.create(
             width:           20,
             padding:         3,
             marginRight:     3,
-            alignItems:      'center',
-            justifyContent:  'center',
+            alignItems:      'center' as React.FlexAlignType,
+            justifyContent:  'center' as React.FlexJustifyType,
             backgroundColor: BGWASH,
             borderColor:     'transparent',
             borderRadius:    3,
@@ -77,8 +90,8 @@ const styles = StyleSheet.create(
             width:           20,
             padding:         3,
             marginRight:     3,
-            alignItems:      'center',
-            justifyContent:  'center',
+            alignItems:      'center' as React.FlexAlignType,
+            justifyContent:  'center' as React.FlexJustifyType,
             backgroundColor: DISABLED_WASH,
             borderColor:     'transparent',
             borderRadius:    3,
@@ -87,15 +100,15 @@ const styles = StyleSheet.create(
             height:          24,
             padding:         3,
             marginLeft:      8,
-            alignItems:      'center',
+            alignItems:      'center' as React.FlexAlignType,
             backgroundColor: BGWASH,
             borderColor:     'transparent',
             borderRadius:    3,
-            alignSelf:       'stretch',
+            alignSelf:       'stretch' as "auto" | React.FlexAlignType,
         },
         statusBar:           {
-            flexDirection: 'row',
-            alignItems:    'center',
+            flexDirection: 'row' as React.FlexDirection,
+            alignItems:    'center' as React.FlexAlignType,
             paddingLeft:   5,
             height:        22,
         },
@@ -164,7 +177,7 @@ class WebViewExample extends React.Component<any, WebViewState> {
                         </View>
                     </TouchableOpacity>
                     <TextInput
-                        ref={(c) => { this._input = c}}
+                        ref={TEXT_INPUT_REF}
                         autoCapitalize="none"
                         value={this.state.url}
                         onSubmitEditing={this.onSubmitEditing}
@@ -181,7 +194,7 @@ class WebViewExample extends React.Component<any, WebViewState> {
                     </TouchableOpacity>
                 </View>
                 <WebView
-                    ref={(c) => { this._webView = c}}
+                    ref={WEBVIEW_REF}
                     automaticallyAdjustContentInsets={false}
                     style={styles.webView}
                     url={this.state.url}

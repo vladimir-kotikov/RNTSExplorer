@@ -27,7 +27,11 @@ const {
           View,
           } = React
 
-const styles = StyleSheet.create(
+interface Style { 
+  title: React.TextStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         title: {
             fontWeight: '500'

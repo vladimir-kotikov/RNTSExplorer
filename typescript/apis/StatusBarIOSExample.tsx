@@ -44,7 +44,7 @@ const styles = StyleSheet.create(
 )
 
 const styleTouchables: JSX.Element[] = [ 'default', 'light-content' ].map(
-    ( style: string ) =>
+    ( style: React.StatusBarStyle ) =>
         <TouchableHighlight
             style={styles.wrapper}
             onPress={() => StatusBarIOS.setStyle(style)}
@@ -56,7 +56,7 @@ const styleTouchables: JSX.Element[] = [ 'default', 'light-content' ].map(
 )
 
 const styleAnimatedTouchables: JSX.Element[] = [ 'default', 'light-content' ].map(
-    ( style: string ) =>
+    ( style: React.StatusBarStyle ) =>
         <TouchableHighlight style={styles.wrapper}
                             onPress={() => StatusBarIOS.setStyle(style, true)}>
             <View style={styles.button}>
@@ -66,7 +66,7 @@ const styleAnimatedTouchables: JSX.Element[] = [ 'default', 'light-content' ].ma
 )
 
 const hiddenTouchables: JSX.Element[] = [ 'none', 'fade', 'slide' ].map(
-    ( anim ) =>
+    ( anim: React.StatusBarAnimation ) =>
         <View>
             <TouchableHighlight
                 style={styles.wrapper}

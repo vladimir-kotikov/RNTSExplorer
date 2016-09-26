@@ -29,6 +29,17 @@ const {
 
 import ImageCapInsetsExample from './ImageCapInsetsExample'
 
+interface Style { 
+  base: React.ViewStyle,
+  leftMargin: React.ViewStyle,
+  background: React.ViewStyle,
+  nestedText: React.ViewStyle,
+  resizeMode: React.ViewStyle,
+  resizeModeText: React.ViewStyle,
+  icon: React.ViewStyle,
+  horizontal: React.ViewStyle,
+}
+
 const styles = StyleSheet.create(
     {
         base:           {
@@ -62,7 +73,7 @@ const styles = StyleSheet.create(
             height: 15,
         },
         horizontal:     {
-            flexDirection: 'row',
+            flexDirection: 'row' as "row" | "column" | "row-reverse" | "column-reverse",
         }
     }
 )
@@ -269,7 +280,7 @@ export default {
                                          </Text>
                                          <Image
                                              style={styles.resizeMode}
-                                             resizeMode={Image.resizeMode.contain}
+                                             resizeMode={'contain'}
                                              source={fullImage}
                                          />
                                      </View>
@@ -279,7 +290,7 @@ export default {
                                          </Text>
                                          <Image
                                              style={styles.resizeMode}
-                                             resizeMode={Image.resizeMode.cover}
+                                             resizeMode={'cover'}
                                              source={fullImage}
                                          />
                                      </View>
@@ -289,7 +300,7 @@ export default {
                                          </Text>
                                          <Image
                                              style={styles.resizeMode}
-                                             resizeMode={Image.resizeMode.stretch}
+                                             resizeMode={'stretch'}
                                              source={fullImage}
                                          />
                                      </View>

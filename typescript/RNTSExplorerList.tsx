@@ -144,7 +144,21 @@ COMPONENTS.concat( APIS ).forEach( ( Example: RNTSExampleModule ) => {
     }
 } )
 
-const styles = StyleSheet.create(
+interface Style { 
+  listContainer: React.ViewStyle,
+  list: React.ViewStyle,
+  sectionHeader: React.ViewStyle,
+  group: React.ViewStyle,
+  sectionHeaderTitle: React.TextStyle,
+  row: React.ViewStyle,
+  separator: React.ViewStyle,
+  rowTitleText: React.TextStyle,
+  rowDetailText: React.TextStyle,
+  searchRow: React.ViewStyle,
+  searchTextInput: React.ViewStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         listContainer: {
             flex: 1,

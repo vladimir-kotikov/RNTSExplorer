@@ -35,7 +35,18 @@ const THUMB_URLS = [ 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-ash3/t39.19
 const NUM_SECTIONS = 100
 const NUM_ROWS_PER_SECTION = 10
 
-const styles = StyleSheet.create(
+interface Style { 
+  listview: React.ViewStyle,
+  header: React.ViewStyle,
+  text: React.TextStyle,
+  rowText: React.TextStyle,
+  thumbText: React.TextStyle,
+  buttonContents: React.ViewStyle,
+  img: React.ViewStyle,
+  section: React.ViewStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         listview:       {
             backgroundColor: '#B0C4DE',

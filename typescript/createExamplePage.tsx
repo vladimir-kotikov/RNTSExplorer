@@ -16,7 +16,7 @@
 'use strict'
 
 import * as React from 'react-native';
-import invariant from 'invariant'
+//import invariant from 'invariant'
 
 import RNTSExplorerBlock from './RNTSExplorerBlock'
 import RNTSExplorerPage from  './RNTSExplorerPage'

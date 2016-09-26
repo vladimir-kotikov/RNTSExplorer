@@ -32,7 +32,17 @@ interface RandomRoute extends React.Route {
     title: string
 }
 
-const styles = StyleSheet.create(
+interface Style { 
+  scene: React.ViewStyle,
+  button: React.ViewStyle,
+  buttonText: React.TextStyle,
+  container: React.ViewStyle,
+  titleText: React.TextStyle,
+  crumbIconPlaceholder: React.ViewStyle,
+  crumbSeparatorPlaceholder: React.ViewStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         scene:                     {
             paddingTop: 50,

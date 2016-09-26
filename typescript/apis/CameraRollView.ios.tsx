@@ -33,7 +33,16 @@ const {
 const groupByEveryN = require( 'groupByEveryN' )
 const logError = require( 'logError' )
 
-const styles = StyleSheet.create(
+interface Style { 
+  row: React.ViewStyle,
+  url: React.TextStyle,
+  image: React.ViewStyle,
+  info: React.ViewStyle,
+  container: React.ViewStyle,
+  spinner: React.ViewStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         row:       {
             flexDirection: 'row',
@@ -63,7 +72,7 @@ const styles = StyleSheet.create(
 namespace  CameraRollView {
 
     export interface Props extends React.Props<CameraRollView> {
-        groupTypes: string
+        groupTypes: React.CameraRollGroupType
         batchSize: number
         renderImage: ( image: React.CameraRollEdgeInfo ) => void
         imagesPerRow?: number
@@ -71,7 +80,18 @@ namespace  CameraRollView {
 }
 
 interface State {
-    assets?: React.CameraRollEdgeInfo[]
+    assets?: {
+            node: {
+              type: string
+              group_name: string
+              image: {
+                  uri: string
+                  height: number
+                  width: number
+                  isStored?: boolean
+              }
+            }
+        }[]
     groupTypes?: string
     lastCursor?: string
     noMore?: boolean
@@ -183,7 +203,8 @@ class CameraRollView extends React.Component<CameraRollView.Props,State> {
             fetchParams.after = this.state.lastCursor
         }
 
-        CameraRoll.getPhotos( fetchParams, this._appendAssets, logError )
+        CameraRoll.getPhotos(fetchParams)
+        .then((data: React.GetPhotosReturnType) => this._appendAssets(data), (e) => logError(e));
     }
 
     /**
@@ -245,7 +266,7 @@ class CameraRollView extends React.Component<CameraRollView.Props,State> {
         )
     }
 
-    private _appendAssets = ( data: React.CameraRollAssetInfo ): void => {
+    private _appendAssets = ( data: React.GetPhotosReturnType ): void => {
         var assets = data.edges
         var newState: State = { loadingMore: false }
 

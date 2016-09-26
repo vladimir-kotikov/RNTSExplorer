@@ -27,7 +27,16 @@ const {
           StyleSheet,
           } = React
 
-const styles = StyleSheet.create(
+interface Style { 
+  page: React.ViewStyle,
+  default: React.TextStyle,
+  multiline: React.TextStyle,
+  eventLabel: React.TextStyle,
+  labelContainer: React.ViewStyle,
+  label: React.ViewStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         page:           {
             paddingBottom: 300,
@@ -127,7 +136,6 @@ class TextEventsExample extends React.Component<any,TextEventsState> {
     }
 }
 
-
 export default {
 
     title:       '<TextInput>',
@@ -208,7 +216,7 @@ export default {
                                  return (
                                      <WithLabel key={type} label={type}>
                                          <TextInput
-                                             keyboardType={type}
+                                             keyboardType={type as React.KeyboardType}
                                              style={styles.default}
                                          />
                                      </WithLabel>
@@ -237,7 +245,7 @@ export default {
                                  return (
                                      <WithLabel key={type} label={type}>
                                          <TextInput
-                                             returnKeyType={type}
+                                             returnKeyType={type as React.ReturnKeyType}
                                              style={styles.default}
                                          />
                                      </WithLabel>

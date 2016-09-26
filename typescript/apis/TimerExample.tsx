@@ -30,6 +30,10 @@ const {
           View,
           } = React
 
+interface Style { 
+  button: React.ViewStyle,
+}
+
 const styles = StyleSheet.create(
     {
         button: {
@@ -38,8 +42,8 @@ const styles = StyleSheet.create(
             borderWidth:    1,
             padding:        10,
             margin:         5,
-            alignItems:     'center',
-            justifyContent: 'center'
+            alignItems:     'center' as React.FlexAlignType,
+            justifyContent: 'center' as React.FlexJustifyType
         }
     }
 )

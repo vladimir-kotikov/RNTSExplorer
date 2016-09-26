@@ -28,7 +28,16 @@ const {
           View
           } = React
 
-const styles = StyleSheet.create(
+interface Style { 
+  textinput: React.TextStyle,
+  labelContainer: React.ViewStyle,
+  labelView: React.ViewStyle,
+  label: React.TextStyle,
+  headingContainer: React.ViewStyle,
+  heading: React.TextStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         textinput:        {
             height:      26,

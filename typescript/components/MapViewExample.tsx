@@ -28,7 +28,14 @@ const {
           View,
           } = React
 
-const styles = StyleSheet.create(
+interface Style { 
+  map: React.ViewStyle,
+  row: React.ViewStyle,
+  textInput: React.TextStyle,
+  changeButton: React.TextStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         map:          {
             height:      150,

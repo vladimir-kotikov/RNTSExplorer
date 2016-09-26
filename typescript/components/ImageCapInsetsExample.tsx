@@ -27,7 +27,14 @@ const {
           View,
           } = React
 
-const styles = StyleSheet.create(
+interface Style { 
+  background: React.ViewStyle,
+  horizontal: React.ViewStyle,
+  storyBackground: React.ImageStyle,
+  text: React.TextStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         background:      {
             backgroundColor: '#F6F6F6',
@@ -41,7 +48,7 @@ const styles = StyleSheet.create(
             width:       250,
             height:      150,
             borderWidth: 1,
-            resizeMode:  Image.resizeMode.stretch,
+            resizeMode:  'stretch',
         },
         text:            {
             fontSize: 13.5,

@@ -29,7 +29,15 @@ import NavigationBarSample from './NavigationBarSample'
 import  JumpingNavSample from './JumpingNavSample'
 import BreadcrumbNavSample from './BreadcrumbNavSample'
 
-const styles = StyleSheet.create(
+interface Style { 
+  messageText: React.TextStyle,
+  container: React.ViewStyle,
+  button: React.ViewStyle,
+  buttonText: React.TextStyle,
+  scene: React.ViewStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         messageText: {
             fontSize:   17,

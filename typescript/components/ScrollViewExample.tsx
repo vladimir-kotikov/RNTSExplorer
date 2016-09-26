@@ -32,7 +32,17 @@ let THUMBS = [ 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-ash3/t39.1997/p12
 THUMBS = THUMBS.concat( THUMBS ) // double length of THUMBS
 const createThumbRow = ( uri: string, i: number ) => <Thumb key={i} uri={uri}/>
 
-const styles = StyleSheet.create(
+interface Style { 
+  scrollView: React.ViewStyle,
+  horizontalScrollView: React.ViewStyle,
+  containerPage: React.ViewStyle,
+  text: React.TextStyle,
+  button: React.ViewStyle,
+  buttonContents: React.ViewStyle,
+  img: React.ViewStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         scrollView:           {
             backgroundColor: '#6A85B1',

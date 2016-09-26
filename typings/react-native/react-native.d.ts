@@ -23,6 +23,101 @@ import React = __React;
 
 //react-native "extends" react
 declare namespace  __React {
+    /**
+     * Represents the completion of an asynchronous operation
+     * @see lib.es6.d.ts
+     */
+    export interface Promise<T> {
+        /**
+         * Attaches callbacks for the resolution and/or rejection of the Promise.
+         * @param onfulfilled The callback to execute when the Promise is resolved.
+         * @param onrejected The callback to execute when the Promise is rejected.
+         * @returns A Promise for the completion of which ever callback is executed.
+         */
+        then<TResult>( onfulfilled?: ( value: T ) => TResult | Promise<TResult>, onrejected?: ( reason: any ) => TResult | Promise<TResult> ): Promise<TResult>;
+
+        /**
+         * Attaches a callback for only the rejection of the Promise.
+         * @param onrejected The callback to execute when the Promise is rejected.
+         * @returns A Promise for the completion of the callback.
+         */
+        catch( onrejected?: ( reason: any ) => T | Promise<T> ): Promise<T>;
+
+
+        // not in lib.es6.d.ts but called by react-native
+        done( callback?: ( value: T ) => void ): void;
+    }
+
+    export interface PromiseConstructor {
+        /**
+         * A reference to the prototype.
+         */
+        prototype: Promise<any>;
+
+        /**
+         * Creates a new Promise.
+         * @param init A callback used to initialize the promise. This callback is passed two arguments:
+         * a resolve callback used resolve the promise with a value or the result of another promise,
+         * and a reject callback used to reject the promise with a provided reason or error.
+         */
+        new <T>( init: ( resolve: ( value?: T | Promise<T> ) => void, reject: ( reason?: any ) => void ) => void ): Promise<T>;
+
+        <T>( init: ( resolve: ( value?: T | Promise<T> ) => void, reject: ( reason?: any ) => void ) => void ): Promise<T>;
+
+        /**
+         * Creates a Promise that is resolved with an array of results when all of the provided Promises
+         * resolve, or rejected when any Promise is rejected.
+         * @param values An array of Promises.
+         * @returns A new Promise.
+         */
+        all<T>( values: (T | Promise<T>)[] ): Promise<T[]>;
+
+        /**
+         * Creates a Promise that is resolved with an array of results when all of the provided Promises
+         * resolve, or rejected when any Promise is rejected.
+         * @param values An array of values.
+         * @returns A new Promise.
+         */
+        all( values: Promise<void>[] ): Promise<void>;
+
+        /**
+         * Creates a Promise that is resolved or rejected when any of the provided Promises are resolved
+         * or rejected.
+         * @param values An array of Promises.
+         * @returns A new Promise.
+         */
+        race<T>( values: (T | Promise<T>)[] ): Promise<T>;
+
+        /**
+         * Creates a new rejected promise for the provided reason.
+         * @param reason The reason the promise was rejected.
+         * @returns A new rejected Promise.
+         */
+        reject( reason: any ): Promise<void>;
+
+        /**
+         * Creates a new rejected promise for the provided reason.
+         * @param reason The reason the promise was rejected.
+         * @returns A new rejected Promise.
+         */
+        reject<T>( reason: any ): Promise<T>;
+
+        /**
+         * Creates a new resolved promise for the provided value.
+         * @param value A promise.
+         * @returns A promise whose internal state matches the provided promise.
+         */
+        resolve<T>( value: T | Promise<T> ): Promise<T>;
+
+        /**
+         * Creates a new resolved promise .
+         * @returns A resolved promise.
+         */
+        resolve(): Promise<void>;
+    }
+
+    // @see lib.es6.d.ts
+    export var Promise: PromiseConstructor;
 
     module NativeMethodsMixin {
       type MeasureOnSuccessCallback = (
@@ -323,6 +418,7 @@ declare namespace  __React {
 
     export type FlexAlignType = "flex-start" | "flex-end" | "center" | "stretch";
     export type FlexJustifyType = "flex-start" | "flex-end" | "center" | "space-between" | "space-around";
+    export type FlexDirection = "row" | "column" | "row-reverse" | "column-reverse";
 
     /**
      * Flex Prop Types
@@ -636,6 +732,8 @@ declare namespace  __React {
         underlineColorAndroid?: string
     }
 
+    export type KeyboardType = "default" | "email-address" | "numeric" | "phone-pad" | "ascii-capable" | "numbers-and-punctuation" | "url" | "number-pad" | "name-phone-pad" | "decimal-pad" | "twitter" | "web-search"
+    export type ReturnKeyType = "default" | "go" | "google" | "join" | "next" | "route" | "search" | "send" | "yahoo" | "done" | "emergency-call"
 
     /**
      * @see https://facebook.github.io/react-native/docs/textinput.html#props
@@ -688,7 +786,7 @@ declare namespace  __React {
          * Determines which keyboard to open, e.g.numeric.
          * The following values work across platforms: - default - numeric - email-address
          */
-        keyboardType?: "default" | "email-address" | "numeric" | "phone-pad" | "ascii-capable" | "numbers-and-punctuation" | "url" | "number-pad" | "name-phone-pad" | "decimal-pad" | "twitter" | "web-search"
+        keyboardType?: KeyboardType
 
         /**
          * Limits the maximum number of characters that can be entered.
@@ -1233,7 +1331,7 @@ declare namespace  __React {
          * But since pointerEvents does not affect layout/appearance, and we are already deviating from the spec by adding additional modes,
          * we opt to not include pointerEvents on style. On some platforms, we would need to implement it as a className anyways. Using style or not is an implementation detail of the platform.
          */
-        pointerEvents?: "box-none" | "none" | "box-only" | "autoViewStyle"
+        pointerEvents?: "box-none" | "none" | "box-only" | "auto"
 
         /**
          *
@@ -2034,8 +2132,11 @@ declare namespace  __React {
      */
     export interface PickerIOSProperties extends React.Props<PickerIOSStatic> {
 
-        itemStyle?: ViewStyle
+        onValueChange?: ( value: string | number ) => void
 
+        selectedValue?: string | number
+
+        style?: ViewStyle
     }
 
     /**
@@ -2439,6 +2540,7 @@ declare namespace  __React {
 
     }
 
+    export type ImageResizeMode =  "contain" | "cover" | "stretch"
 
     /**
      * @see ImageResizeMode.js
@@ -2448,18 +2550,18 @@ declare namespace  __React {
          * contain - The image will be resized such that it will be completely
          * visible, contained within the frame of the View.
          */
-        contain: string
+        contain: ImageResizeMode
         /**
          * cover - The image will be resized such that the entire area of the view
          * is covered by the image, potentially clipping parts of the image.
          */
-        cover: string
+        cover: ImageResizeMode
         /**
          * stretch - The image will be stretched to fill the entire frame of the
          * view without clipping.  This may change the aspect ratio of the image,
          * distoring it.  Only supported on iOS.
          */
-        stretch: string
+        stretch: ImageResizeMode
     }
 
     /**
@@ -2552,7 +2654,7 @@ declare namespace  __React {
          *
          * enum('cover', 'contain', 'stretch')
          */
-        resizeMode?: "cover" | "contain" | "stretch"
+        resizeMode?: ImageResizeMode
 
         /**
          * uri is a string representing the resource identifier for the image,
@@ -2576,7 +2678,7 @@ declare namespace  __React {
 
     export interface ImageStatic extends React.ComponentClass<ImageProperties> {
         uri: string;
-        resizeMode: ImageResizeModeStatic
+        resizeMode: ImageResizeMode
         getSize(uri: string, success: (width: number, height: number) => void, failure: (error: any) => void): any
         prefetch(url: string): any
     }
@@ -2783,7 +2885,7 @@ declare namespace  __React {
         /**
          * Map overlays
          */
-        overlays: MapViewOverlay[]
+        overlays?: MapViewOverlay[]
 
         /**
          * If false compass won't be displayed on the map.
@@ -2796,9 +2898,37 @@ declare namespace  __React {
         active?: boolean
     }
 
-    export interface MapViewProperties extends MapViewPropertiesIOS, MapViewPropertiesAndroid, Touchable, ViewProperties, React.Props<MapViewStatic> {
+    export interface MapViewProperties extends MapViewPropertiesIOS, MapViewPropertiesAndroid, Touchable, React.Props<MapViewStatic> {
 
+        /**
+         * Map annotations with title/subtitle.
+         */
+        annotations?: MapViewAnnotation[]
 
+        /**
+         * Insets for the map's legal label, originally at bottom left of the map. See EdgeInsetsPropType.js for more information.
+         */
+        legalLabelInsets?: Insets
+
+        /**
+         * The map type to be displayed.
+         *     standard: standard road map (default)
+         *     satellite: satellite view
+         *     hybrid: satellite view with roads and points of interest overlayed
+         *
+         * enum('standard', 'satellite', 'hybrid')
+         */
+        mapType?: string
+
+        /**
+         * Maximum size of area that can be displayed.
+         */
+        maxDelta?: number
+
+        /**
+         * Minimum size of area that can be displayed.
+         */
+        minDelta?: number
 
         /**
          * Callback that is called once, when the user taps an annotation.
@@ -4503,12 +4633,15 @@ declare namespace  __React {
         removeEventListener(eventName: string, handler: () => void): void;
     }
 
+    export type CameraRollGroupType = "Album" | "All" | "Event" | "Faces" | "Library" | "PhotoStream" | "SavedPhotos";
+    export type CameraRollAssetType = "All" | "Videos" | "Photos";
+
     export interface CameraRollFetchParams {
         first: number;
         after?: string;
-        groupTypes: string; //  'Album','All','Event','Faces','Library','PhotoStream','SavedPhotos'
+        groupTypes?: CameraRollGroupType
         groupName?: string
-        assetType?: string
+        assetType?: CameraRollAssetType
     }
 
     export interface CameraRollNodeInfo {
@@ -4532,11 +4665,11 @@ declare namespace  __React {
 
     export interface GetPhotosParamType {
         first: number
-        after: string
-        groupTypes: "Album" | "All" | "Event" | "Faces" | "Library" | "PhotoStream" | "SavedPhotos"
-        groupName: string
-        assetType: "All" | "Videos" | "Photos"
-        mimeTypes: string[]
+        after?: string
+        groupTypes?: CameraRollGroupType
+        groupName?: string
+        assetType?: CameraRollAssetType
+        mimeTypes?: string[]
     }
 
     export interface GetPhotosReturnType {
@@ -4565,7 +4698,7 @@ declare namespace  __React {
      */
     export interface CameraRollStatic {
 
-        GroupTypesOptions: string[] //'Album','All','Event','Faces','Library','PhotoStream','SavedPhotos'
+        GroupTypesOptions: CameraRollGroupType[] //'Album','All','Event','Faces','Library','PhotoStream','SavedPhotos'
 
         /**
          * Saves the image to the camera roll / gallery.
@@ -4606,7 +4739,7 @@ declare namespace  __React {
          */
         getPhotos(params: GetPhotosParamType): Promise<GetPhotosReturnType>;
     }
-
+//CameraRollFetchParams
     export interface ClipboardStatic {
         getString(): Promise<string>;
         setString(content: string): void;
@@ -5169,8 +5302,18 @@ declare namespace  __React {
     /**
      * StatusBarIOS is being deprecated.
      * @see https://github.com/facebook/react-native/commit/4de616b4c1a9d3556632a93504828f0539fa4fa5
+     *
+     * //FIXME: No documentation is available (although this is self explanatory)
+     *
+     * @see https://facebook.github.io/react-native/docs/statusbarios.html#content
      */
     export interface StatusBarIOSStatic {
+
+        setStyle(style: StatusBarStyle, animated?: boolean): void
+
+        setHidden(hidden: boolean, animation?: StatusBarAnimation): void
+
+        setNetworkActivityIndicatorVisible(visible: boolean): void
     }
 
     type TimePickerAndroidOpenOptions = {

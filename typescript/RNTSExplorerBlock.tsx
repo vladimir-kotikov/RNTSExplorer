@@ -23,7 +23,18 @@ const {
           View,
           } = React
 
-const styles = StyleSheet.create(
+interface Style { 
+  container: React.ViewStyle,
+  titleContainer: React.ViewStyle,
+  titleRow: React.ViewStyle,
+  titleText: React.TextStyle,
+  descriptionText: React.TextStyle,
+  disclosure: React.ViewStyle,
+  disclosureIcon: React.ViewStyle,
+  children: React.ViewStyle,
+}
+
+const styles = StyleSheet.create<Style>(
     {
         container:       {
             borderRadius:    3,
