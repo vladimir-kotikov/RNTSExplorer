@@ -38,3 +38,6 @@ npm-debug.log
 gen/
 .baseDir.ts
 .vscode
+
+main.jsbundle
+main.jsbundle.meta
