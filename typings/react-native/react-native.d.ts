@@ -1892,7 +1892,7 @@ declare namespace  __React {
         /**
          * The currently selected date.
          */
-        date?: Date
+        date: Date
 
 
         /**
@@ -1911,7 +1911,7 @@ declare namespace  __React {
          *  enum(1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30)
          *  The interval at which minutes can be selected.
          */
-        minuteInterval?: number
+        minuteInterval?: 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30
 
         /**
          *  enum('date', 'time', 'datetime')
@@ -1924,7 +1924,7 @@ declare namespace  __React {
          * This is called when the user changes the date or time in the UI.
          * The first and only argument is a Date object representing the new date and time.
          */
-        onDateChange?: ( newDate: Date ) => void
+        onDateChange: ( newDate: Date ) => void
 
         /**
          * Timezone offset in minutes.
@@ -1936,7 +1936,7 @@ declare namespace  __React {
         ref?: Ref<DatePickerIOSStatic>
     }
 
-    export interface DatePickerIOSStatic extends React.ComponentClass<DatePickerIOSProperties> {
+    export interface DatePickerIOSStatic extends React.NativeComponent, React.ComponentClass<DatePickerIOSProperties> {
     }
 
     export interface DrawerSlideEvent extends NativeSyntheticEvent<NativeTouchEvent> {
@@ -5949,6 +5949,8 @@ declare namespace  __React {
 
     export var ActivityIndicatorIOS: ActivityIndicatorIOSStatic
     export type ActivityIndicatorIOS = ActivityIndicatorIOSStatic
+
+    // TODO: ReactNativeArt
 
     export var DatePickerIOS: DatePickerIOSStatic
     export type DatePickerIOS = DatePickerIOSStatic
