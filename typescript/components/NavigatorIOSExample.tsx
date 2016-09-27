@@ -16,19 +16,20 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
+import { Component } from 'react';
 import createExamplePage from '../createExamplePage'
 
 import ViewExample from './ViewExample'
 
-const {
+import {
           PixelRatio,
           ScrollView,
           StyleSheet,
           Text,
           TouchableHighlight,
           View,
-          } = React
+          } from 'react-native';
 
 interface Style { 
   customWrapperStyle: React.ViewStyle,

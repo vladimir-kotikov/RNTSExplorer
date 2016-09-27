@@ -16,16 +16,16 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
+import { Component } from 'react';
 import RNTSExample from '../RNTSExample'
-import RNTSExanpleModule from '../RNTSExampleModule'
+import RNTSExampleModule from '../RNTSExampleModule'
 
-const
-    {
+import {
         StyleSheet,
         Text,
         View,
-        } = React
+        } from 'react-native';
 
 const styles = StyleSheet.create(
     {
@@ -168,4 +168,4 @@ export default {
                          }
                      }
                  ] as RNTSExample[]
-} as RNTSExanpleModule
+} as RNTSExampleModule

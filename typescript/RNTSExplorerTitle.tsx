@@ -16,12 +16,13 @@
 
 'use strict'
 
-import * as React from 'react-native';
-const {
+import * as React from 'react';
+import { Component } from 'react';
+import {
           StyleSheet,
           Text,
           View,
-          } = React
+} from 'react-native';
 
 interface Style { 
   container: React.ViewStyle,

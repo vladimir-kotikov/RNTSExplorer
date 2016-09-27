@@ -17,8 +17,10 @@ import RNTSExampleModule from "./RNTSExampleModule";
 
 'use strict'
 
-import * as React from 'react-native';
-const {
+import * as React from 'react';
+import { Component } from 'react';
+import {
+          addons,
           AppRegistry,
           ListView,
           PixelRatio,
@@ -27,88 +29,88 @@ const {
           TextInput,
           TouchableHighlight,
           View
-          } = React
-const { TestModule } = React.addons
+          } from 'react-native';
+import TestModule = addons.TestModule;
 
 import createExamplePage from './createExamplePage'
 //import createExamplePage from '../js/createExamplePage'
 
 import RNTSExample from './RNTSExample'
 import NavigatorIOSExample from './components/NavigatorIOSExample'
-import NavigatorExample from './components/navigator/NavigatorExample'
-import ViewExample from './components/ViewExample'
-import ActivityIndicatorIOSExample from './components/ActivityIndicatorIOSExample'
-import DatePickerIOSExample from './components/DatePickerIOSExample'
-import ImageExample from './components/ImageExample'
-import ListViewExample from './components/ListViewExample'
-import ListViewPagingExample from './components/ListViewPagingExample'
-import MapViewExample from './components/MapViewExample'
-import PickerIOSExample from './components/PickerIOSExample'
-import ScrollViewExample from './components/ScrollViewExample'
-import SliderIOSExample from './components/SliderIOSExample'
-import SwitchIOSExample from './components/SwitchIOSExample'
-import TabBarIOSExample from './components/TabBarIOSExample'
-import TextExample from './components/TextExample.ios'
-import TextInputExample from './components/TextInputExample'
-import TouchableExample from './components/TouchableExample'
-import WebViewExample from './components/WebViewExample'
+// import NavigatorExample from './components/navigator/NavigatorExample'
+// import ViewExample from './components/ViewExample'
+// import ActivityIndicatorIOSExample from './components/ActivityIndicatorIOSExample'
+// import DatePickerIOSExample from './components/DatePickerIOSExample'
+// import ImageExample from './components/ImageExample'
+// import ListViewExample from './components/ListViewExample'
+// import ListViewPagingExample from './components/ListViewPagingExample'
+// import MapViewExample from './components/MapViewExample'
+// import PickerIOSExample from './components/PickerIOSExample'
+// import ScrollViewExample from './components/ScrollViewExample'
+// import SliderIOSExample from './components/SliderIOSExample'
+// import SwitchIOSExample from './components/SwitchIOSExample'
+// import TabBarIOSExample from './components/TabBarIOSExample'
+// import TextExample from './components/TextExample.ios'
+// import TextInputExample from './components/TextInputExample'
+// import TouchableExample from './components/TouchableExample'
+// import WebViewExample from './components/WebViewExample'
 
 
 const COMPONENTS: RNTSExampleModule[] = [
-    ActivityIndicatorIOSExample,
-    DatePickerIOSExample,
-    ImageExample,
-    ListViewExample,
-    ListViewPagingExample,
-    MapViewExample,
-    NavigatorExample,
+    // ActivityIndicatorIOSExample,
+    // DatePickerIOSExample,
+    // ImageExample,
+    // ListViewExample,
+    // ListViewPagingExample,
+    // MapViewExample,
+    // NavigatorExample,
     NavigatorIOSExample,
-    PickerIOSExample,
-    ScrollViewExample,
-    SliderIOSExample,
-    SwitchIOSExample,
-    TabBarIOSExample,
-    TextExample,
-    TextInputExample,
-    TouchableExample,
-    ViewExample,
-    WebViewExample
+    // PickerIOSExample,
+    // ScrollViewExample,
+    // SliderIOSExample,
+    // SwitchIOSExample,
+    // TabBarIOSExample,
+    // TextExample,
+    // TextInputExample,
+    // TouchableExample,
+    // ViewExample,
+    // WebViewExample
 ]
 
-import ActionSheetIOSExample from './apis/ActionSheetIOSExample'
-import AdSupportIOSExample  from './apis/AdSupportIOSExample'
-import AlertIOSExample from './apis/AlertIOSExample'
-import AppStateIOSExample from './apis/AppStateIOSExample'
-import AsyncStorageExample from './apis/AsyncStorageExample'
-import BorderExample from './apis/BorderExample'
-import CameraRollExample from './apis/CameraRollExample.ios'
-import GeolocationExample from './apis/GeolocationExample'
-import LayoutExample from './apis/LayoutExample'
-import NetInfoExample from './apis/NetInfoExample'
-import PanResponderExample from './apis/PanResponderExample'
-import PointerEventsExample from './apis/PointerEventsExample'
-import PushNotificationIOSExample  from './apis/PushNotificationIOSExample'
-import StatusBarIOSExample from './apis/StatusBarIOSExample'
-import TimerExample from './apis/TimerExample'
-import VibrationIOSExample from './apis/VibrationIOSExample'
+// import ActionSheetIOSExample from './apis/ActionSheetIOSExample'
+// import AdSupportIOSExample  from './apis/AdSupportIOSExample'
+// import AlertIOSExample from './apis/AlertIOSExample'
+// import AppStateIOSExample from './apis/AppStateIOSExample'
+// import AsyncStorageExample from './apis/AsyncStorageExample'
+// import BorderExample from './apis/BorderExample'
+// import CameraRollExample from './apis/CameraRollExample.ios'
+// import GeolocationExample from './apis/GeolocationExample'
+// import LayoutExample from './apis/LayoutExample'
+// import NetInfoExample from './apis/NetInfoExample'
+// import PanResponderExample from './apis/PanResponderExample'
+// import PointerEventsExample from './apis/PointerEventsExample'
+// import PushNotificationIOSExample  from './apis/PushNotificationIOSExample'
+// import StatusBarIOSExample from './apis/StatusBarIOSExample'
+// import TimerExample from './apis/TimerExample'
+// import VibrationIOSExample from './apis/VibrationIOSExample'
 
 const APIS: RNTSExampleModule[] = [
-    ActionSheetIOSExample,
-    AdSupportIOSExample,
-    AlertIOSExample,
-    AppStateIOSExample,
-    AsyncStorageExample,
-    BorderExample,
-    CameraRollExample,
-    GeolocationExample,
-    LayoutExample,
-    NetInfoExample,
-    PanResponderExample,
-    PointerEventsExample,
-    PushNotificationIOSExample,
-    StatusBarIOSExample,
-    TimerExample,
-    VibrationIOSExample
+    // ActionSheetIOSExample,
+    // AdSupportIOSExample,
+    // AlertIOSExample,
+    // AppStateIOSExample,
+    // AsyncStorageExample,
+    // BorderExample,
+    // CameraRollExample,
+    // GeolocationExample,
+    // LayoutExample,
+    // NetInfoExample,
+    // PanResponderExample,
+    // PointerEventsExample,
+    // PushNotificationIOSExample,
+    // StatusBarIOSExample,
+    // TimerExample,
+    // VibrationIOSExample
 ]
 
 const ds = new ListView.DataSource( {
@@ -300,12 +302,12 @@ class RNTSExplorerList extends React.Component<any,any> {
     }
 
     private _onPressRow = ( example: any ): void => {
-        if ( example === NavigatorExample ) {
-            this.props.onExternalExampleRequested(
-                NavigatorExample
-            )
-            return
-        }
+        // if ( example === NavigatorExample ) {
+        //     this.props.onExternalExampleRequested(
+        //         NavigatorExample
+        //     )
+        //     return
+        // }
         var Component = makeRenderable( example )
         this.props.navigator.push(
             {

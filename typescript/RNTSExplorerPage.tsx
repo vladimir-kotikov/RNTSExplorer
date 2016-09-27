@@ -16,12 +16,13 @@
 
 'use strict'
 
-import * as React from 'react-native';
-const {
+import * as React from 'react';
+import { Component } from 'react';
+import {
           ScrollView,
           StyleSheet,
           View,
-          } = React
+} from 'react-native';
 
 import RNTSExplorerTitle from './RNTSExplorerTitle'
 

@@ -3,7 +3,7 @@
  * This file is not part of the original UIExplorer
  */
 
-import * as React from 'react-native';
+import * as React from 'react';
 
 interface RNTSExample extends React.ComponentClass<any> {
 
