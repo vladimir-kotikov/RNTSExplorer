@@ -16,22 +16,25 @@ import ValidationMap = __React.ValidationMap;
  */
 'use strict'
 
-import * as React from 'react-native';
-const {
+import * as React from 'react';
+import {  Component  } from 'react';
+import {
           StyleSheet,
+          ViewStyle,
+          TextStyle,
           Text,
           View,
-          } = React
+          } from 'react-native';
 
 interface Style { 
-  container: React.ViewStyle,
-  titleContainer: React.ViewStyle,
-  titleRow: React.ViewStyle,
-  titleText: React.TextStyle,
-  descriptionText: React.TextStyle,
-  disclosure: React.ViewStyle,
-  disclosureIcon: React.ViewStyle,
-  children: React.ViewStyle,
+  container: ViewStyle,
+  titleContainer: ViewStyle,
+  titleRow: ViewStyle,
+  titleText: TextStyle,
+  descriptionText: TextStyle,
+  disclosure: ViewStyle,
+  disclosureIcon: ViewStyle,
+  children: ViewStyle,
 }
 
 const styles = StyleSheet.create<Style>(
@@ -90,7 +93,7 @@ namespace RNTSExplorerBlock {
     }
 }
 
-class RNTSExplorerBlock extends React.Component<RNTSExplorerBlock.Props, RNTSExplorerBlock.State> {
+class RNTSExplorerBlock extends Component<RNTSExplorerBlock.Props, RNTSExplorerBlock.State> {
 
     static propTypes: ValidationMap<any> = {
         title:       React.PropTypes.string,

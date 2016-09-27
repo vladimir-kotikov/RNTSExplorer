@@ -17,21 +17,39 @@
 
 'use strict'
 
-import * as React from 'react-native';
-const { NavigatorIOS } = React;
+import * as React from 'react';
+import { Component } from 'react';
+import {
+  NavigatorIOS,
+  StyleSheet,
+  ViewStyle,
+  Text,
+  View
+} from 'react-native';
 
 import RNTSExplorerList from './RNTSExplorerList'
 
-
-const styles = React.StyleSheet.create(
+const styles = StyleSheet.create(
     {
-        container: {
-                       flex: 1
-                   } as React.ViewStyle,
-
         itemWrapper: {
                          backgroundColor: '#eaeaea'
-                     } as React.ViewStyle
+                     } as ViewStyle,
+        container: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#F5FCFF',
+        } as ViewStyle,
+        welcome: {
+            fontSize: 20,
+            textAlign: 'center',
+            margin: 10,
+        } as ViewStyle,
+        instructions: {
+            textAlign: 'center',
+            color: '#333333',
+            marginBottom: 5,
+        } as ViewStyle,
     }
 )
 
@@ -43,7 +61,7 @@ module RNTSExplorerApp {
 
 }
 
-class RNTSExplorerApp extends React.Component<any, RNTSExplorerApp.State> {
+class RNTSExplorerApp extends Component<any, RNTSExplorerApp.State> {
 
 
     componentWillMount() {
@@ -76,5 +94,28 @@ class RNTSExplorerApp extends React.Component<any, RNTSExplorerApp.State> {
         )
     }
 }
-
+          /*<View style={styles.container}>
+            <Text style={styles.welcome}>
+              Welcome to React Native! TS
+            </Text>
+            <Text style={styles.instructions}>
+              To get started, edit index.ios.js
+            </Text>
+            <Text style={styles.instructions}>
+              Press Cmd+R to reload,{'\n'}
+              Cmd+D or shake for dev menu
+            </Text>
+          </View>*/
+/*<NavigatorIOS
+                style={styles.container}
+                initialRoute={{
+                      title: 'RNTSExplorer',
+                      component: RNTSExplorerList,
+                      passProps: {
+                            onExternalExampleRequested: (example: any) => this.setState({ openExternalExample: example })
+                            }
+                }}
+                itemWrapperStyle={styles.itemWrapper}
+                tintColor='#008888'
+            />*/
 export default RNTSExplorerApp
