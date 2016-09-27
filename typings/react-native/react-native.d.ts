@@ -1803,9 +1803,22 @@ declare namespace  __React {
         animating?: boolean
 
         /**
-         * The foreground color of the spinner (default is gray).
+         * The foreground color of the spinner (default is gray). Valid color formats are:
+         *   - '#f0f' (#rgb)
+         *   - '#f0fc' (#rgba)
+         *   - '#ff00ff' (#rrggbb)
+         *   - '#ff00ff00' (#rrggbbaa)
+         *   - 'rgb(255, 255, 255)'
+         *   - 'rgba(255, 255, 255, 1.0)'
+         *   - 'hsl(360, 100%, 100%)'
+         *   - 'hsla(360, 100%, 100%, 1.0)'
+         *   - 'transparent'
+         *   - 'red'
+         *   - 0xff00ff00 (0xrrggbbaa)
+         *
+         * @see https://facebook.github.io/react-native/docs/colors.html
          */
-        color?: string
+        color?: string | number
 
         /**
          * Whether the indicator should hide when not animating (true by default).
@@ -1818,14 +1831,14 @@ declare namespace  __React {
          *
          * enum('small', 'large')
          */
-        size?: 'small' | 'large'
+        size?: number | 'small' | 'large'
 
         style?: ViewStyle
 
         ref?: Ref<ActivityIndicatorStatic>
     }
 
-    export interface ActivityIndicatorStatic extends React.ComponentClass<ActivityIndicatorProperties> {
+    export interface ActivityIndicatorStatic extends React.NativeComponent, React.ClassicComponentClass<ActivityIndicatorProperties> {
     }
 
 
@@ -3377,11 +3390,11 @@ declare namespace  __React {
         debugOverlay?: boolean
 
     }
-    
+
    /**
    * Class that contains the info and methods for app navigation.
    */
-    export interface NavigationContext { 
+    export interface NavigationContext {
         parent: NavigationContext;
         top: NavigationContext;
         currentRoute: any;
@@ -4739,7 +4752,7 @@ declare namespace  __React {
          */
         getPhotos(params: GetPhotosParamType): Promise<GetPhotosReturnType>;
     }
-//CameraRollFetchParams
+    //CameraRollFetchParams
     export interface ClipboardStatic {
         getString(): Promise<string>;
         setString(content: string): void;
