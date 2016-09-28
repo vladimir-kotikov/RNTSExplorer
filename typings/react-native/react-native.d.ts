@@ -2834,7 +2834,10 @@ declare namespace  __React {
      */
     export interface ListViewProperties extends ScrollViewProperties, React.Props<ListViewStatic> {
 
-        dataSource?: ListViewDataSource
+        /**
+         * An instance of [ListView.DataSource](docs/listviewdatasource.html) to use
+         */
+        dataSource: ListViewDataSource
 
         /**
          * Flag indicating whether empty section headers should be rendered.
@@ -2881,7 +2884,7 @@ declare namespace  __React {
         pageSize?: number
 
         /**
-         * An experimental performance optimization for improving scroll perf of
+         * A performance optimization for improving scroll perf of
          * large lists, used in conjunction with overflow: 'hidden' on the row
          * containers.  Use at your own risk.
          */
@@ -2914,7 +2917,7 @@ declare namespace  __React {
          * is exactly what was put into the data source, but it's also possible to
          * provide custom extractors.
          */
-        renderRow?: ( rowData: any, sectionID: string | number, rowID: string | number, highlightRow?: boolean ) => React.ReactElement<any>
+        renderRow: ( rowData: any, sectionID: string | number, rowID: string | number, highlightRow?: boolean ) => React.ReactElement<any>
 
 
         /**
@@ -2949,13 +2952,45 @@ declare namespace  __React {
          */
         scrollRenderAheadDistance?: number
 
+        /**
+         * An array of child indices determining which children get docked to the
+         * top of the screen when scrolling. For example, passing
+         * `stickyHeaderIndices={[0]}` will cause the first child to be fixed to the
+         * top of the scroll view. This property is not supported in conjunction
+         * with `horizontal={true}`.
+         * @platform ios
+         */
+        stickyHeaderIndices?: number[]
+
         ref?: Ref<ListViewStatic & ScrollViewStatic & ViewStatic>
     }
 
+    // TODO: extend ScrollResponder.Mixin, TimerMixin (https://github.com/facebook/react-native/blob/master\Libraries\CustomComponents\ListView\ListView.js#L116)
     export interface ListViewStatic extends React.ComponentClass<ListViewProperties> {
         DataSource: ListViewDataSource;
-    }
 
+        /**
+         * Exports some data, e.g. for perf investigations or analytics.
+         */
+        getMetrics: () => {
+            contentLength: number,
+            totalRows: number,
+            renderedRows: number,
+            visibleRows: number,
+        }
+
+        /**
+         * Provides a handle to the underlying scroll responder.
+         */
+        getScrollResponder: () => any,
+
+        /**
+         * Scrolls to a given x, y offset, either immediately or with a smooth animation.
+         *
+         * See `ScrollView#scrollTo`.
+         */
+        scrollTo: ( y?: number | { x?: number, y?: number, animated?: boolean } , x?: number, animated?: boolean ) => void,
+    }
 
     export interface MapViewAnnotation {
         latitude?: number
@@ -6094,6 +6129,8 @@ declare namespace  __React {
     export var Image: ImageStatic
     export type Image = ImageStatic
 
+    // TODO: ImageEditor, ImageStore, KeyboardAvoidingView
+
     export var LayoutAnimation: LayoutAnimationStatic
     export type LayoutAnimation = LayoutAnimationStatic
 
@@ -6367,5 +6404,3 @@ declare function require( name: string ): any
  * <code> if (__DEV__) console.log('Running in dev mode')</code>
  */
 declare var __DEV__: boolean
-
-
