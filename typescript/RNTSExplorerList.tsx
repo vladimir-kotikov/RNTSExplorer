@@ -78,15 +78,15 @@ const COMPONENTS: RNTSExampleModule[] = [
     WebViewExample
 ]
 
-// import ActionSheetIOSExample from './apis/ActionSheetIOSExample'
-// import AdSupportIOSExample  from './apis/AdSupportIOSExample'
+import ActionSheetIOSExample from './apis/ActionSheetIOSExample'
+import AdSupportIOSExample  from './apis/AdSupportIOSExample'
 import AlertIOSExample from './apis/AlertIOSExample'
-// import AppStateIOSExample from './apis/AppStateIOSExample'
-// import AsyncStorageExample from './apis/AsyncStorageExample'
-// import BorderExample from './apis/BorderExample'
-// import CameraRollExample from './apis/CameraRollExample.ios'
-// import GeolocationExample from './apis/GeolocationExample'
-// import LayoutExample from './apis/LayoutExample'
+import AppStateIOSExample from './apis/AppStateIOSExample'
+import AsyncStorageExample from './apis/AsyncStorageExample'
+import BorderExample from './apis/BorderExample'
+import CameraRollExample from './apis/CameraRollExample.ios'
+import GeolocationExample from './apis/GeolocationExample'
+import LayoutExample from './apis/LayoutExample'
 // import NetInfoExample from './apis/NetInfoExample'
 // import PanResponderExample from './apis/PanResponderExample'
 // import PointerEventsExample from './apis/PointerEventsExample'
@@ -96,15 +96,15 @@ import AlertIOSExample from './apis/AlertIOSExample'
 // import VibrationIOSExample from './apis/VibrationIOSExample'
 
 const APIS: RNTSExampleModule[] = [
-    // ActionSheetIOSExample,
-    // AdSupportIOSExample,
+    ActionSheetIOSExample,
+    AdSupportIOSExample,
     AlertIOSExample,
-    // AppStateIOSExample,
-    // AsyncStorageExample,
-    // BorderExample,
-    // CameraRollExample,
-    // GeolocationExample,
-    // LayoutExample,
+    AppStateIOSExample,
+    AsyncStorageExample,
+    BorderExample,
+    CameraRollExample,
+    GeolocationExample,
+    LayoutExample,
     // NetInfoExample,
     // PanResponderExample,
     // PointerEventsExample,

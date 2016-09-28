@@ -17,18 +17,18 @@ import ValidationMap = __React.ValidationMap;
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 
-const {
+import {
           ActivityIndicatorIOS,
           CameraRoll,
           Image,
           ListView,
           StyleSheet,
           View,
-          } = React
+} from 'react-native';
 
 const groupByEveryN = require( 'groupByEveryN' )
 const logError = require( 'logError' )

@@ -16,11 +16,11 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 
-const {
+import {
           CameraRoll,
           Image,
           SliderIOS,
@@ -28,7 +28,7 @@ const {
           SwitchIOS,
           Text,
           View,
-          } = React
+} from 'react-native';
 
 import CameraRollView from './CameraRollView.ios'
 

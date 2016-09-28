@@ -16,17 +16,17 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 
-const {
+import {
           AsyncStorage,
           PickerIOS,
           Text,
           View
-          } = React
-const PickerItemIOS = React.PickerIOS.Item
+} from 'react-native';
+const PickerItemIOS = PickerIOS.Item
 
 const STORAGE_KEY = '@AsyncStorageExample:key'
 const COLORS = [ 'red', 'orange', 'yellow', 'green', 'blue' ]
