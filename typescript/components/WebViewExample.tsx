@@ -16,18 +16,18 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 
-const {
+import {
           StyleSheet,
           Text,
           TextInput,
           TouchableOpacity,
           View,
           WebView
-          } = React
+} from 'react-native';
 
 const HEADER = '#3b5998'
 const BGWASH = 'rgba(255,255,255,0.8)'

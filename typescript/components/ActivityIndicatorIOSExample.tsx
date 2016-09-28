@@ -16,17 +16,17 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
 import * as reactMixin from 'react-mixin'
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 import TimerMixin from 'react-timer-mixin'
 
-const {
+import {
           ActivityIndicatorIOS,
           StyleSheet,
           View,
-          } = React
+       } from 'react-native';
 
 interface Style { 
   centering: React.ViewStyle,

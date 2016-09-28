@@ -40,42 +40,42 @@ import RNTSExample from './RNTSExample'
 import NavigatorIOSExample from './components/NavigatorIOSExample'
 import NavigatorExample from './components/navigator/NavigatorExample'
 import ViewExample from './components/ViewExample'
-// import ActivityIndicatorIOSExample from './components/ActivityIndicatorIOSExample'
-// import DatePickerIOSExample from './components/DatePickerIOSExample'
+import ActivityIndicatorIOSExample from './components/ActivityIndicatorIOSExample'
+import DatePickerIOSExample from './components/DatePickerIOSExample'
 import ImageExample from './components/ImageExample'
-// import ListViewExample from './components/ListViewExample'
-// import ListViewPagingExample from './components/ListViewPagingExample'
-// import MapViewExample from './components/MapViewExample'
-// import PickerIOSExample from './components/PickerIOSExample'
-// import ScrollViewExample from './components/ScrollViewExample'
-// import SliderIOSExample from './components/SliderIOSExample'
-// import SwitchIOSExample from './components/SwitchIOSExample'
-// import TabBarIOSExample from './components/TabBarIOSExample'
-// import TextExample from './components/TextExample.ios'
-// import TextInputExample from './components/TextInputExample'
-// import TouchableExample from './components/TouchableExample'
-// import WebViewExample from './components/WebViewExample'
+import ListViewExample from './components/ListViewExample'
+import ListViewPagingExample from './components/ListViewPagingExample'
+import MapViewExample from './components/MapViewExample'
+import PickerIOSExample from './components/PickerIOSExample'
+import ScrollViewExample from './components/ScrollViewExample'
+import SliderIOSExample from './components/SliderIOSExample'
+import SwitchIOSExample from './components/SwitchIOSExample'
+import TabBarIOSExample from './components/TabBarIOSExample'
+import TextExample from './components/TextExample.ios'
+import TextInputExample from './components/TextInputExample'
+import TouchableExample from './components/TouchableExample'
+import WebViewExample from './components/WebViewExample'
 
 
 const COMPONENTS: RNTSExampleModule[] = [
-    // ActivityIndicatorIOSExample,
-    // DatePickerIOSExample,
+    ActivityIndicatorIOSExample,
+    DatePickerIOSExample,
     ImageExample,
-    // ListViewExample,
-    // ListViewPagingExample,
-    // MapViewExample,
+    ListViewExample,
+    ListViewPagingExample,
+    MapViewExample,
     NavigatorExample,
     NavigatorIOSExample,
-    // PickerIOSExample,
-    // ScrollViewExample,
-    // SliderIOSExample,
-    // SwitchIOSExample,
-    // TabBarIOSExample,
-    // TextExample,
-    // TextInputExample,
-    // TouchableExample,
+    PickerIOSExample,
+    ScrollViewExample,
+    SliderIOSExample,
+    SwitchIOSExample,
+    TabBarIOSExample,
+    TextExample,
+    TextInputExample,
+    TouchableExample,
     ViewExample,
-    // WebViewExample
+    WebViewExample
 ]
 
 // import ActionSheetIOSExample from './apis/ActionSheetIOSExample'

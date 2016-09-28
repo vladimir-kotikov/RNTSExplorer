@@ -16,11 +16,11 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 
-const {
+import {
           PixelRatio,
           Image,
           StyleSheet,
@@ -28,7 +28,7 @@ const {
           TouchableHighlight,
           TouchableOpacity,
           View,
-          } = React
+} from 'react-native';
 
 interface Style { 
   row: React.ViewStyle,

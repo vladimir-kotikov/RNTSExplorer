@@ -16,15 +16,15 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 
-const {
+import {
           PickerIOS,
           Text,
           View
-          } = React
+       } from 'react-native';
 
 const PickerItemIOS = PickerIOS.Item
 
