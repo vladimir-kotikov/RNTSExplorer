@@ -2557,7 +2557,7 @@ declare namespace  __React {
 
     }
 
-    export type ImageResizeMode =  "contain" | "cover" | "stretch"
+    export type ImageResizeMode =  "contain" | "cover" | "stretch" | "center" | "repeat"
 
     /**
      * @see ImageResizeMode.js
@@ -2579,6 +2579,18 @@ declare namespace  __React {
          * distoring it.  Only supported on iOS.
          */
         stretch: ImageResizeMode
+        /**
+         * center - The image will be scaled down such that it is completely visible,
+         * if bigger than the area of the view.
+         * The image will not be scaled up.
+         */
+        center: ImageResizeMode,
+
+        /**
+         * repeat - The image will be repeated to cover the frame of the View. The
+         * image will keep it's size and aspect ratio.
+         */
+        repeat: ImageResizeMode,
     }
 
     export interface ShadowStyleIOS {
@@ -2587,12 +2599,13 @@ declare namespace  __React {
         shadowOpacity?: number
         shadowRadius?: number
     }
+
     /**
      * Image style
      * @see https://facebook.github.io/react-native/docs/image.html#style
      */
-    export interface ImageStyle extends FlexStyle, TransformsStyle {
-        resizeMode?: string //Object.keys(ImageResizeMode)
+    export interface ImageStyle extends FlexStyle, TransformsStyle, ShadowStyleIOS {
+        resizeMode?: React.ImageResizeMode
         backfaceVisibility?: "visible" | "hidden"
         borderBottomLeftRadius?: number
         borderBottomRightRadius?: number
@@ -2620,6 +2633,12 @@ declare namespace  __React {
         accessible?: boolean;
 
         /**
+        * blurRadius: the blur radius of the blur filter added to the image
+        * @platform ios
+        */
+        blurRadius?: number,
+
+        /**
          * When the image is resized, the corners of the size specified by capInsets will stay a fixed size,
          * but the center content and borders of the image will be stretched.
          * This is useful for creating resizable rounded buttons, shadows, and other resizable assets.
@@ -2630,7 +2649,7 @@ declare namespace  __React {
         /**
          * A static image to display while downloading the final image off the network.
          */
-        defaultSource?: {uri: string} | number
+        defaultSource?: ImageURISource | number
 
         /**
          * Invoked on load error with {nativeEvent: {error}}
@@ -2641,12 +2660,66 @@ declare namespace  __React {
          * Invoked on download progress with {nativeEvent: {loaded, total}}
          */
         onProgress?: ()=> void
+
+        /**
+         * Invoked when a partial load of the image is complete. The definition of
+         * what constitutes a "partial load" is loader specific though this is meant
+         * for progressive JPEG loads.
+         * @platform ios
+         */
+        onPartialLoad?: () => void,
+    }
+
+    /*
+     * @see https://github.com/facebook/react-native/blob/master/Libraries/Image/ImageSourcePropType.js
+     */
+    interface ImageURISource {
+        /**
+         * `uri` is a string representing the resource identifier for the image, which
+         * could be an http address, a local file path, or the name of a static image
+         * resource (which should be wrapped in the `require('./path/to/image.png')`
+         * function).
+         */
+        uri?: string,
+        /**
+         * `bundle` is the iOS asset bundle which the image is included in. This
+         * will default to [NSBundle mainBundle] if not set.
+         * @platform ios
+         */
+        bundle?: string,
+        /**
+         * `method` is the HTTP Method to use. Defaults to GET if not specified.
+         */
+        method?: string,
+        /**
+         * `headers` is an object representing the HTTP headers to send along with the
+         * request for a remote image.
+         */
+        headers?: {[key: string]: string},
+        /**
+         * `body` is the HTTP body to send with the request. This must be a valid
+         * UTF-8 string, and will be sent exactly as specified, with no
+         * additional encoding (e.g. URL-escaping or base64) applied.
+         */
+        body?: string,
+        /**
+         * `width` and `height` can be specified if known at build time, in which case
+         * these will be used to set the default `<Image/>` component dimensions.
+         */
+        width?: number,
+        height?: number,
+        /**
+         * `scale` is used to indicate the scale factor of the image. Defaults to 1.0 if
+         * unspecified, meaning that one image pixel equates to one display point / DIP.
+         */
+        scale?: number,
     }
 
     /**
      * @see https://facebook.github.io/react-native/docs/image.html
      */
     export interface ImageProperties extends ImagePropertiesIOS, React.Props<Image> {
+        fadeDuration?: number
         /**
          * onLayout function
          *
@@ -2671,20 +2744,68 @@ declare namespace  __React {
          */
         onLoadStart?: () => void
 
+        progressiveRenderingEnabled?: boolean
 
         /**
-         * Determines how to resize the image when the frame doesn't match the raw image dimensions.
+         * Determines how to resize the image when the frame doesn't match the raw
+         * image dimensions.
          *
-         * enum('cover', 'contain', 'stretch')
+         * 'cover': Scale the image uniformly (maintain the image's aspect ratio)
+         * so that both dimensions (width and height) of the image will be equal
+         * to or larger than the corresponding dimension of the view (minus padding).
+         *
+         * 'contain': Scale the image uniformly (maintain the image's aspect ratio)
+         * so that both dimensions (width and height) of the image will be equal to
+         * or less than the corresponding dimension of the view (minus padding).
+         *
+         * 'stretch': Scale width and height independently, This may change the
+         * aspect ratio of the src.
+         *
+         * 'center': Scale the image down so that it is completely visible,
+         * if bigger than the area of the view.
+         * The image will not be scaled up.
          */
-        resizeMode?: ImageResizeMode
+        resizeMode?: 'cover' |'contain' |'stretch' |'center'
 
         /**
-         * uri is a string representing the resource identifier for the image,
-         * which could be an http address, a local file path,
-         * or the name of a static image resource (which should be wrapped in the require('image!name') function).
+         * The mechanism that should be used to resize the image when the image's dimensions
+         * differ from the image view's dimensions. Defaults to `auto`.
+         *
+         * - `auto`: Use heuristics to pick between `resize` and `scale`.
+         *
+         * - `resize`: A software operation which changes the encoded image in memory before it
+         * gets decoded. This should be used instead of `scale` when the image is much larger
+         * than the view.
+         *
+         * - `scale`: The image gets drawn downscaled or upscaled. Compared to `resize`, `scale` is
+         * faster (usually hardware accelerated) and produces higher quality images. This
+         * should be used if the image is smaller than the view. It should also be used if the
+         * image is slightly bigger than the view.
+         *
+         * More details about `resize` and `scale` can be found at http://frescolib.org/docs/resizing-rotating.html.
+         *
+         * @platform android
          */
-        source: {uri: string} | string;
+        resizeMethod: 'auto' | 'resize' | 'scale'
+
+        /**
+         * `uri` is a string representing the resource identifier for the image, which
+         * could be an http address, a local file path, or a static image
+         * resource (which should be wrapped in the `require('./path/to/image.png')` function).
+         * This prop can also contain several remote `uri`, specified together with
+         * their width and height. The native side will then choose the best `uri` to display
+         * based on the measured size of the image container.
+         */
+        // source: {uri: string} | number | {uri: string, width: number, height: number}[];
+
+        source: ImageURISource | ImageURISource[]
+
+        /**
+         * similarly to `source`, this property represents the resource used to render
+         * the loading indicator for the image, displayed until image is ready to be
+         * displayed, typically after when it got downloaded from network.
+         */
+        loadingIndicatorSource?: ImageURISource;
 
         /**
          *
@@ -2699,11 +2820,13 @@ declare namespace  __React {
 
     }
 
-    export interface ImageStatic extends React.ComponentClass<ImageProperties> {
-        uri: string;
+    export interface ImageStatic extends React.NativeComponent, React.ComponentClass<ImageProperties> {
         resizeMode: ImageResizeMode
         getSize(uri: string, success: (width: number, height: number) => void, failure: (error: any) => void): any
         prefetch(url: string): any
+        // TODO: methods below available on android only
+        abortPrefetch(requestId: number): void
+        queryCache(urls: string[]): Promise<Map<string, 'memory' | 'disk'>>
     }
 
     /**
