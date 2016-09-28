@@ -3004,11 +3004,21 @@ declare namespace  __React {
     }
 
     export interface MapViewAnnotation {
-        latitude?: number
-        longitude?: number
+        latitude: number
+        longitude: number
         animateDrop?: boolean
+        draggable?: boolean
+        onDragStateChange?: () => any,
+        onFocus?: () => any,
+        onBlur?: () => any,
         title?: string
         subtitle?: string
+        leftCalloutView: ReactElement<any>
+        rightCalloutView: ReactElement<any>
+        detailCalloutView: ReactElement<any>
+        tintColor?: string
+        image?: ImageURISource
+        view?: ReactElement<any>
         hasLeftCallout?: boolean
         hasRightCallout?: boolean
         onLeftCalloutPress?: () => void
@@ -3026,12 +3036,13 @@ declare namespace  __React {
     export interface MapViewOverlay {
         coordinates: ({latitude: number, longitude: number})[]
         lineWidth?: number
-        strokeColor?: Object
-        fillColor?: Object
+        strokeColor?: string
+        fillColor?: string
         id?: string
     }
 
-    export interface MapViewPropertiesIOS {
+    export interface MapViewProperties extends ViewProperties, React.Props<MapViewStatic> {
+
 
         /**
          * If false points of interest won't be displayed on the map.
@@ -3040,39 +3051,11 @@ declare namespace  __React {
         showsPointsOfInterest?: boolean
 
         /**
-         * Map annotations with title/subtitle.
-         */
-        annotations?: MapViewAnnotation[]
-
-        /**
-         * If true the map will follow the user's location whenever it changes. Note that this has no effect unless showsUserLocation is enabled. Default value is true.
+         * If true the map will follow the user's location whenever it changes.
+         * Note that this has no effect unless showsUserLocation is enabled.
+         * Default value is true.
          */
         followUserLocation?: boolean
-
-        /**
-         * Insets for the map's legal label, originally at bottom left of the map. See EdgeInsetsPropType.js for more information.
-         */
-        legalLabelInsets?: Insets
-
-        /**
-         * The map type to be displayed.
-         *     standard: standard road map (default)
-         *     satellite: satellite view
-         *     hybrid: satellite view with roads and points of interest overlayed
-         *
-         * enum('standard', 'satellite', 'hybrid')
-         */
-        mapType?: string
-
-        /**
-         * Maximum size of area that can be displayed.
-         */
-        maxDelta?: number
-
-        /**
-         * Minimum size of area that can be displayed.
-         */
-        minDelta?: number
 
         /**
          * Map overlays
@@ -3084,13 +3067,6 @@ declare namespace  __React {
          * Default value is true.
          */
         showsCompass?: boolean
-    }
-
-    export interface MapViewPropertiesAndroid {
-        active?: boolean
-    }
-
-    export interface MapViewProperties extends MapViewPropertiesIOS, MapViewPropertiesAndroid, Touchable, React.Props<MapViewStatic> {
 
         /**
          * Map annotations with title/subtitle.
@@ -3110,7 +3086,7 @@ declare namespace  __React {
          *
          * enum('standard', 'satellite', 'hybrid')
          */
-        mapType?: string
+        mapType?: 'standard' |'satellite' |'hybrid'
 
         /**
          * Maximum size of area that can be displayed.
@@ -3177,12 +3153,6 @@ declare namespace  __React {
         showsUserLocation?: boolean
 
         /**
-         * Used to style and layout the MapView.
-         * See StyleSheet.js and ViewStylePropTypes.js for more info.
-         */
-        style?: ViewStyle
-
-        /**
          * If false the user won't be able to pinch/zoom the map.
          * Default value is true.
          */
@@ -3194,7 +3164,12 @@ declare namespace  __React {
     /**
      * @see https://facebook.github.io/react-native/docs/mapview.html#content
      */
-    export interface MapViewStatic extends React.ComponentClass<MapViewProperties> {
+    export interface MapViewStatic extends React.NativeComponent, React.ComponentClass<MapViewProperties> {
+        PinColors: {
+            RED: string,
+            GREEN: string,
+            PURPLE: string
+        }
     }
 
     export interface ModalProperties extends React.Props<ModalStatic> {
