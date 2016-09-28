@@ -436,6 +436,9 @@ declare namespace  __React {
         borderWidth?: number
         bottom?: number
         flex?: number
+        flexGrow?: number
+        flexShrink?: number
+        flexBasis?: number
         flexDirection?: "row" | "column" | "row-reverse" | "column-reverse"
         flexWrap?: "wrap" | "nowrap"
         height?: number
@@ -452,6 +455,7 @@ declare namespace  __React {
         marginRight?: number
         marginTop?: number
         marginVertical?: number
+        overflow?: "visible" | "hidden" | "scroll"
         padding?: number
         paddingBottom?: number
         paddingHorizontal?: number
@@ -2577,6 +2581,12 @@ declare namespace  __React {
         stretch: ImageResizeMode
     }
 
+    export interface ShadowStyleIOS {
+        shadowColor?: string
+        shadowOffset?: {width: number, height: number}
+        shadowOpacity?: number
+        shadowRadius?: number
+    }
     /**
      * Image style
      * @see https://facebook.github.io/react-native/docs/image.html#style
