@@ -2965,8 +2965,19 @@ declare namespace  __React {
         ref?: Ref<ListViewStatic & ScrollViewStatic & ViewStatic>
     }
 
-    // TODO: extend ScrollResponder.Mixin, TimerMixin (https://github.com/facebook/react-native/blob/master\Libraries\CustomComponents\ListView\ListView.js#L116)
-    export interface ListViewStatic extends React.ComponentClass<ListViewProperties> {
+    interface TimerMixin {
+        setTimeout: typeof setTimeout,
+        clearTimeout: typeof clearTimeout,
+        setInterval: typeof setInterval,
+        clearInterval: typeof clearInterval,
+        setImmediate: typeof setImmediate,
+        clearImmediate: typeof clearImmediate,
+        requestAnimationFrame: typeof requestAnimationFrame,
+        cancelAnimationFrame: typeof cancelAnimationFrame,
+    }
+
+    // TODO: extend ScrollResponder.Mixin (https://github.com/facebook/react-native/blob/master\Libraries\CustomComponents\ListView\ListView.js#L116)
+    export interface ListViewStatic extends TimerMixin, React.ComponentClass<ListViewProperties> {
         DataSource: ListViewDataSource;
 
         /**
