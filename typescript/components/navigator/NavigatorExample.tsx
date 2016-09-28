@@ -16,17 +16,17 @@
  */
 'use strict'
 
-import * as React from 'react-native';
-const {
+import * as React from 'react';
+import {
           Navigator,
           PixelRatio,
           ScrollView,
           StyleSheet,
           Text,
           TouchableHighlight,
-          } = React
+          } from 'react-native';
 import NavigationBarSample from './NavigationBarSample'
-import  JumpingNavSample from './JumpingNavSample'
+import JumpingNavSample from './JumpingNavSample'
 import BreadcrumbNavSample from './BreadcrumbNavSample'
 
 interface Style { 

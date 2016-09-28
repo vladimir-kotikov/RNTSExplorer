@@ -37,7 +37,7 @@ const styles = StyleSheet.create(
         container: {
             flex: 1,
             justifyContent: 'center',
-            alignItems: 'center',
+            //alignItems: 'center',
             backgroundColor: '#F5FCFF',
         } as ViewStyle,
         welcome: {
@@ -85,8 +85,8 @@ class RNTSExplorerApp extends Component<any, RNTSExplorerApp.State> {
                       title: 'RNTSExplorer',
                       component: RNTSExplorerList,
                       passProps: {
-                            onExternalExampleRequested: (example: any) => this.setState({ openExternalExample: example })
-                            }
+                          onExternalExampleRequested: (example: any) => this.setState({ openExternalExample: example })
+                      }
                 }}
                 itemWrapperStyle={styles.itemWrapper}
                 tintColor='#008888'
@@ -94,28 +94,5 @@ class RNTSExplorerApp extends Component<any, RNTSExplorerApp.State> {
         )
     }
 }
-          /*<View style={styles.container}>
-            <Text style={styles.welcome}>
-              Welcome to React Native! TS
-            </Text>
-            <Text style={styles.instructions}>
-              To get started, edit index.ios.js
-            </Text>
-            <Text style={styles.instructions}>
-              Press Cmd+R to reload,{'\n'}
-              Cmd+D or shake for dev menu
-            </Text>
-          </View>*/
-/*<NavigatorIOS
-                style={styles.container}
-                initialRoute={{
-                      title: 'RNTSExplorer',
-                      component: RNTSExplorerList,
-                      passProps: {
-                            onExternalExampleRequested: (example: any) => this.setState({ openExternalExample: example })
-                            }
-                }}
-                itemWrapperStyle={styles.itemWrapper}
-                tintColor='#008888'
-            />*/
+
 export default RNTSExplorerApp

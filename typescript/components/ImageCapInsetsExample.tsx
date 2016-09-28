@@ -16,16 +16,17 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
+import { Component } from 'react';
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 
-const {
+import {
           Image,
           StyleSheet,
           Text,
           View,
-          } = React
+          } from 'react-native';
 
 interface Style { 
   background: React.ViewStyle,

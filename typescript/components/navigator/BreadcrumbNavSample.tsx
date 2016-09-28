@@ -16,8 +16,8 @@
 
 'use strict'
 
-import * as React from 'react-native';
-const {
+import * as React from 'react';
+import {
           PixelRatio,
           Navigator,
           StyleSheet,
@@ -26,7 +26,7 @@ const {
           TouchableHighlight,
           TouchableOpacity,
           View,
-          } = React
+          } from 'react-native';
 
 interface RandomRoute extends React.Route {
     title: string

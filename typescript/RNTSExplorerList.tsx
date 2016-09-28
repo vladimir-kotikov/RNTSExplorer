@@ -29,7 +29,8 @@ import {
           TextInput,
           TouchableHighlight,
           View
-          } from 'react-native';
+       } from 'react-native';
+
 import TestModule = addons.TestModule;
 
 import createExamplePage from './createExamplePage'
@@ -37,11 +38,11 @@ import createExamplePage from './createExamplePage'
 
 import RNTSExample from './RNTSExample'
 import NavigatorIOSExample from './components/NavigatorIOSExample'
-// import NavigatorExample from './components/navigator/NavigatorExample'
-// import ViewExample from './components/ViewExample'
+import NavigatorExample from './components/navigator/NavigatorExample'
+import ViewExample from './components/ViewExample'
 // import ActivityIndicatorIOSExample from './components/ActivityIndicatorIOSExample'
 // import DatePickerIOSExample from './components/DatePickerIOSExample'
-// import ImageExample from './components/ImageExample'
+import ImageExample from './components/ImageExample'
 // import ListViewExample from './components/ListViewExample'
 // import ListViewPagingExample from './components/ListViewPagingExample'
 // import MapViewExample from './components/MapViewExample'
@@ -59,11 +60,11 @@ import NavigatorIOSExample from './components/NavigatorIOSExample'
 const COMPONENTS: RNTSExampleModule[] = [
     // ActivityIndicatorIOSExample,
     // DatePickerIOSExample,
-    // ImageExample,
+    ImageExample,
     // ListViewExample,
     // ListViewPagingExample,
     // MapViewExample,
-    // NavigatorExample,
+    NavigatorExample,
     NavigatorIOSExample,
     // PickerIOSExample,
     // ScrollViewExample,
@@ -73,13 +74,13 @@ const COMPONENTS: RNTSExampleModule[] = [
     // TextExample,
     // TextInputExample,
     // TouchableExample,
-    // ViewExample,
+    ViewExample,
     // WebViewExample
 ]
 
 // import ActionSheetIOSExample from './apis/ActionSheetIOSExample'
 // import AdSupportIOSExample  from './apis/AdSupportIOSExample'
-// import AlertIOSExample from './apis/AlertIOSExample'
+import AlertIOSExample from './apis/AlertIOSExample'
 // import AppStateIOSExample from './apis/AppStateIOSExample'
 // import AsyncStorageExample from './apis/AsyncStorageExample'
 // import BorderExample from './apis/BorderExample'
@@ -97,7 +98,7 @@ const COMPONENTS: RNTSExampleModule[] = [
 const APIS: RNTSExampleModule[] = [
     // ActionSheetIOSExample,
     // AdSupportIOSExample,
-    // AlertIOSExample,
+    AlertIOSExample,
     // AppStateIOSExample,
     // AsyncStorageExample,
     // BorderExample,
@@ -302,12 +303,12 @@ class RNTSExplorerList extends React.Component<any,any> {
     }
 
     private _onPressRow = ( example: any ): void => {
-        // if ( example === NavigatorExample ) {
-        //     this.props.onExternalExampleRequested(
-        //         NavigatorExample
-        //     )
-        //     return
-        // }
+        if ( example === NavigatorExample ) {
+            this.props.onExternalExampleRequested(
+                NavigatorExample
+            )
+            return
+        }
         var Component = makeRenderable( example )
         this.props.navigator.push(
             {

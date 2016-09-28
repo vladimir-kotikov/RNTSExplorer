@@ -17,8 +17,8 @@
 
 'use strict'
 
-import * as React from 'react-native';
-const {
+import * as React from 'react';
+import {
           Navigator,
           PixelRatio,
           StyleSheet,
@@ -27,7 +27,7 @@ const {
           Text,
           TouchableHighlight,
           View,
-          } = React
+          } from 'react-native';
 
 const NAVIGATOR_REF = 'navigator'
 const JUMPING_NAV_BAR_REF = 'jumpingNavBar'

@@ -15,8 +15,8 @@
  *
  */
 
-import * as React from 'react-native';
-const {
+import * as React from 'react';
+import {
           PixelRatio,
           Navigator,
           ScrollView,
@@ -25,7 +25,7 @@ const {
           TouchableHighlight,
           TouchableOpacity,
           View
-          } = React
+          } from 'react-native';
 
 interface Style { 
   messageText: React.TextStyle,
