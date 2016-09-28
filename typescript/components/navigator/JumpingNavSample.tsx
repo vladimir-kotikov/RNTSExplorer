@@ -185,7 +185,7 @@ class JumpingNavSample extends React.Component<any,any> {
                 initialRoute={ROUTE_STACK[INIT_ROUTE_INDEX]}
                 initialRouteStack={ROUTE_STACK}
                 renderScene={this.renderScene}
-                configureScene={() => React.Navigator.SceneConfigs.HorizontalSwipeJump}
+                configureScene={() => Navigator.SceneConfigs.HorizontalSwipeJump}
                 navigationBar={
                     <JumpingNavBar
                         //TODO: Fix this use case
