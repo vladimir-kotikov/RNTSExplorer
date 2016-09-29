@@ -3442,20 +3442,37 @@ declare namespace  __React {
         Ripple: ( color: string, borderless?: boolean ) => TouchableNativeFeedbackStatic
     }
 
-
     export interface LeftToRightGesture {
-        //TODO:
+        // If the gesture can end and restart during one continuous touch
+        isDetachable: boolean;
+        // How far the swipe must drag to start transitioning
+        gestureDetectMovement: number;
+        // Amplitude of release velocity that is considered still
+        notMoving: number;
+        // Fraction of directional move required.
+        directionRatio: number;
+        // Velocity to transition with when the gesture release was "not moving"
+        snapVelocity: number;
+        // Region that can trigger swipe. iOS default is 30px from the left edge
+        edgeHitWidth: number;
+        // Ratio of gesture completion when non-velocity release will cause action
+        stillCompletionRatio: number;
+        fullDistance: any;
+        direction: string;
     }
 
-    export interface AnimationInterpolator {
-        //TODO:
+    export interface JumpGesture extends LeftToRightGesture{
+        overswipe: {
+            frictionConstant: number
+            frictionByDistance: number
+        }
     }
 
     // see /NavigatorSceneConfigs.js
-    export interface SceneConfig {
+    export interface BaseSceneConfig {
         // A list of all gestures that are enabled on this scene
-        gestures: {
-            pop: LeftToRightGesture,
+        gestures?: {
+            pop?: LeftToRightGesture,
         },
 
         // Rebound spring parameters when transitioning FROM this scene
@@ -3467,24 +3484,31 @@ declare namespace  __React {
 
         // Animation interpolators for horizontal transitioning:
         animationInterpolators: {
-            into: AnimationInterpolator,
-            out: AnimationInterpolator
+            into: () => boolean,
+            out: () => boolean
         };
+    }
 
+    export interface JumpSceneConfig extends BaseSceneConfig {
+        gestures: {
+            jumpBack: JumpGesture
+            jumpForward: JumpGesture
+        }
     }
 
     // see /NavigatorSceneConfigs.js
     export interface SceneConfigs {
-        PushFromRight: SceneConfig;
-        FloatFromRight: SceneConfig;
-        FloatFromLeft: SceneConfig;
-        FloatFromBottom: SceneConfig;
-        FloatFromBottomAndroid: SceneConfig;
-        FadeAndroid: SceneConfig;
-        HorizontalSwipeJump: SceneConfig;
-        HorizontalSwipeJumpFromRight: SceneConfig;
-        VerticalUpSwipeJump: SceneConfig;
-        VerticalDownSwipeJump: SceneConfig;
+        PushFromRight: BaseSceneConfig;
+        PushFromLeft: BaseSceneConfig;
+        FloatFromRight: BaseSceneConfig;
+        FloatFromLeft: BaseSceneConfig;
+        FloatFromBottom: BaseSceneConfig;
+        FloatFromBottomAndroid: BaseSceneConfig;
+        FadeAndroid: BaseSceneConfig;
+        HorizontalSwipeJump: BaseSceneConfig;
+        HorizontalSwipeJumpFromRight: BaseSceneConfig;
+        VerticalUpSwipeJump: BaseSceneConfig;
+        VerticalDownSwipeJump: BaseSceneConfig;
     }
 
     export interface Route {
@@ -3503,7 +3527,7 @@ declare namespace  __React {
         index?: number
         onRightButtonPress?: () => void
         rightButtonTitle?: string
-        sceneConfig?: SceneConfig
+        sceneConfig?: BaseSceneConfig
         wrapperStyle?: any
     }
 
@@ -3521,7 +3545,7 @@ declare namespace  __React {
          * @param route
          * @param routeStack
          */
-        configureScene?: ( route: Route, routeStack: Route[] ) => SceneConfig
+        configureScene?: ( route: Route, routeStack: Route[] ) => BaseSceneConfig
         /**
          * Specify a route to start on.
          * A route is an object that the navigator will use to identify each scene to render.
@@ -3562,18 +3586,12 @@ declare namespace  __React {
          * @param route
          * @param navigator
          */
-        renderScene?: ( route: Route, navigator: Navigator ) => React.ReactElement<ViewProperties>
+        renderScene: ( route: Route, navigator: Navigator ) => React.ReactElement<ViewProperties>
 
         /**
          * Styles to apply to the container of each scene
          */
         sceneStyle?: ViewStyle
-
-        /**
-         * //FIXME: not found in doc but found in examples
-         */
-        debugOverlay?: boolean
-
     }
 
    /**
@@ -3603,9 +3621,7 @@ declare namespace  __React {
         NavigationBar: NavigatorStatic.NavigationBarStatic;
         BreadcrumbNavigationBar: NavigatorStatic.BreadcrumbNavigationBarStatic;
 
-	navigationContext: NavigationContext;
-
-        getContext( self: any ): NavigatorStatic;
+        navigationContext: NavigationContext;
 
         /**
          * returns the current list of routes
@@ -3636,6 +3652,13 @@ declare namespace  __React {
          * Transition back and unmount the current scene
          */
         pop(): void;
+
+        /**
+         * Go back N scenes at once. When N=1, behavior matches `pop()`.
+         * When N is invalid(negative or bigger than current routes count), do nothing.
+         * @param {number} n The number of scenes to pop. Should be an integer.
+         */
+        popN(n: number): void
 
         /**
          * Replace the current scene with a new route
@@ -3681,15 +3704,43 @@ declare namespace  __React {
 
     namespace NavigatorStatic {
 
-
         export interface NavState {
             routeStack: Route[]
-            idStack: number[]
             presentedIndex: number
         }
 
+        // @see NavigationBarStyle.ios.js
         export interface NavigationBarStyle {
-            //TODO @see NavigationBarStyle.ios.js
+            General: {
+                NavBarHeight: number
+                StatusBarHeight: number
+                TotalNavHeight: number
+            },
+            Interpolators: {
+                // Animating *into* the center stage from the right
+                RightToCenter: () => boolean
+                // Animating out of the center stage, to the left
+                CenterToLeft: () => boolean
+                // Both stages (animating *past* the center stage)
+                RightToLeft: () => boolean
+            },
+            Stages: {
+                Left: {
+                    Title: FlexStyle
+                    LeftButton: FlexStyle
+                    RightButton: FlexStyle
+                },
+                Center: {
+                    Title: FlexStyle
+                    LeftButton: FlexStyle
+                    RightButton: FlexStyle
+                },
+                Right: {
+                    Title: FlexStyle
+                    LeftButton: FlexStyle
+                    RightButton: FlexStyle
+                },
+            }
         }
 
 
@@ -3704,14 +3755,22 @@ declare namespace  __React {
          */
         export interface NavigationBarProperties extends React.Props<NavigationBarStatic> {
             navigator?: Navigator
-            routeMapper?: NavigationBarRouteMapper
+            routeMapper: NavigationBarRouteMapper
             navState?: NavState
+            navigationStyles: NavigationBarStyle
             style?: ViewStyle
+
+            /**
+             * Stop transtion, immediately resets the cached state and re-render the
+             * whole view.
+             */
+            immediatelyRefresh: () => void;
         }
 
         export interface NavigationBarStatic extends React.ComponentClass<NavigationBarProperties> {
             Styles: NavigationBarStyle
-
+            StylesAndroid: NavigationBarStyle;
+            StylesIOS: NavigationBarStyle;
         }
 
         export type NavigationBar = NavigationBarStatic
@@ -3738,6 +3797,8 @@ declare namespace  __React {
             routeMapper?: BreadcrumbNavigationBarRouteMapper
             navState?: NavState
             style?: ViewStyle
+
+            immediatelyRefresh: () => void
         }
 
         export interface BreadcrumbNavigationBarStatic extends React.ComponentClass<BreadcrumbNavigationBarProperties> {
