@@ -2095,8 +2095,6 @@ declare namespace  __React {
     export interface PickerItemProperties extends React.Props<PickerItemStatic> {
         label: string
         value?: any
-        color?: string /* See ColorPropType.js for details */
-        testID?: string
     }
 
     export interface PickerItemStatic extends React.ComponentClass<PickerItemProperties> {
@@ -2104,17 +2102,38 @@ declare namespace  __React {
 
     export interface PickerPropertiesIOS extends ViewProperties, React.Props<PickerStatic> {
 
-        itemStyle?: ViewStyle
+        /**
+         * Style to apply to each of the item labels.
+         * @platform ios
+         */
+        itemStyle?: ViewStyle,
 
         ref?: Ref<PickerStatic & ViewStatic>
     }
 
     export interface PickerPropertiesAndroid extends ViewProperties, React.Props<PickerStatic> {
 
+        /**
+         * If set to false, the picker will be disabled, i.e. the user will not be able to make a
+         * selection.
+         * @platform android
+         */
         enabled?: boolean
 
+        /**
+         * On Android, specifies how to display the selection items when the user taps on the picker:
+         *
+         *   - 'dialog': Show a modal dialog. This is the default.
+         *   - 'dropdown': Shows a dropdown anchored to the picker view
+         *
+         * @platform android
+         */
         mode?: "dialog" | "dropdown"
 
+        /**
+         * Prompt string for this picker, used on Android in dialog mode as the title of the dialog.
+         * @platform android
+         */
         prompt?: string
 
         ref?: Ref<PickerStatic & ViewStatic>
@@ -2158,7 +2177,16 @@ declare namespace  __React {
      */
     export interface PickerStatic extends React.ComponentClass<PickerProperties> {
 
-        Item: PickerItemStatic
+         /**
+         * On Android, display the options in a dialog.
+         */
+        MODE_DIALOG: string
+        /**
+         * On Android, display the options in a dropdown (this is the default).
+         */
+        MODE_DROPDOWN: string
+
+        Item?: PickerItemStatic
     }
 
     /**
