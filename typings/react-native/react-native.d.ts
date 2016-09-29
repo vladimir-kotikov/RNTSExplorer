@@ -1717,7 +1717,7 @@ declare namespace  __React {
          * `interactivePopGestureEnabled` prop, you can never restore the default
          * behavior.
          */
-        interactivePopGestureEnabled: boolean
+        interactivePopGestureEnabled?: boolean
 
         /**
          * A Boolean value that indicates whether the navigation bar is hidden
@@ -1737,7 +1737,7 @@ declare namespace  __React {
         /**
          * The default background color of the navigation bar.
          */
-        barTintColor: string
+        barTintColor?: string
 
         /**
          * The text color of the navigation bar title
@@ -2804,7 +2804,7 @@ declare namespace  __React {
          *
          * @platform android
          */
-        resizeMethod: 'auto' | 'resize' | 'scale'
+        resizeMethod?: 'auto' | 'resize' | 'scale'
 
         /**
          * `uri` is a string representing the resource identifier for the image, which
@@ -3032,9 +3032,9 @@ declare namespace  __React {
         onBlur?: () => any,
         title?: string
         subtitle?: string
-        leftCalloutView: ReactElement<any>
-        rightCalloutView: ReactElement<any>
-        detailCalloutView: ReactElement<any>
+        leftCalloutView?: ReactElement<any>
+        rightCalloutView?: ReactElement<any>
+        detailCalloutView?: ReactElement<any>
         tintColor?: string
         image?: ImageURISource
         view?: ReactElement<any>
@@ -3804,20 +3804,20 @@ declare namespace  __React {
             navigator?: Navigator
             routeMapper: NavigationBarRouteMapper
             navState?: NavState
-            navigationStyles: NavigationBarStyle
+            navigationStyles?: NavigationBarStyle
             style?: ViewStyle
-
-            /**
-             * Stop transtion, immediately resets the cached state and re-render the
-             * whole view.
-             */
-            immediatelyRefresh: () => void;
         }
 
         export interface NavigationBarStatic extends React.ComponentClass<NavigationBarProperties> {
             Styles: NavigationBarStyle
             StylesAndroid: NavigationBarStyle;
             StylesIOS: NavigationBarStyle;
+
+            /**
+             * Stop transtion, immediately resets the cached state and re-render the
+             * whole view.
+             */
+            immediatelyRefresh(): void;
         }
 
         export type NavigationBar = NavigationBarStatic
@@ -3844,12 +3844,12 @@ declare namespace  __React {
             routeMapper?: BreadcrumbNavigationBarRouteMapper
             navState?: NavState
             style?: ViewStyle
-
-            immediatelyRefresh: () => void
         }
 
         export interface BreadcrumbNavigationBarStatic extends React.ComponentClass<BreadcrumbNavigationBarProperties> {
             Styles: BreadcrumbNavigationBarStyle
+
+            immediatelyRefresh(): void
         }
 
         export type BreadcrumbNavigationBar = BreadcrumbNavigationBarStatic
