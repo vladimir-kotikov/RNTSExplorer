@@ -436,6 +436,9 @@ declare namespace  __React {
         borderWidth?: number
         bottom?: number
         flex?: number
+        flexGrow?: number
+        flexShrink?: number
+        flexBasis?: number
         flexDirection?: "row" | "column" | "row-reverse" | "column-reverse"
         flexWrap?: "wrap" | "nowrap"
         height?: number
@@ -452,6 +455,7 @@ declare namespace  __React {
         marginRight?: number
         marginTop?: number
         marginVertical?: number
+        overflow?: "visible" | "hidden" | "scroll"
         padding?: number
         paddingBottom?: number
         paddingHorizontal?: number
@@ -1694,13 +1698,26 @@ declare namespace  __React {
          * NavigatorIOS uses "route" objects to identify child views, their props, and navigation bar configuration.
          * "push" and all the other navigation operations expect routes to be like this
          */
-        initialRoute?: Route
+        initialRoute: Route
 
         /**
          * The default wrapper style for components in the navigator.
          * A common use case is to set the backgroundColor for every page
          */
         itemWrapperStyle?: ViewStyle
+
+        /**
+         * Boolean value that indicates whether the interactive pop gesture is
+         * enabled. This is useful for enabling/disabling the back swipe navigation
+         * gesture.
+         *
+         * If this prop is not provided, the default behavior is for the back swipe
+         * gesture to be enabled when the navigation bar is shown and disabled when
+         * the navigation bar is hidden. Once you've provided the
+         * `interactivePopGestureEnabled` prop, you can never restore the default
+         * behavior.
+         */
+        interactivePopGestureEnabled?: boolean
 
         /**
          * A Boolean value that indicates whether the navigation bar is hidden
@@ -1716,6 +1733,11 @@ declare namespace  __React {
          * The color used for buttons in the navigation bar
          */
         tintColor?: string
+
+        /**
+         * The default background color of the navigation bar.
+         */
+        barTintColor?: string
 
         /**
          * The text color of the navigation bar title
@@ -1803,9 +1825,22 @@ declare namespace  __React {
         animating?: boolean
 
         /**
-         * The foreground color of the spinner (default is gray).
+         * The foreground color of the spinner (default is gray). Valid color formats are:
+         *   - '#f0f' (#rgb)
+         *   - '#f0fc' (#rgba)
+         *   - '#ff00ff' (#rrggbb)
+         *   - '#ff00ff00' (#rrggbbaa)
+         *   - 'rgb(255, 255, 255)'
+         *   - 'rgba(255, 255, 255, 1.0)'
+         *   - 'hsl(360, 100%, 100%)'
+         *   - 'hsla(360, 100%, 100%, 1.0)'
+         *   - 'transparent'
+         *   - 'red'
+         *   - 0xff00ff00 (0xrrggbbaa)
+         *
+         * @see https://facebook.github.io/react-native/docs/colors.html
          */
-        color?: string
+        color?: string | number
 
         /**
          * Whether the indicator should hide when not animating (true by default).
@@ -1818,14 +1853,14 @@ declare namespace  __React {
          *
          * enum('small', 'large')
          */
-        size?: 'small' | 'large'
+        size?: number | 'small' | 'large'
 
         style?: ViewStyle
 
         ref?: Ref<ActivityIndicatorStatic>
     }
 
-    export interface ActivityIndicatorStatic extends React.ComponentClass<ActivityIndicatorProperties> {
+    export interface ActivityIndicatorStatic extends React.NativeComponent, React.ClassicComponentClass<ActivityIndicatorProperties> {
     }
 
 
@@ -1879,7 +1914,7 @@ declare namespace  __React {
         /**
          * The currently selected date.
          */
-        date?: Date
+        date: Date
 
 
         /**
@@ -1898,7 +1933,7 @@ declare namespace  __React {
          *  enum(1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30)
          *  The interval at which minutes can be selected.
          */
-        minuteInterval?: number
+        minuteInterval?: 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30
 
         /**
          *  enum('date', 'time', 'datetime')
@@ -1911,7 +1946,7 @@ declare namespace  __React {
          * This is called when the user changes the date or time in the UI.
          * The first and only argument is a Date object representing the new date and time.
          */
-        onDateChange?: ( newDate: Date ) => void
+        onDateChange: ( newDate: Date ) => void
 
         /**
          * Timezone offset in minutes.
@@ -1923,7 +1958,7 @@ declare namespace  __React {
         ref?: Ref<DatePickerIOSStatic>
     }
 
-    export interface DatePickerIOSStatic extends React.ComponentClass<DatePickerIOSProperties> {
+    export interface DatePickerIOSStatic extends React.NativeComponent, React.ComponentClass<DatePickerIOSProperties> {
     }
 
     export interface DrawerSlideEvent extends NativeSyntheticEvent<NativeTouchEvent> {
@@ -2060,8 +2095,6 @@ declare namespace  __React {
     export interface PickerItemProperties extends React.Props<PickerItemStatic> {
         label: string
         value?: any
-        color?: string /* See ColorPropType.js for details */
-        testID?: string
     }
 
     export interface PickerItemStatic extends React.ComponentClass<PickerItemProperties> {
@@ -2069,17 +2102,38 @@ declare namespace  __React {
 
     export interface PickerPropertiesIOS extends ViewProperties, React.Props<PickerStatic> {
 
-        itemStyle?: ViewStyle
+        /**
+         * Style to apply to each of the item labels.
+         * @platform ios
+         */
+        itemStyle?: ViewStyle,
 
         ref?: Ref<PickerStatic & ViewStatic>
     }
 
     export interface PickerPropertiesAndroid extends ViewProperties, React.Props<PickerStatic> {
 
+        /**
+         * If set to false, the picker will be disabled, i.e. the user will not be able to make a
+         * selection.
+         * @platform android
+         */
         enabled?: boolean
 
+        /**
+         * On Android, specifies how to display the selection items when the user taps on the picker:
+         *
+         *   - 'dialog': Show a modal dialog. This is the default.
+         *   - 'dropdown': Shows a dropdown anchored to the picker view
+         *
+         * @platform android
+         */
         mode?: "dialog" | "dropdown"
 
+        /**
+         * Prompt string for this picker, used on Android in dialog mode as the title of the dialog.
+         * @platform android
+         */
         prompt?: string
 
         ref?: Ref<PickerStatic & ViewStatic>
@@ -2123,7 +2177,16 @@ declare namespace  __React {
      */
     export interface PickerStatic extends React.ComponentClass<PickerProperties> {
 
-        Item: PickerItemStatic
+         /**
+         * On Android, display the options in a dialog.
+         */
+        MODE_DIALOG: string
+        /**
+         * On Android, display the options in a dropdown (this is the default).
+         */
+        MODE_DROPDOWN: string
+
+        Item?: PickerItemStatic
     }
 
     /**
@@ -2153,8 +2216,6 @@ declare namespace  __React {
      * @see ProgressBarAndroid.android.js
      */
     export interface ProgressBarAndroidProperties extends ViewProperties, React.Props<ProgressBarAndroidStatic> {
-
-        style?: ViewStyle
 
         /**
          * Style of the ProgressBar. One of:
@@ -2191,16 +2252,14 @@ declare namespace  __React {
 
         ref?: Ref<ProgressBarAndroidStatic>
     }
-    export interface ProgressBarAndroidStatic extends React.ComponentClass<ProgressBarAndroidProperties> {
-    }
+
+    export interface ProgressBarAndroidStatic extends NativeComponent, React.ComponentClass<ProgressBarAndroidProperties> { }
 
     /**
      * @see https://facebook.github.io/react-native/docs/progressviewios.html
      * @see ProgressViewIOS.ios.js
      */
     export interface ProgressViewIOSProperties extends ViewProperties, React.Props<ProgressViewIOSStatic> {
-
-        style?: ViewStyle
 
         /**
          * The progress bar style.
@@ -2225,17 +2284,17 @@ declare namespace  __React {
         /**
          * A stretchable image to display as the progress bar.
          */
-        progressImage?: any
+        progressImage?: ImageURISource | ImageURISource[]
 
         /**
          * A stretchable image to display behind the progress bar.
          */
-        trackImage?: any
+        trackImage?: ImageURISource | ImageURISource[]
 
         ref?: Ref<ProgressViewIOSStatic>
     }
-    export interface ProgressViewIOSStatic extends React.ComponentClass<ProgressViewIOSProperties> {
-    }
+
+    export interface ProgressViewIOSStatic extends NativeComponent, React.ComponentClass<ProgressViewIOSProperties> {}
 
     export interface RefreshControlPropertiesIOS extends ViewProperties, React.Props<RefreshControlStatic> {
 
@@ -2540,7 +2599,7 @@ declare namespace  __React {
 
     }
 
-    export type ImageResizeMode =  "contain" | "cover" | "stretch"
+    export type ImageResizeMode =  "contain" | "cover" | "stretch" | "center" | "repeat"
 
     /**
      * @see ImageResizeMode.js
@@ -2562,14 +2621,33 @@ declare namespace  __React {
          * distoring it.  Only supported on iOS.
          */
         stretch: ImageResizeMode
+        /**
+         * center - The image will be scaled down such that it is completely visible,
+         * if bigger than the area of the view.
+         * The image will not be scaled up.
+         */
+        center: ImageResizeMode,
+
+        /**
+         * repeat - The image will be repeated to cover the frame of the View. The
+         * image will keep it's size and aspect ratio.
+         */
+        repeat: ImageResizeMode,
+    }
+
+    export interface ShadowStyleIOS {
+        shadowColor?: string
+        shadowOffset?: {width: number, height: number}
+        shadowOpacity?: number
+        shadowRadius?: number
     }
 
     /**
      * Image style
      * @see https://facebook.github.io/react-native/docs/image.html#style
      */
-    export interface ImageStyle extends FlexStyle, TransformsStyle {
-        resizeMode?: string //Object.keys(ImageResizeMode)
+    export interface ImageStyle extends FlexStyle, TransformsStyle, ShadowStyleIOS {
+        resizeMode?: React.ImageResizeMode
         backfaceVisibility?: "visible" | "hidden"
         borderBottomLeftRadius?: number
         borderBottomRightRadius?: number
@@ -2597,6 +2675,12 @@ declare namespace  __React {
         accessible?: boolean;
 
         /**
+        * blurRadius: the blur radius of the blur filter added to the image
+        * @platform ios
+        */
+        blurRadius?: number,
+
+        /**
          * When the image is resized, the corners of the size specified by capInsets will stay a fixed size,
          * but the center content and borders of the image will be stretched.
          * This is useful for creating resizable rounded buttons, shadows, and other resizable assets.
@@ -2607,7 +2691,7 @@ declare namespace  __React {
         /**
          * A static image to display while downloading the final image off the network.
          */
-        defaultSource?: {uri: string} | number
+        defaultSource?: ImageURISource | number
 
         /**
          * Invoked on load error with {nativeEvent: {error}}
@@ -2618,12 +2702,66 @@ declare namespace  __React {
          * Invoked on download progress with {nativeEvent: {loaded, total}}
          */
         onProgress?: ()=> void
+
+        /**
+         * Invoked when a partial load of the image is complete. The definition of
+         * what constitutes a "partial load" is loader specific though this is meant
+         * for progressive JPEG loads.
+         * @platform ios
+         */
+        onPartialLoad?: () => void,
+    }
+
+    /*
+     * @see https://github.com/facebook/react-native/blob/master/Libraries/Image/ImageSourcePropType.js
+     */
+    interface ImageURISource {
+        /**
+         * `uri` is a string representing the resource identifier for the image, which
+         * could be an http address, a local file path, or the name of a static image
+         * resource (which should be wrapped in the `require('./path/to/image.png')`
+         * function).
+         */
+        uri?: string,
+        /**
+         * `bundle` is the iOS asset bundle which the image is included in. This
+         * will default to [NSBundle mainBundle] if not set.
+         * @platform ios
+         */
+        bundle?: string,
+        /**
+         * `method` is the HTTP Method to use. Defaults to GET if not specified.
+         */
+        method?: string,
+        /**
+         * `headers` is an object representing the HTTP headers to send along with the
+         * request for a remote image.
+         */
+        headers?: {[key: string]: string},
+        /**
+         * `body` is the HTTP body to send with the request. This must be a valid
+         * UTF-8 string, and will be sent exactly as specified, with no
+         * additional encoding (e.g. URL-escaping or base64) applied.
+         */
+        body?: string,
+        /**
+         * `width` and `height` can be specified if known at build time, in which case
+         * these will be used to set the default `<Image/>` component dimensions.
+         */
+        width?: number,
+        height?: number,
+        /**
+         * `scale` is used to indicate the scale factor of the image. Defaults to 1.0 if
+         * unspecified, meaning that one image pixel equates to one display point / DIP.
+         */
+        scale?: number,
     }
 
     /**
      * @see https://facebook.github.io/react-native/docs/image.html
      */
     export interface ImageProperties extends ImagePropertiesIOS, React.Props<Image> {
+        fadeDuration?: number
         /**
          * onLayout function
          *
@@ -2648,20 +2786,68 @@ declare namespace  __React {
          */
         onLoadStart?: () => void
 
+        progressiveRenderingEnabled?: boolean
 
         /**
-         * Determines how to resize the image when the frame doesn't match the raw image dimensions.
+         * Determines how to resize the image when the frame doesn't match the raw
+         * image dimensions.
          *
-         * enum('cover', 'contain', 'stretch')
+         * 'cover': Scale the image uniformly (maintain the image's aspect ratio)
+         * so that both dimensions (width and height) of the image will be equal
+         * to or larger than the corresponding dimension of the view (minus padding).
+         *
+         * 'contain': Scale the image uniformly (maintain the image's aspect ratio)
+         * so that both dimensions (width and height) of the image will be equal to
+         * or less than the corresponding dimension of the view (minus padding).
+         *
+         * 'stretch': Scale width and height independently, This may change the
+         * aspect ratio of the src.
+         *
+         * 'center': Scale the image down so that it is completely visible,
+         * if bigger than the area of the view.
+         * The image will not be scaled up.
          */
-        resizeMode?: ImageResizeMode
+        resizeMode?: 'cover' |'contain' |'stretch' |'center'
 
         /**
-         * uri is a string representing the resource identifier for the image,
-         * which could be an http address, a local file path,
-         * or the name of a static image resource (which should be wrapped in the require('image!name') function).
+         * The mechanism that should be used to resize the image when the image's dimensions
+         * differ from the image view's dimensions. Defaults to `auto`.
+         *
+         * - `auto`: Use heuristics to pick between `resize` and `scale`.
+         *
+         * - `resize`: A software operation which changes the encoded image in memory before it
+         * gets decoded. This should be used instead of `scale` when the image is much larger
+         * than the view.
+         *
+         * - `scale`: The image gets drawn downscaled or upscaled. Compared to `resize`, `scale` is
+         * faster (usually hardware accelerated) and produces higher quality images. This
+         * should be used if the image is smaller than the view. It should also be used if the
+         * image is slightly bigger than the view.
+         *
+         * More details about `resize` and `scale` can be found at http://frescolib.org/docs/resizing-rotating.html.
+         *
+         * @platform android
          */
-        source: {uri: string} | string;
+        resizeMethod?: 'auto' | 'resize' | 'scale'
+
+        /**
+         * `uri` is a string representing the resource identifier for the image, which
+         * could be an http address, a local file path, or a static image
+         * resource (which should be wrapped in the `require('./path/to/image.png')` function).
+         * This prop can also contain several remote `uri`, specified together with
+         * their width and height. The native side will then choose the best `uri` to display
+         * based on the measured size of the image container.
+         */
+        // source: {uri: string} | number | {uri: string, width: number, height: number}[];
+
+        source: ImageURISource | ImageURISource[]
+
+        /**
+         * similarly to `source`, this property represents the resource used to render
+         * the loading indicator for the image, displayed until image is ready to be
+         * displayed, typically after when it got downloaded from network.
+         */
+        loadingIndicatorSource?: ImageURISource;
 
         /**
          *
@@ -2676,11 +2862,13 @@ declare namespace  __React {
 
     }
 
-    export interface ImageStatic extends React.ComponentClass<ImageProperties> {
-        uri: string;
+    export interface ImageStatic extends React.NativeComponent, React.ComponentClass<ImageProperties> {
         resizeMode: ImageResizeMode
         getSize(uri: string, success: (width: number, height: number) => void, failure: (error: any) => void): any
         prefetch(url: string): any
+        // TODO: methods below available on android only
+        abortPrefetch(requestId: number): void
+        queryCache(urls: string[]): Promise<Map<string, 'memory' | 'disk'>>
     }
 
     /**
@@ -2688,7 +2876,10 @@ declare namespace  __React {
      */
     export interface ListViewProperties extends ScrollViewProperties, React.Props<ListViewStatic> {
 
-        dataSource?: ListViewDataSource
+        /**
+         * An instance of [ListView.DataSource](docs/listviewdatasource.html) to use
+         */
+        dataSource: ListViewDataSource
 
         /**
          * Flag indicating whether empty section headers should be rendered.
@@ -2735,7 +2926,7 @@ declare namespace  __React {
         pageSize?: number
 
         /**
-         * An experimental performance optimization for improving scroll perf of
+         * A performance optimization for improving scroll perf of
          * large lists, used in conjunction with overflow: 'hidden' on the row
          * containers.  Use at your own risk.
          */
@@ -2768,7 +2959,7 @@ declare namespace  __React {
          * is exactly what was put into the data source, but it's also possible to
          * provide custom extractors.
          */
-        renderRow?: ( rowData: any, sectionID: string | number, rowID: string | number, highlightRow?: boolean ) => React.ReactElement<any>
+        renderRow: ( rowData: any, sectionID: string | number, rowID: string | number, highlightRow?: boolean ) => React.ReactElement<any>
 
 
         /**
@@ -2803,20 +2994,74 @@ declare namespace  __React {
          */
         scrollRenderAheadDistance?: number
 
+        /**
+         * An array of child indices determining which children get docked to the
+         * top of the screen when scrolling. For example, passing
+         * `stickyHeaderIndices={[0]}` will cause the first child to be fixed to the
+         * top of the scroll view. This property is not supported in conjunction
+         * with `horizontal={true}`.
+         * @platform ios
+         */
+        stickyHeaderIndices?: number[]
+
         ref?: Ref<ListViewStatic & ScrollViewStatic & ViewStatic>
     }
 
-    export interface ListViewStatic extends React.ComponentClass<ListViewProperties> {
-        DataSource: ListViewDataSource;
+
+    interface TimerMixin {
+        setTimeout: typeof setTimeout,
+        clearTimeout: typeof clearTimeout,
+        setInterval: typeof setInterval,
+        clearInterval: typeof clearInterval,
+        setImmediate: typeof setImmediate,
+        clearImmediate: typeof clearImmediate,
+        requestAnimationFrame: typeof requestAnimationFrame,
+        cancelAnimationFrame: typeof cancelAnimationFrame,
     }
 
+    // TODO: extend ScrollResponder.Mixin (https://github.com/facebook/react-native/blob/master\Libraries\CustomComponents\ListView\ListView.js#L116)
+    export interface ListViewStatic extends TimerMixin, React.ComponentClass<ListViewProperties> {
+        DataSource: ListViewDataSource;
+
+        /**
+         * Exports some data, e.g. for perf investigations or analytics.
+         */
+        getMetrics: () => {
+            contentLength: number,
+            totalRows: number,
+            renderedRows: number,
+            visibleRows: number,
+        }
+
+        /**
+         * Provides a handle to the underlying scroll responder.
+         */
+        getScrollResponder: () => any,
+
+        /**
+         * Scrolls to a given x, y offset, either immediately or with a smooth animation.
+         *
+         * See `ScrollView#scrollTo`.
+         */
+        scrollTo: ( y?: number | { x?: number, y?: number, animated?: boolean } , x?: number, animated?: boolean ) => void,
+    }
 
     export interface MapViewAnnotation {
-        latitude?: number
-        longitude?: number
+        latitude: number
+        longitude: number
         animateDrop?: boolean
+        draggable?: boolean
+        onDragStateChange?: () => any,
+        onFocus?: () => any,
+        onBlur?: () => any,
         title?: string
         subtitle?: string
+        leftCalloutView?: ReactElement<any>
+        rightCalloutView?: ReactElement<any>
+        detailCalloutView?: ReactElement<any>
+        tintColor?: string
+        image?: ImageURISource
+        view?: ReactElement<any>
         hasLeftCallout?: boolean
         hasRightCallout?: boolean
         onLeftCalloutPress?: () => void
@@ -2834,12 +3079,13 @@ declare namespace  __React {
     export interface MapViewOverlay {
         coordinates: ({latitude: number, longitude: number})[]
         lineWidth?: number
-        strokeColor?: Object
-        fillColor?: Object
+        strokeColor?: string
+        fillColor?: string
         id?: string
     }
 
-    export interface MapViewPropertiesIOS {
+    export interface MapViewProperties extends ViewProperties, React.Props<MapViewStatic> {
+
 
         /**
          * If false points of interest won't be displayed on the map.
@@ -2848,39 +3094,11 @@ declare namespace  __React {
         showsPointsOfInterest?: boolean
 
         /**
-         * Map annotations with title/subtitle.
-         */
-        annotations?: MapViewAnnotation[]
-
-        /**
-         * If true the map will follow the user's location whenever it changes. Note that this has no effect unless showsUserLocation is enabled. Default value is true.
+         * If true the map will follow the user's location whenever it changes.
+         * Note that this has no effect unless showsUserLocation is enabled.
+         * Default value is true.
          */
         followUserLocation?: boolean
-
-        /**
-         * Insets for the map's legal label, originally at bottom left of the map. See EdgeInsetsPropType.js for more information.
-         */
-        legalLabelInsets?: Insets
-
-        /**
-         * The map type to be displayed.
-         *     standard: standard road map (default)
-         *     satellite: satellite view
-         *     hybrid: satellite view with roads and points of interest overlayed
-         *
-         * enum('standard', 'satellite', 'hybrid')
-         */
-        mapType?: string
-
-        /**
-         * Maximum size of area that can be displayed.
-         */
-        maxDelta?: number
-
-        /**
-         * Minimum size of area that can be displayed.
-         */
-        minDelta?: number
 
         /**
          * Map overlays
@@ -2892,13 +3110,6 @@ declare namespace  __React {
          * Default value is true.
          */
         showsCompass?: boolean
-    }
-
-    export interface MapViewPropertiesAndroid {
-        active?: boolean
-    }
-
-    export interface MapViewProperties extends MapViewPropertiesIOS, MapViewPropertiesAndroid, Touchable, React.Props<MapViewStatic> {
 
         /**
          * Map annotations with title/subtitle.
@@ -2918,7 +3129,7 @@ declare namespace  __React {
          *
          * enum('standard', 'satellite', 'hybrid')
          */
-        mapType?: string
+        mapType?: 'standard' |'satellite' |'hybrid'
 
         /**
          * Maximum size of area that can be displayed.
@@ -2985,12 +3196,6 @@ declare namespace  __React {
         showsUserLocation?: boolean
 
         /**
-         * Used to style and layout the MapView.
-         * See StyleSheet.js and ViewStylePropTypes.js for more info.
-         */
-        style?: ViewStyle
-
-        /**
          * If false the user won't be able to pinch/zoom the map.
          * Default value is true.
          */
@@ -3002,7 +3207,12 @@ declare namespace  __React {
     /**
      * @see https://facebook.github.io/react-native/docs/mapview.html#content
      */
-    export interface MapViewStatic extends React.ComponentClass<MapViewProperties> {
+    export interface MapViewStatic extends React.NativeComponent, React.ComponentClass<MapViewProperties> {
+        PinColors: {
+            RED: string,
+            GREEN: string,
+            PURPLE: string
+        }
     }
 
     export interface ModalProperties extends React.Props<ModalStatic> {
@@ -3010,16 +3220,47 @@ declare namespace  __React {
         // Only `animated` is documented. The JS code says `animated` is
         // deprecated and `animationType` is preferred.
         animated?: boolean
+        /**
+         * The `animationType` prop controls how the modal animates.
+         *
+         * - `slide` slides in from the bottom
+         * - `fade` fades into view
+         * - `none` appears without an animation
+         */
         animationType?: "none" | "slide" | "fade"
+        /**
+         * The `transparent` prop determines whether your modal will fill the entire view.
+         * Setting this to `true` will render the modal over a transparent background.
+         */
         transparent?: boolean
+        /**
+         * The `visible` prop determines whether your modal is visible.
+         */
         visible?: boolean
+        /**
+         * The `onRequestClose` prop allows passing a function that will be called once the modal has been dismissed.
+         * _On the Android platform, this is a required function._
+         */
         onRequestClose?: () => void
+        /**
+         * The `onShow` prop allows passing a function that will be called once the modal has been shown.
+         */
         onShow?: (event: NativeSyntheticEvent<any>) => void
-
+        /**
+         * The `supportedOrientations` prop allows the modal to be rotated to any of the specified orientations.
+         * On iOS, the modal is still restricted by what's specified in your app's Info.plist's UISupportedInterfaceOrientations field.
+         * @platform ios
+         */
+        supportedOrientations: ('portrait' | 'portrait-upside-down' | 'landscape' | 'landscape-left' | 'landscape-right')[]
+        /**
+         * The `onOrientationChange` callback is called when the orientation changes while the modal is being displayed.
+         * The orientation provided is only 'portrait' or 'landscape'. This callback is also called on initial render, regardless of the current orientation.
+         * @platform ios
+         */
+        onOrientationChange: () => void,
     }
 
     export interface ModalStatic extends React.ComponentClass<ModalProperties> {
-
     }
 
     export interface TouchableWithoutFeedbackAndroidProperties {
@@ -3244,20 +3485,37 @@ declare namespace  __React {
         Ripple: ( color: string, borderless?: boolean ) => TouchableNativeFeedbackStatic
     }
 
-
     export interface LeftToRightGesture {
-        //TODO:
+        // If the gesture can end and restart during one continuous touch
+        isDetachable: boolean;
+        // How far the swipe must drag to start transitioning
+        gestureDetectMovement: number;
+        // Amplitude of release velocity that is considered still
+        notMoving: number;
+        // Fraction of directional move required.
+        directionRatio: number;
+        // Velocity to transition with when the gesture release was "not moving"
+        snapVelocity: number;
+        // Region that can trigger swipe. iOS default is 30px from the left edge
+        edgeHitWidth: number;
+        // Ratio of gesture completion when non-velocity release will cause action
+        stillCompletionRatio: number;
+        fullDistance: any;
+        direction: string;
     }
 
-    export interface AnimationInterpolator {
-        //TODO:
+    export interface JumpGesture extends LeftToRightGesture{
+        overswipe: {
+            frictionConstant: number
+            frictionByDistance: number
+        }
     }
 
     // see /NavigatorSceneConfigs.js
-    export interface SceneConfig {
+    export interface BaseSceneConfig {
         // A list of all gestures that are enabled on this scene
-        gestures: {
-            pop: LeftToRightGesture,
+        gestures?: {
+            pop?: LeftToRightGesture,
         },
 
         // Rebound spring parameters when transitioning FROM this scene
@@ -3269,24 +3527,31 @@ declare namespace  __React {
 
         // Animation interpolators for horizontal transitioning:
         animationInterpolators: {
-            into: AnimationInterpolator,
-            out: AnimationInterpolator
+            into: () => boolean,
+            out: () => boolean
         };
+    }
 
+    export interface JumpSceneConfig extends BaseSceneConfig {
+        gestures: {
+            jumpBack: JumpGesture
+            jumpForward: JumpGesture
+        }
     }
 
     // see /NavigatorSceneConfigs.js
     export interface SceneConfigs {
-        PushFromRight: SceneConfig;
-        FloatFromRight: SceneConfig;
-        FloatFromLeft: SceneConfig;
-        FloatFromBottom: SceneConfig;
-        FloatFromBottomAndroid: SceneConfig;
-        FadeAndroid: SceneConfig;
-        HorizontalSwipeJump: SceneConfig;
-        HorizontalSwipeJumpFromRight: SceneConfig;
-        VerticalUpSwipeJump: SceneConfig;
-        VerticalDownSwipeJump: SceneConfig;
+        PushFromRight: BaseSceneConfig;
+        PushFromLeft: BaseSceneConfig;
+        FloatFromRight: BaseSceneConfig;
+        FloatFromLeft: BaseSceneConfig;
+        FloatFromBottom: BaseSceneConfig;
+        FloatFromBottomAndroid: BaseSceneConfig;
+        FadeAndroid: BaseSceneConfig;
+        HorizontalSwipeJump: BaseSceneConfig;
+        HorizontalSwipeJumpFromRight: BaseSceneConfig;
+        VerticalUpSwipeJump: BaseSceneConfig;
+        VerticalDownSwipeJump: BaseSceneConfig;
     }
 
     export interface Route {
@@ -3305,7 +3570,7 @@ declare namespace  __React {
         index?: number
         onRightButtonPress?: () => void
         rightButtonTitle?: string
-        sceneConfig?: SceneConfig
+        sceneConfig?: BaseSceneConfig
         wrapperStyle?: any
     }
 
@@ -3323,7 +3588,7 @@ declare namespace  __React {
          * @param route
          * @param routeStack
          */
-        configureScene?: ( route: Route, routeStack: Route[] ) => SceneConfig
+        configureScene?: ( route: Route, routeStack: Route[] ) => BaseSceneConfig
         /**
          * Specify a route to start on.
          * A route is an object that the navigator will use to identify each scene to render.
@@ -3364,7 +3629,7 @@ declare namespace  __React {
          * @param route
          * @param navigator
          */
-        renderScene?: ( route: Route, navigator: Navigator ) => React.ReactElement<ViewProperties>
+        renderScene: ( route: Route, navigator: Navigator ) => React.ReactElement<ViewProperties>
 
         /**
          * Styles to apply to the container of each scene
@@ -3377,11 +3642,11 @@ declare namespace  __React {
         debugOverlay?: boolean
 
     }
-    
+
    /**
    * Class that contains the info and methods for app navigation.
    */
-    export interface NavigationContext { 
+    export interface NavigationContext {
         parent: NavigationContext;
         top: NavigationContext;
         currentRoute: any;
@@ -3389,6 +3654,34 @@ declare namespace  __React {
         addListener(eventType: string, listener: () => void, useCapture?: boolean): NativeEventSubscription;
         emit(eventType: string, data: any, didEmitCallback?: () => void): void;
         dispose(): void;
+    }
+
+    interface InteractionMixin {
+        createInteractionHandle(): number
+        clearInteractionHandle(clearHandle: number): void
+        /**
+         * Schedule work for after all interactions have completed.
+         *
+         * @param {function} callback
+         */
+        runAfterInteractions(callback: () => any): void
+    }
+
+    interface SubscribableMixin {
+        /**
+         * Special form of calling `addListener` that *guarantees* that a
+         * subscription *must* be tied to a component instance, and therefore will
+         * be cleaned up when the component is unmounted. It is impossible to create
+         * the subscription and pass it in - this method must be the one to create
+         * the subscription and therefore can guarantee it is retained in a way that
+         * will be cleaned up.
+         *
+         * @param {EventEmitter} eventEmitter emitter to subscribe to.
+         * @param {string} eventType Type of event to listen to.
+         * @param {function} listener Function to invoke when event occurs.
+         * @param {object} context Object to use as listener context.
+         */
+        addListenerOn( eventEmitter: any, eventType: string, listener: () => any, context: any ): void
     }
 
     /**
@@ -3400,14 +3693,12 @@ declare namespace  __React {
      * See Navigator.SceneConfigs for default animations and more info on scene config options.
      * @see https://facebook.github.io/react-native/docs/navigator.html
      */
-    export interface NavigatorStatic extends React.ComponentClass<NavigatorProperties> {
+    export interface NavigatorStatic extends TimerMixin, InteractionMixin, SubscribableMixin, React.ComponentClass<NavigatorProperties> {
         SceneConfigs: SceneConfigs;
         NavigationBar: NavigatorStatic.NavigationBarStatic;
         BreadcrumbNavigationBar: NavigatorStatic.BreadcrumbNavigationBarStatic;
 
-	navigationContext: NavigationContext;
-
-        getContext( self: any ): NavigatorStatic;
+        navigationContext: NavigationContext;
 
         /**
          * returns the current list of routes
@@ -3438,6 +3729,13 @@ declare namespace  __React {
          * Transition back and unmount the current scene
          */
         pop(): void;
+
+        /**
+         * Go back N scenes at once. When N=1, behavior matches `pop()`.
+         * When N is invalid(negative or bigger than current routes count), do nothing.
+         * @param {number} n The number of scenes to pop. Should be an integer.
+         */
+        popN(n: number): void
 
         /**
          * Replace the current scene with a new route
@@ -3483,15 +3781,43 @@ declare namespace  __React {
 
     namespace NavigatorStatic {
 
-
         export interface NavState {
             routeStack: Route[]
-            idStack: number[]
             presentedIndex: number
         }
 
+        // @see NavigationBarStyle.ios.js
         export interface NavigationBarStyle {
-            //TODO @see NavigationBarStyle.ios.js
+            General: {
+                NavBarHeight: number
+                StatusBarHeight: number
+                TotalNavHeight: number
+            },
+            Interpolators: {
+                // Animating *into* the center stage from the right
+                RightToCenter: () => boolean
+                // Animating out of the center stage, to the left
+                CenterToLeft: () => boolean
+                // Both stages (animating *past* the center stage)
+                RightToLeft: () => boolean
+            },
+            Stages: {
+                Left: {
+                    Title: FlexStyle
+                    LeftButton: FlexStyle
+                    RightButton: FlexStyle
+                },
+                Center: {
+                    Title: FlexStyle
+                    LeftButton: FlexStyle
+                    RightButton: FlexStyle
+                },
+                Right: {
+                    Title: FlexStyle
+                    LeftButton: FlexStyle
+                    RightButton: FlexStyle
+                },
+            }
         }
 
 
@@ -3506,14 +3832,22 @@ declare namespace  __React {
          */
         export interface NavigationBarProperties extends React.Props<NavigationBarStatic> {
             navigator?: Navigator
-            routeMapper?: NavigationBarRouteMapper
+            routeMapper: NavigationBarRouteMapper
             navState?: NavState
+            navigationStyles?: NavigationBarStyle
             style?: ViewStyle
         }
 
         export interface NavigationBarStatic extends React.ComponentClass<NavigationBarProperties> {
             Styles: NavigationBarStyle
+            StylesAndroid: NavigationBarStyle;
+            StylesIOS: NavigationBarStyle;
 
+            /**
+             * Stop transtion, immediately resets the cached state and re-render the
+             * whole view.
+             */
+            immediatelyRefresh(): void;
         }
 
         export type NavigationBar = NavigationBarStatic
@@ -3544,6 +3878,8 @@ declare namespace  __React {
 
         export interface BreadcrumbNavigationBarStatic extends React.ComponentClass<BreadcrumbNavigationBarProperties> {
             Styles: BreadcrumbNavigationBarStyle
+
+            immediatelyRefresh(): void
         }
 
         export type BreadcrumbNavigationBar = BreadcrumbNavigationBarStatic
@@ -4028,6 +4364,259 @@ declare namespace  __React {
     }
 
 
+    interface ScrollResponderMixin extends SubscribableMixin {
+        /**
+         * Invoke this from an `onScroll` event.
+         */
+        scrollResponderHandleScrollShouldSetResponder(): boolean
+
+        /**
+         * Merely touch starting is not sufficient for a scroll view to become the
+         * responder. Being the "responder" means that the very next touch move/end
+         * event will result in an action/movement.
+         *
+         * Invoke this from an `onStartShouldSetResponder` event.
+         *
+         * `onStartShouldSetResponder` is used when the next move/end will trigger
+         * some UI movement/action, but when you want to yield priority to views
+         * nested inside of the view.
+         *
+         * There may be some cases where scroll views actually should return `true`
+         * from `onStartShouldSetResponder`: Any time we are detecting a standard tap
+         * that gives priority to nested views.
+         *
+         * - If a single tap on the scroll view triggers an action such as
+         *   recentering a map style view yet wants to give priority to interaction
+         *   views inside (such as dropped pins or labels), then we would return true
+         *   from this method when there is a single touch.
+         *
+         * - Similar to the previous case, if a two finger "tap" should trigger a
+         *   zoom, we would check the `touches` count, and if `>= 2`, we would return
+         *   true.
+         *
+         */
+        scrollResponderHandleStartShouldSetResponder(): boolean
+
+        /**
+         * There are times when the scroll view wants to become the responder
+         * (meaning respond to the next immediate `touchStart/touchEnd`), in a way
+         * that *doesn't* give priority to nested views (hence the capture phase):
+         *
+         * - Currently animating.
+         * - Tapping anywhere that is not the focused input, while the keyboard is
+         *   up (which should dismiss the keyboard).
+         *
+         * Invoke this from an `onStartShouldSetResponderCapture` event.
+         */
+        scrollResponderHandleStartShouldSetResponderCapture(e: Event): boolean
+
+        /**
+         * Invoke this from an `onResponderReject` event.
+         *
+         * Some other element is not yielding its role as responder. Normally, we'd
+         * just disable the `UIScrollView`, but a touch has already began on it, the
+         * `UIScrollView` will not accept being disabled after that. The easiest
+         * solution for now is to accept the limitation of disallowing this
+         * altogether. To improve this, find a way to disable the `UIScrollView` after
+         * a touch has already started.
+         */
+        scrollResponderHandleResponderReject(): any
+
+        /**
+         * We will allow the scroll view to give up its lock iff it acquired the lock
+         * during an animation. This is a very useful default that happens to satisfy
+         * many common user experiences.
+         *
+         * - Stop a scroll on the left edge, then turn that into an outer view's
+         *   backswipe.
+         * - Stop a scroll mid-bounce at the top, continue pulling to have the outer
+         *   view dismiss.
+         * - However, without catching the scroll view mid-bounce (while it is
+         *   motionless), if you drag far enough for the scroll view to become
+         *   responder (and therefore drag the scroll view a bit), any backswipe
+         *   navigation of a swipe gesture higher in the view hierarchy, should be
+         *   rejected.
+         */
+        scrollResponderHandleTerminationRequest(): boolean
+
+        /**
+         * Invoke this from an `onTouchEnd` event.
+         *
+         * @param {SyntheticEvent} e Event.
+         */
+        scrollResponderHandleTouchEnd(e: Event): void
+
+        /**
+         * Invoke this from an `onResponderRelease` event.
+         */
+        scrollResponderHandleResponderRelease(e: Event): void
+
+        scrollResponderHandleScroll(e: Event): void
+
+        /**
+         * Invoke this from an `onResponderGrant` event.
+         */
+        scrollResponderHandleResponderGrant(e: Event): void
+
+        /**
+         * Unfortunately, `onScrollBeginDrag` also fires when *stopping* the scroll
+         * animation, and there's not an easy way to distinguish a drag vs. stopping
+         * momentum.
+         *
+         * Invoke this from an `onScrollBeginDrag` event.
+         */
+        scrollResponderHandleScrollBeginDrag(e: Event): void
+
+        /**
+         * Invoke this from an `onScrollEndDrag` event.
+         */
+        scrollResponderHandleScrollEndDrag(e: Event): void
+
+        /**
+         * Invoke this from an `onMomentumScrollBegin` event.
+         */
+        scrollResponderHandleMomentumScrollBegin(e: Event): void
+
+        /**
+         * Invoke this from an `onMomentumScrollEnd` event.
+         */
+        scrollResponderHandleMomentumScrollEnd(e: Event): void
+
+        /**
+         * Invoke this from an `onTouchStart` event.
+         *
+         * Since we know that the `SimpleEventPlugin` occurs later in the plugin
+         * order, after `ResponderEventPlugin`, we can detect that we were *not*
+         * permitted to be the responder (presumably because a contained view became
+         * responder). The `onResponderReject` won't fire in that case - it only
+         * fires when a *current* responder rejects our request.
+         *
+         * @param {SyntheticEvent} e Touch Start event.
+         */
+        scrollResponderHandleTouchStart(e: Event): void
+
+        /**
+         * Invoke this from an `onTouchMove` event.
+         *
+         * Since we know that the `SimpleEventPlugin` occurs later in the plugin
+         * order, after `ResponderEventPlugin`, we can detect that we were *not*
+         * permitted to be the responder (presumably because a contained view became
+         * responder). The `onResponderReject` won't fire in that case - it only
+         * fires when a *current* responder rejects our request.
+         *
+         * @param {SyntheticEvent} e Touch Start event.
+         */
+        scrollResponderHandleTouchMove(e: Event): void
+
+        /**
+         * A helper function for this class that lets us quickly determine if the
+         * view is currently animating. This is particularly useful to know when
+         * a touch has just started or ended.
+         */
+        scrollResponderIsAnimating(): boolean
+
+        /**
+         * Returns the node that represents native view that can be scrolled.
+         * Components can pass what node to use by defining a `getScrollableNode`
+         * function otherwise `this` is used.
+         */
+        scrollResponderGetScrollableNode(): any
+
+        /**
+         * A helper function to scroll to a specific point  in the scrollview.
+         * This is currently used to help focus on child textviews, but can also
+         * be used to quickly scroll to any element we want to focus. Syntax:
+         *
+         * scrollResponderScrollTo(options: {x: number = 0; y: number = 0; animated: boolean = true})
+         *
+         * Note: The weird argument signature is due to the fact that, for historical reasons,
+         * the function also accepts separate arguments as as alternative to the options object.
+         * This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
+         */
+        scrollResponderScrollTo( x?: number | { x?: number, y?: number, animated?: boolean }, y?: number, animated?: boolean ): void,
+
+        /**
+         * A helper function to zoom to a specific rect in the scrollview. The argument has the shape
+         * {x: number; y: number; width: number; height: number; animated: boolean = true}
+         *
+         * @platform ios
+         */
+        scrollResponderZoomTo(
+            rect: { x: number, y: number, width: number, height: number, animated?: boolean },
+            animated?: boolean // deprecated, put this inside the rect argument instead
+        ): void
+
+        /**
+         * This method should be used as the callback to onFocus in a TextInputs'
+         * parent view. Note that any module using this mixin needs to return
+         * the parent view's ref in getScrollViewRef() in order to use this method.
+         * @param {any} nodeHandle The TextInput node handle
+         * @param {number} additionalOffset The scroll view's top "contentInset".
+         *        Default is 0.
+         * @param {bool} preventNegativeScrolling Whether to allow pulling the content
+         *        down to make it meet the keyboard's top. Default is false.
+         */
+        scrollResponderScrollNativeHandleToKeyboard(nodeHandle: any, additionalOffset?: number, preventNegativeScrollOffset?: boolean): void
+
+        /**
+         * The calculations performed here assume the scroll view takes up the entire
+         * screen - even if has some content inset. We then measure the offsets of the
+         * keyboard, and compensate both for the scroll view's "contentInset".
+         *
+         * @param {number} left Position of input w.r.t. table view.
+         * @param {number} top Position of input w.r.t. table view.
+         * @param {number} width Width of the text input.
+         * @param {number} height Height of the text input.
+         */
+        scrollResponderInputMeasureAndScrollToKeyboard(left: number, top: number, width: number, height: number): void
+
+        scrollResponderTextInputFocusError(e: Event): void
+
+        /**
+         * `componentWillMount` is the closest thing to a  standard "constructor" for
+         * React components.
+         *
+         * The `keyboardWillShow` is called before input focus.
+         */
+        componentWillMount(): void
+
+        /**
+         * Warning, this may be called several times for a single keyboard opening.
+         * It's best to store the information in this method and then take any action
+         * at a later point (either in `keyboardDidShow` or other).
+         *
+         * Here's the order that events occur in:
+         * - focus
+         * - willShow {startCoordinates, endCoordinates} several times
+         * - didShow several times
+         * - blur
+         * - willHide {startCoordinates, endCoordinates} several times
+         * - didHide several times
+         *
+         * The `ScrollResponder` providesModule callbacks for each of these events.
+         * Even though any user could have easily listened to keyboard events
+         * themselves, using these `props` callbacks ensures that ordering of events
+         * is consistent - and not dependent on the order that the keyboard events are
+         * subscribed to. This matters when telling the scroll view to scroll to where
+         * the keyboard is headed - the scroll responder better have been notified of
+         * the keyboard destination before being instructed to scroll to where the
+         * keyboard will be. Stick to the `ScrollResponder` callbacks, and everything
+         * will work.
+         *
+         * WARNING: These callbacks will fire even if a keyboard is displayed in a
+         * different navigation pane. Filter out the events to determine if they are
+         * relevant to you. (For example, only if you receive these callbacks after
+         * you had explicitly focused a node etc).
+         */
+        scrollResponderKeyboardWillShow(e: Event): void
+
+        scrollResponderKeyboardWillHide(e: Event): void
+
+        scrollResponderKeyboardDidShow(e: Event): void
+
+        scrollResponderKeyboardDidHide(e: Event): void
+    }
+
     export interface ScrollViewPropertiesIOS {
 
         /**
@@ -4124,11 +4713,6 @@ declare namespace  __React {
         minimumZoomScale?: number
 
         /**
-         * Deprecated. Use the refreshControl prop instead.
-         */
-        onRefreshStart?: () => void
-
-        /**
          * Called when a scrolling animation ends.
          */
         onScrollAnimationEnd?: () => void
@@ -4165,7 +4749,7 @@ declare namespace  __React {
          *      - center will align the snap in the center
          *      - end will align the snap at the right (horizontal) or bottom (vertical)
          */
-        snapToAlignment?: string
+        snapToAlignment?: "start" | "center" | "end"
 
         /**
          * When set, causes the scroll view to stop at multiples of the value of snapToInterval.
@@ -4303,10 +4887,7 @@ declare namespace  __React {
         ref?: Ref<ScrollViewStatic>
     }
 
-    interface ScrollViewStatic extends React.ComponentClass<ScrollViewProps> {
-
-        // Deprecated. Use RefreshControl instead.
-        endRefreshing?: () => void
+    interface ScrollViewStatic extends ScrollResponderMixin, React.ComponentClass<ScrollViewProps> {
 
         /**
          * Scrolls to a given x, y offset, either immediately or with a smooth animation.
@@ -4332,13 +4913,14 @@ declare namespace  __React {
          */
         getScrollResponder(): JSX.Element;
 
+        getScrollableNode(): any;
+
         // Undocumented
         getInnerViewNode(): any;
 
         // Deprecated, do not use.
-        scrollWithoutAnimationTo?: (y: number, x: number) => void
+        scrollWithoutAnimationTo?(y: number, x: number): void
     }
-
 
     export interface NativeScrollRectangle {
         left: number;
@@ -4739,7 +5321,7 @@ declare namespace  __React {
          */
         getPhotos(params: GetPhotosParamType): Promise<GetPhotosReturnType>;
     }
-//CameraRollFetchParams
+    //CameraRollFetchParams
     export interface ClipboardStatic {
         getString(): Promise<string>;
         setString(content: string): void;
@@ -5937,6 +6519,8 @@ declare namespace  __React {
     export var ActivityIndicatorIOS: ActivityIndicatorIOSStatic
     export type ActivityIndicatorIOS = ActivityIndicatorIOSStatic
 
+    // TODO: ReactNativeArt
+
     export var DatePickerIOS: DatePickerIOSStatic
     export type DatePickerIOS = DatePickerIOSStatic
 
@@ -5945,6 +6529,8 @@ declare namespace  __React {
 
     export var Image: ImageStatic
     export type Image = ImageStatic
+
+    // TODO: ImageEditor, ImageStore, KeyboardAvoidingView
 
     export var LayoutAnimation: LayoutAnimationStatic
     export type LayoutAnimation = LayoutAnimationStatic
@@ -6219,5 +6805,3 @@ declare function require( name: string ): any
  * <code> if (__DEV__) console.log('Running in dev mode')</code>
  */
 declare var __DEV__: boolean
-
-
