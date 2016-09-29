@@ -18,15 +18,15 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 
-const {
+import {
           StyleSheet,
           PanResponder,
           View
-          } = React
+} from 'react-native';
 
 const CIRCLE_SIZE = 80
 const CIRCLE_COLOR = 'blue'

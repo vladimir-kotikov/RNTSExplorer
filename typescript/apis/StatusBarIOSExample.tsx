@@ -17,17 +17,17 @@
 
 'use strict'
 
-import * as React from 'react-native';
+import * as React from 'react';
 import RNTSExample from '../RNTSExample'
 import RNTSExampleModule from '../RNTSExampleModule'
 
-const {
+import {
           StyleSheet,
           View,
           Text,
           TouchableHighlight,
           StatusBarIOS
-          } = React
+} from 'react-native';
 
 
 const styles = StyleSheet.create(

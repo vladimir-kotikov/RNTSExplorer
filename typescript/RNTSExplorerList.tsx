@@ -87,13 +87,13 @@ import BorderExample from './apis/BorderExample'
 import CameraRollExample from './apis/CameraRollExample.ios'
 import GeolocationExample from './apis/GeolocationExample'
 import LayoutExample from './apis/LayoutExample'
-// import NetInfoExample from './apis/NetInfoExample'
-// import PanResponderExample from './apis/PanResponderExample'
-// import PointerEventsExample from './apis/PointerEventsExample'
-// import PushNotificationIOSExample  from './apis/PushNotificationIOSExample'
-// import StatusBarIOSExample from './apis/StatusBarIOSExample'
-// import TimerExample from './apis/TimerExample'
-// import VibrationIOSExample from './apis/VibrationIOSExample'
+import NetInfoExample from './apis/NetInfoExample'
+import PanResponderExample from './apis/PanResponderExample'
+import PointerEventsExample from './apis/PointerEventsExample'
+import PushNotificationIOSExample  from './apis/PushNotificationIOSExample'
+import StatusBarIOSExample from './apis/StatusBarIOSExample'
+import TimerExample from './apis/TimerExample'
+import VibrationIOSExample from './apis/VibrationIOSExample'
 
 const APIS: RNTSExampleModule[] = [
     ActionSheetIOSExample,
@@ -105,13 +105,13 @@ const APIS: RNTSExampleModule[] = [
     CameraRollExample,
     GeolocationExample,
     LayoutExample,
-    // NetInfoExample,
-    // PanResponderExample,
-    // PointerEventsExample,
-    // PushNotificationIOSExample,
-    // StatusBarIOSExample,
-    // TimerExample,
-    // VibrationIOSExample
+    NetInfoExample,
+    PanResponderExample,
+    PointerEventsExample,
+    PushNotificationIOSExample,
+    StatusBarIOSExample,
+    TimerExample,
+    VibrationIOSExample
 ]
 
 const ds = new ListView.DataSource( {
