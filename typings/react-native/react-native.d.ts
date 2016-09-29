@@ -1698,13 +1698,26 @@ declare namespace  __React {
          * NavigatorIOS uses "route" objects to identify child views, their props, and navigation bar configuration.
          * "push" and all the other navigation operations expect routes to be like this
          */
-        initialRoute?: Route
+        initialRoute: Route
 
         /**
          * The default wrapper style for components in the navigator.
          * A common use case is to set the backgroundColor for every page
          */
         itemWrapperStyle?: ViewStyle
+
+        /**
+         * Boolean value that indicates whether the interactive pop gesture is
+         * enabled. This is useful for enabling/disabling the back swipe navigation
+         * gesture.
+         *
+         * If this prop is not provided, the default behavior is for the back swipe
+         * gesture to be enabled when the navigation bar is shown and disabled when
+         * the navigation bar is hidden. Once you've provided the
+         * `interactivePopGestureEnabled` prop, you can never restore the default
+         * behavior.
+         */
+        interactivePopGestureEnabled: boolean
 
         /**
          * A Boolean value that indicates whether the navigation bar is hidden
@@ -1720,6 +1733,11 @@ declare namespace  __React {
          * The color used for buttons in the navigation bar
          */
         tintColor?: string
+
+        /**
+         * The default background color of the navigation bar.
+         */
+        barTintColor: string
 
         /**
          * The text color of the navigation bar title
