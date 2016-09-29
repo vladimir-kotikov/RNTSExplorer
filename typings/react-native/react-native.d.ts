@@ -2965,6 +2965,7 @@ declare namespace  __React {
         ref?: Ref<ListViewStatic & ScrollViewStatic & ViewStatic>
     }
 
+
     interface TimerMixin {
         setTimeout: typeof setTimeout,
         clearTimeout: typeof clearTimeout,
@@ -3607,6 +3608,34 @@ declare namespace  __React {
         dispose(): void;
     }
 
+    interface InteractionMixin {
+        createInteractionHandle(): number
+        clearInteractionHandle(clearHandle: number): void
+        /**
+         * Schedule work for after all interactions have completed.
+         *
+         * @param {function} callback
+         */
+        runAfterInteractions(callback: () => any): void
+    }
+
+    interface SubscribableMixin {
+        /**
+         * Special form of calling `addListener` that *guarantees* that a
+         * subscription *must* be tied to a component instance, and therefore will
+         * be cleaned up when the component is unmounted. It is impossible to create
+         * the subscription and pass it in - this method must be the one to create
+         * the subscription and therefore can guarantee it is retained in a way that
+         * will be cleaned up.
+         *
+         * @param {EventEmitter} eventEmitter emitter to subscribe to.
+         * @param {string} eventType Type of event to listen to.
+         * @param {function} listener Function to invoke when event occurs.
+         * @param {object} context Object to use as listener context.
+         */
+        addListenerOn( eventEmitter: any, eventType: string, listener: () => any, context: any ): void
+    }
+
     /**
      * Use Navigator to transition between different scenes in your app.
      * To accomplish this, provide route objects to the navigator to identify each scene,
@@ -3616,7 +3645,7 @@ declare namespace  __React {
      * See Navigator.SceneConfigs for default animations and more info on scene config options.
      * @see https://facebook.github.io/react-native/docs/navigator.html
      */
-    export interface NavigatorStatic extends React.ComponentClass<NavigatorProperties> {
+    export interface NavigatorStatic extends TimerMixin, InteractionMixin, SubscribableMixin, React.ComponentClass<NavigatorProperties> {
         SceneConfigs: SceneConfigs;
         NavigationBar: NavigatorStatic.NavigationBarStatic;
         BreadcrumbNavigationBar: NavigatorStatic.BreadcrumbNavigationBarStatic;
