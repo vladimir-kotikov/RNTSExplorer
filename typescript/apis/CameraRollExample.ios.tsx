@@ -109,7 +109,7 @@ class CameraRollExample extends React.Component<any,State> {
         const imageStyle = [ styles.image, { width: imageSize, height: imageSize } ]
         const location = asset.node.location.longitude ?
                        JSON.stringify( asset.node.location ) : 'Unknown location'
-        const key = asset.node.image.uri
+        const key = (asset.node.image.defaultProps.source as React.ImageURISource).uri
         return (
             <View key={key} style={styles.row}>
                 <Image
@@ -117,7 +117,7 @@ class CameraRollExample extends React.Component<any,State> {
                     style={imageStyle}
                 />
                 <View style={styles.info}>
-                    <Text style={styles.url}>{asset.node.image.uri}</Text>
+                    <Text style={styles.url}>{key}</Text>
                     <Text>{location}</Text>
                     <Text>{asset.node.group_name}</Text>
                     <Text>{new Date(asset.node.timestamp).toString()}</Text>
