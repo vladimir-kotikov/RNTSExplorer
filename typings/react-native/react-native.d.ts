@@ -4993,16 +4993,21 @@ declare namespace  __React {
      * @see: http://facebook.github.io/react-native/docs/actionsheetios.html#content
      */
     export interface ActionSheetIOSOptions {
-        title?: string
-        options?: string[]
+        options: string[]
         cancelButtonIndex?: number
         destructiveButtonIndex?: number
+        title?: string
         message?: string
     }
 
     export interface ShareActionSheetIOSOptions {
         message?: string
         url?: string
+        subject?: string
+        /** The activities to exclude from the ActionSheet.
+         * For example: ['com.apple.UIKit.activity.PostToTwitter']
+         */
+        excludedActivityTypes?: string[]
     }
 
     /**
@@ -5010,24 +5015,29 @@ declare namespace  __React {
      */
     export interface ActionSheetIOSStatic {
         /**
-         * Display an iOS action sheet. The options object must contain one
-         * or more of:
-         * options (array of strings) - a list of button titles (required)
-         * cancelButtonIndex (int) - index of cancel button in options
-         * destructiveButtonIndex (int) - index of destructive button in options
-         * title (string) - a title to show above the action sheet
-         * message (string) - a message to show below the title
+         * Display an iOS action sheet. The `options` object must contain one or more
+         * of:
+         * - `options` (array of strings) - a list of button titles (required)
+         * - `cancelButtonIndex` (int) - index of cancel button in `options`
+         * - `destructiveButtonIndex` (int) - index of destructive button in `options`
+         * - `title` (string) - a title to show above the action sheet
+         * - `message` (string) - a message to show below the title
          */
         showActionSheetWithOptions: ( options: ActionSheetIOSOptions, callback: ( buttonIndex: number ) => void ) => void
 
         /**
-         * Display the iOS share sheet. The options object should contain one
-         * or both of:
-         * message (string) - a message to share
-         * url (string) - a URL to share
-         * NOTE: if url points to a local file, or is a base64-encoded uri,
-         * the file it points to will be loaded and shared directly. In this
-         * way, you can share images, videos, PDF files, etc.
+         * Display the iOS share sheet. The `options` object should contain
+         * one or both of `message` and `url` and can additionally have
+         * a `subject` or `excludedActivityTypes`:
+         *
+         * - `url` (string) - a URL to share
+         * - `message` (string) - a message to share
+         * - `subject` (string) - a subject for the message
+         * - `excludedActivityTypes` (array) - the activities to exclude from the ActionSheet
+         *
+         * NOTE: if `url` points to a local file, or is a base64-encoded
+         * uri, the file it points to will be loaded and shared directly.
+         * In this way, you can share images, videos, PDF files, etc.
          */
         showShareActionSheetWithOptions: ( options: ShareActionSheetIOSOptions, failureCallback: ( error: Error ) => void, successCallback: ( success: boolean, method: string ) => void ) => void
     }
