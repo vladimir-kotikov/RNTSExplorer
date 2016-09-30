@@ -5263,12 +5263,45 @@ declare namespace  __React {
     }
 
     /**
-     * AsyncStorage is a simple, asynchronous, persistent, key-value storage system that is global to the app.
-     * It should be used instead of LocalStorage.
+     * @class
+     * @description
+     * `AsyncStorage` is a simple, unencrypted, asynchronous, persistent, key-value storage
+     * system that is global to the app.  It should be used instead of LocalStorage.
      *
-     * It is recommended that you use an abstraction on top of AsyncStorage
-     * instead of AsyncStorage directly for anything more than light usage since it operates globally.
+     * It is recommended that you use an abstraction on top of `AsyncStorage`
+     * instead of `AsyncStorage` directly for anything more than light usage since
+     * it operates globally.
      *
+     * On iOS, `AsyncStorage` is backed by native code that stores small values in a
+     * serialized dictionary and larger values in separate files. On Android,
+     * `AsyncStorage` will use either [RocksDB](http://rocksdb.org/) or SQLite
+     * based on what is available.
+     *
+     * The `AsyncStorage` JavaScript code is a simple facade that provides a clear
+     * JavaScript API, real `Error` objects, and simple non-multi functions. Each
+     * method in the API returns a `Promise` object.
+     *
+     * Persisting data:
+     * ```
+     * try {
+     *   await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
+     * } catch (error) {
+     *   // Error saving data
+     * }
+     * ```
+     *
+     * Fetching data:
+     * ```
+     * try {
+     *   const value = await AsyncStorage.getItem('@MySuperStore:key');
+     *   if (value !== null){
+     *     // We have data!!
+     *     console.log(value);
+     *   }
+     * } catch (error) {
+     *   // Error retrieving data
+     * }
+     * ```
      * @see https://facebook.github.io/react-native/docs/asyncstorage.html#content
      */
     export interface AsyncStorageStatic {
