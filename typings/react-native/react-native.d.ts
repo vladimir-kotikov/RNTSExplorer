@@ -6103,7 +6103,7 @@ declare namespace  __React {
         ref?: Ref<SwitchStatic>
     }
 
-    export interface SwitchProperties extends ViewProperties, React.Props<SwitchStatic> {
+    export interface SwitchProperties extends SwitchPropertiesIOS, React.Props<SwitchStatic> {
 
         /**
          * If true the user won't be able to toggle the switch.
@@ -6128,13 +6128,17 @@ declare namespace  __React {
         value?: boolean
 
 	    style?: ViewStyle
-
-        ref?: Ref<SwitchStatic>
     }
 
-    export interface SwitchStatic extends React.ComponentClass<SwitchProperties> {
-
-    }
+    /**
+     * Renders a boolean input.
+     *
+     * This is a controlled component that requires an `onValueChange` callback that
+     * updates the `value` prop in order for the component to reflect user actions.
+     * If the `value` prop is not updated, the component will continue to render
+     * the supplied `value` prop instead of the expected result of any user actions.
+     */
+    export interface SwitchStatic extends NativeComponent, React.ClassicComponentClass<SwitchProperties> {}
 
     /**
      * The Vibration API is exposed at VibrationIOS.vibrate().
@@ -6712,7 +6716,7 @@ declare namespace  __React {
     export var SliderIOS: SliderIOSStatic
     export type SliderIOS = SliderIOSStatic
 
-    // TODO: SnapshotViewIOS, Switch
+    // TODO: SnapshotViewIOS
 
     export var StatusBar: StatusBarStatic
     export type StatusBar = StatusBarStatic
@@ -6728,6 +6732,8 @@ declare namespace  __React {
 
     export var Switch: SwitchStatic
     export type Switch = SwitchStatic
+
+    // TODO: SwitchAndroid
 
     export var SwitchIOS: SwitchIOSStatic
     export type SwitchIOS = SwitchIOSStatic
