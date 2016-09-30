@@ -2394,7 +2394,7 @@ declare namespace  __React {
          * Assigns a maximum track image. Only static images are supported.
          * The leftmost pixel of the image will be stretched to fill the track.
          */
-        maximumTrackImage?: any
+        maximumTrackImage?: ImageURISource
 
         /**
          * The color used for the track to the right of the button.
@@ -2406,7 +2406,7 @@ declare namespace  __React {
          * Assigns a minimum track image. Only static images are supported.
          * The rightmost pixel of the image will be stretched to fill the track.
          */
-        minimumTrackImage?: string
+        minimumTrackImage?: ImageURISource
 
         /**
          * The color used for the track to the left of the button.
@@ -2417,14 +2417,14 @@ declare namespace  __React {
         /**
          * Sets an image for the thumb. Only static images are supported.
          */
-        thumbImage?: any
+        thumbImage?: ImageURISource
 
         /**
          * Assigns a single image for the track. Only static images
          * are supported. The center pixel of the image will be stretched
          * to fill the track.
          */
-        trackImage?: any
+        trackImage?: ImageURISource
 
         ref?: Ref<SliderStatic>
     }
@@ -2484,9 +2484,10 @@ declare namespace  __React {
         value?: number
     }
 
-    export interface SliderStatic extends React.ComponentClass<SliderProperties> {
-
-    }
+    /**
+     * A component used to select a single value from a range of values.
+     */
+    export interface SliderStatic extends NativeComponent, React.ClassicComponentClass<SliderProperties> {}
 
 
     /**
