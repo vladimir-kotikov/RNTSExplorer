@@ -5047,14 +5047,27 @@ declare namespace  __React {
     }
 
     export interface SwipeableListViewProps extends React.Props<SwipeableListViewStatic> {
+
+        /**
+         * To alert the user that swiping is possible, the first row can bounce
+         * on component mount.
+         */
+        bounceFirstRowOnMount: boolean
+
+        /**
+         * Use `SwipeableListView.getNewDataSource()` to get a data source to use,
+         * then use it just like you would a normal ListView data source
+         */
         dataSource: SwipeableListViewDataSource
-        maxSwipeDistance?: number
+
+        // Maximum distance to open to after a swipe
+        maxSwipeDistance: number
 
         // Callback method to render the swipeable view
         renderRow: ( rowData: any, sectionID: string | number, rowID: string | number, highlightRow?: boolean ) => React.ReactElement<any>
 
         // Callback method to render the view that will be unveiled on swipe
-        renderQuickActions(rowData: Object, sectionID: string, rowID: string): React.ReactElement<any>
+        renderQuickActions: (rowData: any, sectionID: string | number, rowID: string | number) => React.ReactElement<any>
     }
 
     /**
