@@ -710,6 +710,7 @@ declare namespace  __React {
      */
     export interface TextStatic extends NativeComponent, React.ClassicComponentClass<TextProperties> {}
 
+    type DataDetectorTypes = 'phoneNumber' | 'link' | 'address' | 'calendarEvent' | 'none' | 'all';
 
     /**
      * IOS Specific properties for TextInput
@@ -721,12 +722,30 @@ declare namespace  __React {
          * enum('never', 'while-editing', 'unless-editing', 'always')
          * When the clear button should appear on the right side of the text view
          */
-        clearButtonMode?: string
+        clearButtonMode?: 'never' | 'while-editing' | 'unless-editing' | 'always'
 
         /**
          * If true, clears the text field automatically when editing begins
          */
         clearTextOnFocus?: boolean
+
+        /**
+         * Determines the types of data converted to clickable URLs in the text input.
+         * Only valid if `multiline={true}` and `editable={false}`.
+         * By default no data types are detected.
+         *
+         * You can provide one type or an array of many types.
+         *
+         * Possible values for `dataDetectorTypes` are:
+         *
+         * - `'phoneNumber'`
+         * - `'link'`
+         * - `'address'`
+         * - `'calendarEvent'`
+         * - `'none'`
+         * - `'all'`
+         */
+        dataDetectorTypes: DataDetectorTypes | DataDetectorTypes[]
 
         /**
          * If true, the keyboard disables the return key when there is no text and automatically enables it when there is text.
@@ -735,19 +754,21 @@ declare namespace  __React {
         enablesReturnKeyAutomatically?: boolean
 
         /**
+         * Determines the color of the keyboard.
+         */
+        keyboardAppearance: 'default' | 'light' | 'dark'
+
+        /**
          * Callback that is called when a key is pressed.
          * Pressed key value is passed as an argument to the callback handler.
          * Fires before onChange callbacks.
          */
-        onKeyPress?: () => void
+        onKeyPress?: (key: string) => void
 
         /**
-         * //FIXME: requires typing
          * See DocumentSelectionState.js, some state that is responsible for maintaining selection information for a document
          */
-        selectionState?: any
-
-
+        selectionState?: DocumentSelectionState
     }
 
     /**
@@ -755,6 +776,16 @@ declare namespace  __React {
      * @see https://facebook.github.io/react-native/docs/textinput.html#props
      */
     export interface TextInputAndroidProperties {
+
+        /**
+         * If defined, the provided image resource will be rendered on the left.
+         */
+        inlineImageLeft: string
+
+        /**
+         * Padding between the inline image, if any, and the text input itself.
+         */
+        inlineImagePadding: number
 
         /**
          * Sets the number of lines for a TextInput.
@@ -769,30 +800,22 @@ declare namespace  __React {
         returnKeyLabel?: string
 
         /**
-         * enum('start', 'center', 'end')
-         * Set the position of the cursor from where editing will begin.
-         */
-        textAlign?: string
-
-        /**
-         * enum('top', 'center', 'bottom')
-         * Aligns text vertically within the TextInput.
-         */
-        textAlignVertical?: string
-
-        /**
          * The color of the textInput underline.
          */
         underlineColorAndroid?: string
     }
 
-    export type KeyboardType = "default" | "email-address" | "numeric" | "phone-pad" | "ascii-capable" | "numbers-and-punctuation" | "url" | "number-pad" | "name-phone-pad" | "decimal-pad" | "twitter" | "web-search"
-    export type ReturnKeyType = "default" | "go" | "google" | "join" | "next" | "route" | "search" | "send" | "yahoo" | "done" | "emergency-call"
+    export type KeyboardType = "default" | "email-address" | "numeric" | "phone-pad"
+    export type KeyboardTypeIOS = "ascii-capable" | "numbers-and-punctuation" | "url" | "number-pad" | "name-phone-pad" | "decimal-pad" | "twitter" | "web-search"
+
+    export type ReturnKeyType = "done" | "go" | "next" | "search" | "send"
+    export type ReturnKeyTypeAndroid = "none" | "previous"
+    export type ReturnKeyTypeIOS = "default" | "google" | "join" | "route" | "yahoo" | "emergency-call"
 
     /**
      * @see https://facebook.github.io/react-native/docs/textinput.html#props
      */
-    export interface TextInputProperties extends TextInputIOSProperties, TextInputAndroidProperties, React.Props<TextInputStatic> {
+    export interface TextInputProperties extends ViewProperties, TextInputIOSProperties, TextInputAndroidProperties, React.Props<TextInputStatic> {
 
         /**
          * Can tell TextInput to automatically capitalize certain characters.
@@ -838,9 +861,9 @@ declare namespace  __React {
         /**
          * enum("default", 'numeric', 'email-address', "ascii-capable", 'numbers-and-punctuation', 'url', 'number-pad', 'phone-pad', 'name-phone-pad', 'decimal-pad', 'twitter', 'web-search')
          * Determines which keyboard to open, e.g.numeric.
-         * The following values work across platforms: - default - numeric - email-address
+         * The following values work across platforms: - default - numeric - email-address - phone-pad
          */
-        keyboardType?: KeyboardType
+        keyboardType?: KeyboardType | KeyboardTypeIOS
 
         /**
          * Limits the maximum number of characters that can be entered.
@@ -870,6 +893,15 @@ declare namespace  __React {
         onChangeText?: ( text: string ) => void
 
         /**
+         * Callback that is called when the text input's content size changes.
+         * This will be called with
+         * `{ nativeEvent: { contentSize: { width, height } } }`.
+         *
+         * Only called for multiline text inputs.
+         */
+        onContentSizeChange: ( event: {nativeEvent: {contentSize: { width: number, height: number}}} ) => void
+
+        /**
          * Callback that is called when text input ends.
          */
         onEndEditing?: ( event: {nativeEvent: {text: string}} ) => void
@@ -880,10 +912,8 @@ declare namespace  __React {
         onFocus?: () => void
 
         /**
-         * Invoked on mount and layout changes with {x, y, width, height}.
+         * Callback that is called when the text input selection is changed.
          */
-        onLayout?: ( event: {nativeEvent: {x: number, y: number, width: number, height: number}} ) => void
-
         onSelectionChange?: () => void
 
         /**
@@ -910,7 +940,7 @@ declare namespace  __React {
          * enum('default', 'go', 'google', 'join', 'next', 'route', 'search', 'send', 'yahoo', 'done', 'emergency-call')
          * Determines how the return key should look.
          */
-        returnKeyType?: "default" | "go" | "google" | "join" | "next" | "route" | "search" | "send" | "yahoo" | "done" | "emergency-call"
+        returnKeyType?: ReturnKeyType | ReturnKeyTypeAndroid | ReturnKeyTypeIOS
 
         /**
          * If true, the text input obscures the text entered so that sensitive text like passwords stay secure.
@@ -922,6 +952,12 @@ declare namespace  __React {
          * If true, all text will automatically be selected on focus
          */
         selectTextOnFocus?: boolean
+
+        /**
+         * The start and end of the text input's selection. Set start and end to
+         * the same value to position the cursor.
+         */
+        selection?: { start: number, end?: number }
 
         /**
          * The highlight (and cursor on ios) color of the text input
@@ -946,12 +982,43 @@ declare namespace  __React {
          * or set/update maxLength to prevent unwanted edits without flicker.
          */
         value?: string
+
+        ref: Ref<ViewStatic & TextInputStatic>
+    }
+
+    /**
+     * This class is responsible for coordinating the "focused"
+     * state for TextInputs. All calls relating to the keyboard
+     * should be funneled through here
+     */
+    interface TextInputState {
+        /**
+         * Returns the ID of the currently focused text field, if one exists
+         * If no text field is focused it returns null
+         */
+        currentlyFocusedField(): number | null
+
+        /**
+         * @param {number} TextInputID id of the text field to focus
+         * Focuses the specified text field
+         * noop if the text field was already focused
+         */
+        focusTextInput(textFieldID: number | null): void
+
+        /**
+         * @param {number} textFieldID id of the text field to focus
+         * Unfocuses the specified text field
+         * noop if it wasn't focused
+         */
+        blurTextInput(textFieldID: number | null) : void
     }
 
     /**
      * @see https://facebook.github.io/react-native/docs/textinput.html#methods
      */
-    export interface TextInputStatic extends NativeComponent, React.ComponentClass<TextInputProperties> {
+    export interface TextInputStatic extends NativeComponent, TimerMixin, React.ComponentClass<TextInputProperties> {
+        State: TextInputState
+
         /**
          * Returns if the input is currently focused.
          */
@@ -961,10 +1028,6 @@ declare namespace  __React {
          * Removes all text from the input.
          */
         clear: () => void
-
-        // The following methods are found only in implementation
-        blur: () => void
-        focus: () => void
     }
 
     export type ToolbarAndroidAction = {
