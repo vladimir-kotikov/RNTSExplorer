@@ -1687,9 +1687,27 @@ declare namespace  __React {
          ref?: Ref<SegmentedControlIOSStatic>
      }
 
-    export interface SegmentedControlIOSStatic extends React.ComponentClass<SegmentedControlIOSProperties> {
-
-    }
+    /**
+     * Use `SegmentedControlIOS` to render a UISegmentedControl iOS.
+     *
+     * #### Programmatically changing selected index
+     *
+     * The selected index can be changed on the fly by assigning the
+     * selectIndex prop to a state variable, then changing that variable.
+     * Note that the state variable would need to be updated as the user
+     * selects a value and changes the index, as shown in the example below.
+     *
+     * ````
+     * <SegmentedControlIOS
+     *   values={['One', 'Two']}
+     *   selectedIndex={this.state.selectedIndex}
+     *   onChange={(event) => {
+     *     this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+     *   }}
+     * />
+     * ````
+     */
+    export interface SegmentedControlIOSStatic extends NativeComponent, React.ClassicComponentClass<SegmentedControlIOSProperties> {}
 
 
     export interface NavigatorIOSProperties extends React.Props<NavigatorIOSStatic> {
