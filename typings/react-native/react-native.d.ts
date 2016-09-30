@@ -6216,6 +6216,10 @@ declare namespace  __React {
       export class Value extends AnimatedWithChildren {
         constructor(value: number);
 
+        /**
+         * Directly set the value.  This will stop any animations running on the value
+         * and update all the bound properties.
+         */
         setValue(value: number): void;
 
         /**
@@ -6275,7 +6279,7 @@ declare namespace  __React {
 
         flattenOffset(): void
 
-        stopAnimation(callback?: () => number): void;
+        stopAnimation(callback?: (value: {x: number, y: number}) => void): void;
 
         addListener(callback: ValueXYListenerCallback): string;
 
@@ -6288,7 +6292,7 @@ declare namespace  __React {
          *  style={this.state.anim.getLayout()}
          *```
          */
-        getLayout(): { left: AnimatedValue, top: AnimatedValue };
+        getLayout(): { [key: string]: AnimatedValue };
 
         /**
          * Converts `{x, y}` into a useable translation transform, e.g.
@@ -6392,6 +6396,19 @@ declare namespace  __React {
       class AnimatedModulo extends AnimatedInterpolation {}
 
       /**
+       * Create a new Animated value that is limited between 2 values. It uses the
+       * difference between the last value so even if the value is far from the bounds
+       * it will start changing when the value starts getting closer again.
+       * (`value = clamp(value + diff, min, max)`).
+       *
+       * This is useful with scroll events, for example, to show the navbar when
+       * scrolling up and to hide it when scrolling down.
+       */
+      export function diffClamp(a: Animated, min: number, max: number): AnimatedDiffClamp;
+
+      class AnimatedDiffClamp extends AnimatedInterpolation {}
+
+      /**
        * Starts an animation after the given delay.
        */
       export function delay(time: number): CompositeAnimation;
@@ -6419,10 +6436,10 @@ declare namespace  __React {
        * Spring animation based on Rebound and Origami.  Tracks velocity state to
        * create fluid motions as the `toValue` updates, and can be chained together.
        */
-      export var spring: (
+      export function spring (
         value: AnimatedValue | AnimatedValueXY,
         config: SpringAnimationConfig
-      ) => CompositeAnimation;
+      ): CompositeAnimation;
 
       type ParallelConfig = {
         stopTogether?: boolean; // If one is stopped, stop all.  default: true
@@ -6433,10 +6450,10 @@ declare namespace  __React {
        * of the animations is stopped, they will all be stopped.  You can override
        * this with the `stopTogether` flag.
        */
-      var parallel: (
+      export function parallel (
         animations: Array<CompositeAnimation>,
         config?: ParallelConfig
-      ) => CompositeAnimation;
+      ): CompositeAnimation;
 
       type Mapping = {[key: string]: Mapping} | AnimatedValue;
       interface EventConfig {
@@ -6459,10 +6476,15 @@ declare namespace  __React {
        *  ]),
        *```
        */
-      var event: (
+      export function event (
         argMapping: Mapping[],
         config?: EventConfig
-      ) => (...args: any[]) => void;
+      ): (...args: any[]) => void;
+
+      /**
+       * Make any React component Animatable.  Used to create `Animated.View`, etc.
+       */
+      export function createAnimatedComponent (component: any) : any;
 
       /**
        * Animated variants of the basic native views. Accepts Animated.Value for
