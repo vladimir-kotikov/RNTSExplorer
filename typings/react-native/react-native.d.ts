@@ -595,28 +595,68 @@ declare namespace  __React {
         testID?: string
     }
 
-    export interface TextPropertiesIOS {
-
+    export interface TextPropertiesIOS extends React.Props<TextPropertiesIOS> {
         /**
-         * Specifies should fonts scale to respect Text Size accessibility
-         * setting on iOS.
+         * Specifies whether fonts should scale to respect Text Size accessibility setting on iOS. The
+         * default is `true`.
          */
-        allowFontScaling: boolean
+        allowFontScaling?: boolean
 
         /**
-         * When true, no visual change is made when text is pressed down.
-         * By default, a gray oval highlights the text on press down.
+         * Specifies whether font should be scaled down automatically to fit given style constraints.
+         */
+        adjustsFontSizeToFit: boolean
+
+        /**
+         * Specifies smallest possible scale a font can reach when adjustsFontSizeToFit is enabled. (values 0.01-1.0).
+         */
+        minimumFontScale: number
+
+        /**
+         * When `true`, no visual change is made when text is pressed down. By
+         * default, a gray oval highlights the text on press down.
          */
         suppressHighlighting?: boolean
     }
 
+    export interface TextPropertiesAndroid extends React.Props<TextPropertiesAndroid> {
+        /**
+         * Lets the user select text, to use the native copy and paste functionality.
+         */
+        selectable: boolean
+    }
+
     // https://facebook.github.io/react-native/docs/text.html#props
-    export interface TextProperties extends React.Props<TextProperties> {
+    export interface TextProperties extends TextPropertiesIOS, TextPropertiesAndroid, React.Props<TextProperties> {
 
         /**
-         * Specifies should fonts scale to respect Text Size accessibility setting on iOS.
+         * When set to `true`, indicates that the view is an accessibility element. The default value
+         * for a `Text` element is `true`.
+         *
+         * See the
+         * [Accessibility guide](/react-native/docs/accessibility.html#accessible-ios-android)
+         * for more information.
          */
-        allowFontScaling?: boolean
+        accessible?: boolean
+
+        /**
+         * This can be one of the following values:
+         *
+         * - `head` - The line is displayed so that the end fits in the container and the missing text
+         * at the beginning of the line is indicated by an ellipsis glyph. e.g., "...wxyz"
+         * - `middle` - The line is displayed so that the beginning and end fit in the container and the
+         * missing text in the middle is indicated by an ellipsis glyph. "ab...yz"
+         * - `tail` - The line is displayed so that the beginning fits in the container and the
+         * missing text at the end of the line is indicated by an ellipsis glyph. e.g., "abcd..."
+         * - `clip` - Lines are not drawn past the edge of the text container.
+         *
+         * The default is `tail`.
+         *
+         * `numberOfLines` must be set in conjunction with this prop.
+         *
+         * > `clip` is working only for iOS
+         */
+        ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip'
 
         /**
          * Line Break mode. Works only with numberOfLines.
@@ -625,7 +665,11 @@ declare namespace  __React {
         lineBreakMode?: 'head' | 'middle' | 'tail' | 'clip'
 
         /**
-         * Used to truncate the text with an elipsis after computing the text layout, including line wrapping, such that the total number of lines does not exceed this number.
+         * Used to truncate the text with an ellipsis after computing the text
+         * layout, including line wrapping, such that the total number of lines
+         * does not exceed this number.
+         *
+         * This prop is commonly used with `ellipsizeMode`.
          */
         numberOfLines?: number
 
@@ -643,6 +687,12 @@ declare namespace  __React {
         onPress?: () => void
 
         /**
+         * This function is called on long press.
+         * e.g., `onLongPress={this.increaseSize}>``
+         */
+        onLongPress?: () => void
+
+        /**
          * @see https://facebook.github.io/react-native/docs/text.html#style
          */
         style?: TextStyle
@@ -651,14 +701,14 @@ declare namespace  __React {
          * Used to locate this view in end-to-end tests.
          */
         testID?: string
+
+        ref: Ref<TextPropertiesIOS & TextPropertiesAndroid & TextProperties>
     }
 
     /**
      * A React component for displaying text which supports nesting, styling, and touch handling.
      */
-    export interface TextStatic extends React.ComponentClass<TextProperties> {
-
-    }
+    export interface TextStatic extends NativeComponent, React.ClassicComponentClass<TextProperties> {}
 
 
     /**
