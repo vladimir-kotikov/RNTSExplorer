@@ -5834,9 +5834,9 @@ declare namespace  __React {
     export type StatusBarStyle =  "default" | "light-content"
 
     /**
-     * @enum('none','fade', 'slide')
+     * @enum('fade', 'slide')
      */
-    type StatusBarAnimation = "none" | "fade" | "slide"
+    export type StatusBarAnimation = "none" | "fade" | "slide"
 
     export interface StatusBarPropertiesIOS extends React.Props<StatusBarStatic> {
         /**
@@ -5860,7 +5860,7 @@ declare namespace  __React {
         /**
          * The background color of the status bar.
          */
-        backgroundColor?: any
+        backgroundColor?: string
 
         /**
          * If the status bar is translucent. When translucent is set to true,
@@ -5886,17 +5886,46 @@ declare namespace  __React {
 
     export interface StatusBarStatic extends React.ComponentClass<StatusBarProperties> {
 
-        setHidden: (hidden: boolean, animation: StatusBarAnimation) => void
+        /**
+         * The current height of the status bar on the device.
+         * @platform android
+         */
+        currentHeight?: number
 
-        setBarStyle: (style: StatusBarStyle, animated: boolean) => void
+        /**
+         * Show or hide the status bar
+         * @param hidden The dialog's title.
+         * @param animation Optional animation when
+         *    changing the status bar hidden property.
+         */
+        setHidden: (hidden: boolean, animation?: StatusBarAnimation) => void
 
+        /**
+         * Set the status bar style
+         * @param style Status bar style to set
+         * @param animated Animate the style change.
+         */
+        setBarStyle: (style: StatusBarStyle, animated?: boolean) => void
+
+        /**
+         * Control the visibility of the network activity indicator
+         * @param visible Show the indicator.
+         */
         setNetworkActivityIndicatorVisible: (visible: boolean) => void
 
-        setBackgroundColor: (color: string, animated: boolean) => void
+        /**
+         * Set the background color for the status bar
+         * @param color Background color.
+         * @param animated Animate the style change.
+         */
+        setBackgroundColor: (color: string, animated?: boolean) => void
 
+        /**
+         * Control the translucency of the status bar
+         * @param translucent Set as translucent.
+         */
         setTranslucent: (translucent: boolean) => void
     }
-
 
     /**
      * StatusBarIOS is being deprecated.
@@ -6582,11 +6611,15 @@ declare namespace  __React {
     export var RefreshControl: RefreshControlStatic
     export type RefreshControl = RefreshControlStatic
 
+    // TODO: RecyclerViewBackedScrollView, RefreshControl
+
     export var Slider: SliderIOS
     export type Slider = SliderIOS
 
     export var SliderIOS: SliderIOSStatic
     export type SliderIOS = SliderIOSStatic
+
+    // TODO: SnapshotViewIOS, Switch
 
     export var StatusBar: StatusBarStatic
     export type StatusBar = StatusBarStatic
