@@ -4201,13 +4201,19 @@ declare namespace  __React {
         /**
          * A custom icon for the tab. It is ignored when a system icon is defined.
          */
-        icon?: {uri: string} | string
+        icon?: ImageURISource
 
         /**
          * Callback when this tab is being selected,
          * you should change the state of your component to set selected={true}.
          */
         onPress?: () => void
+
+        /**
+         * If set to true it renders the image as original,
+         * it defaults to being displayed as a template
+         */
+        renderAsOriginal: boolean
 
         /**
          * It specifies whether the children are visible or not. If you see a blank content, you probably forgot to add a selected one.
@@ -4218,7 +4224,7 @@ declare namespace  __React {
          * A custom icon when the tab is selected.
          * It is ignored when a system icon is defined. If left empty, the icon will be tinted in blue.
          */
-        selectedIcon?: {uri: string} | string;
+        selectedIcon?: ImageURISource
 
         /**
          * React style object.
