@@ -5505,8 +5505,9 @@ declare namespace  __React {
         maxDate?: Date | number
     }
 
+    // Deduced from DatePickerAndroid.android.js
     export interface DatePickerAndroidOpenReturn {
-        action: string // Deduced from DatePickerAndroid.android.js
+        action: string // "dateSetAction" | "dismissedAction"
         year?: number
         month?: number
         day?: number
@@ -5516,7 +5517,10 @@ declare namespace  __React {
         /*
          Opens the standard Android date picker dialog.
 
-         The available keys for the options object are: date (Date object or timestamp in milliseconds) - date to show by default minDate (Date or timestamp in milliseconds) - minimum date that can be selected * maxDate (Date object or timestamp in milliseconds) - minimum date that can be selected
+         The available keys for the options object are: 
+         * date (Date object or timestamp in milliseconds) - date to show by default 
+         * minDate (Date object or timestamp in milliseconds) - minimum date that can be selected 
+         * maxDate (Date object or timestamp in milliseconds) - maximum date that can be selected
 
          Returns a Promise which will be invoked an object containing action, year, month (0-11), day if the user picked a date. If the user dismissed the dialog, the Promise will still be resolved with action being DatePickerAndroid.dismissedAction and all the other keys being undefined. Always check whether the action before reading the values.
 
