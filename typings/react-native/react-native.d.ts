@@ -337,9 +337,11 @@ declare namespace  __React {
         onTouchEndCapture?: ( event: GestureResponderEvent ) => void
     }
 
+    export type ComponentProvider = () => React.ComponentClass<any>
+
     export type AppConfig = {
         appKey: string;
-        component: ReactClass<any, any, any>;
+        component?: ReactClass<any, any, any>;
         run?: Runnable;
     }
 
@@ -362,7 +364,7 @@ declare namespace  __React {
     export class AppRegistry {
         static registerConfig( config: AppConfig[] ): void;
 
-        static registerComponent( appKey: string, getComponentFunc: () => React.ComponentClass<any> ): string;
+        static registerComponent( appKey: string, getComponentFunc: ComponentProvider ): string;
 
         static registerRunnable( appKey: string, func: Runnable ): string;
 
@@ -6655,8 +6657,6 @@ declare namespace  __React {
     //  R E - E X P O R T S
     //
     //////////////////////////////////////////////////////////////////////////
-
-    // export var AppRegistry: AppRegistryStatic;
 
     export var ActivityIndicator: ActivityIndicatorStatic
     export type ActivityIndicator = ActivityIndicatorStatic
