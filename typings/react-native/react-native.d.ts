@@ -4254,7 +4254,16 @@ declare namespace  __React {
          */
         barTintColor?: string
 
-        style?: ViewStyle
+        /**
+         * Specifies tab bar item positioning. Available values are:
+         * - fill - distributes items across the entire width of the tab bar
+         * - center - centers item in the available tab bar space
+         * - auto (default) - distributes items dynamically according to the
+         * user interface idiom. In a horizontally compact environment (e.g. iPhone 5)
+         * this value defaults to `fill`, in a horizontally regular one (e.g. iPad)
+         * it defaults to center.
+         */
+        itemPositioning: 'fill' | 'center' | 'auto'
 
         /**
          * Color of the currently selected tab icon
