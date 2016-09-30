@@ -5425,6 +5425,14 @@ declare namespace  __React {
                   width: number
                   isStored?: boolean
               }
+              timestamp: number
+              location: {
+                latitude: number
+                longitude: number
+                altitude: number
+                heading: number
+                speed: number
+              }
             }
         }[]
 
@@ -5436,11 +5444,14 @@ declare namespace  __React {
     }
 
     /**
-     * CameraRoll provides access to the local camera roll / gallery.
+     * CameraRoll provides access to the local camera roll / gallery. 
+     * Before using this you must link the RCTCameraRoll library. 
+     * You can refer to (Linking)[https://facebook.github.io/react-native/docs/linking-libraries-ios.html] for help.
      */
     export interface CameraRollStatic {
 
         GroupTypesOptions: CameraRollGroupType[] //'Album','All','Event','Faces','Library','PhotoStream','SavedPhotos'
+        AssetTypeOptions: CameraRollAssetType[] // "All", "Videos", "Photos"
 
         /**
          * Saves the image to the camera roll / gallery.
