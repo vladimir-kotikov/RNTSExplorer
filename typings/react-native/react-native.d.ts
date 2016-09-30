@@ -4011,10 +4011,66 @@ declare namespace  __React {
     }
 
     /**
-     * //FIXME: Could not find docs. Inferred from examples and js code: ListViewDataSource.js
+     * Provides efficient data processing and access to the
+     * `ListView` component.  A `ListViewDataSource` is created with functions for
+     * extracting data from the input blob, and comparing elements (with default
+     * implementations for convenience).  The input blob can be as simple as an
+     * array of strings, or an object with rows nested inside section objects.
+     *
+     * To update the data in the datasource, use `cloneWithRows` (or
+     * `cloneWithRowsAndSections` if you care about sections).  The data in the
+     * data source is immutable, so you can't modify it directly.  The clone methods
+     * suck in the new data and compute a diff for each row so ListView knows
+     * whether to re-render it or not.
+     *
+     * In this example, a component receives data in chunks, handled by
+     * `_onDataArrived`, which concats the new data onto the old data and updates the
+     * data source.  We use `concat` to create a new array - mutating `this._data`,
+     * e.g. with `this._data.push(newRowData)`, would be an error. `_rowHasChanged`
+     * understands the shape of the row data and knows how to efficiently compare
+     * it.
+     *
+     * ```
+     * getInitialState: function() {
+     *   var ds = new ListViewDataSource({rowHasChanged: this._rowHasChanged});
+     *   return {ds};
+     * },
+     * _onDataArrived(newData) {
+     *   this._data = this._data.concat(newData);
+     *   this.setState({
+     *     ds: this.state.ds.cloneWithRows(this._data)
+     *   });
+     * }
+     * ```
      */
     export interface ListViewDataSource {
+        /**
+         * You can provide custom extraction and `hasChanged` functions for section
+         * headers and rows.  If absent, data will be extracted with the
+         * `defaultGetRowData` and `defaultGetSectionHeaderData` functions.
+         *
+         * The default extractor expects data of one of the following forms:
+         *
+         *      { sectionID_1: { rowID_1: <rowData1>, ... }, ... }
+         *
+         *    or
+         *
+         *      { sectionID_1: [ <rowData1>, <rowData2>, ... ], ... }
+         *
+         *    or
+         *
+         *      [ [ <rowData1>, <rowData2>, ... ], ... ]
+         *
+         * The constructor takes in a params argument that can contain any of the
+         * following:
+         *
+         * - getRowData(dataBlob, sectionID, rowID);
+         * - getSectionHeaderData(dataBlob, sectionID);
+         * - rowHasChanged(prevRowData, nextRowData);
+         * - sectionHeaderHasChanged(prevSectionData, nextSectionData);
+         */
         new( onAsset: DataSourceAssetCallback ): ListViewDataSource;
+
         /**
          * Clones this `ListViewDataSource` with the specified `dataBlob` and
          * `rowIdentities`. The `dataBlob` is just an aribitrary blob of data. At
@@ -4047,6 +4103,12 @@ declare namespace  __React {
         cloneWithRowsAndSections( dataBlob: Array<any> | {[key: string]: any}, sectionIdentities?: Array<string | number>, rowIdentities?: Array<Array<string | number>> ): ListViewDataSource
 
         getRowCount(): number
+        getRowAndSectionCount(): number
+
+        /**
+         * Returns if the row is dirtied and needs to be rerendered
+         */
+        rowShouldUpdate(sectionIndex: number, rowIndex: number): boolean
 
         /**
          * Gets the data required to render the row.
@@ -4057,13 +4119,13 @@ declare namespace  __React {
          * Gets the rowID at index provided if the dataSource arrays were flattened,
          * or null of out of range indexes.
          */
-        getRowIDForFlatIndex( index: number ): string
+        getRowIDForFlatIndex( index: number ): string | null
 
         /**
          * Gets the sectionID at index provided if the dataSource arrays were flattened,
          * or null for out of range indexes.
          */
-        getSectionIDForFlatIndex( index: number ): string
+        getSectionIDForFlatIndex( index: number ): string | null
 
         /**
          * Returns an array containing the number of rows in each section
@@ -4080,7 +4142,6 @@ declare namespace  __React {
          */
         getSectionHeaderData( sectionIndex: number ): any
     }
-
 
     /**
      * @see https://facebook.github.io/react-native/docs/tabbarios-item.html#props
@@ -4977,11 +5038,12 @@ declare namespace  __React {
      */
     export interface SwipeableListViewDataSource {
         cloneWithRowsAndSections(dataBlob: any,
-                                 sectionIdentities: Array<string>,
-                                 rowIdentities: Array<Array<string>>): SwipeableListViewDataSource
+                                 sectionIdentities: Array<string> | null,
+                                 rowIdentities: Array<Array<string>> | null): SwipeableListViewDataSource
         getDataSource(): ListViewDataSource
-        getOpenRowID(): string
-        setOpenRowID(rowID: string): ListViewDataSource
+        getOpenRowID(): string | null
+        getFirstRowID(): string | null
+        setOpenRowID(rowID: string): SwipeableListViewDataSource
     }
 
     export interface SwipeableListViewProps extends React.Props<SwipeableListViewStatic> {
@@ -4995,6 +5057,24 @@ declare namespace  __React {
         renderQuickActions(rowData: Object, sectionID: string, rowID: string): React.ReactElement<any>
     }
 
+    /**
+     * A container component that renders multiple SwipeableRow's in a ListView
+     * implementation. This is designed to be a drop-in replacement for the
+     * standard React Native `ListView`, so use it as if it were a ListView, but
+     * with extra props, i.e.
+     *
+     * let ds = SwipeableListView.getNewDataSource();
+     * ds.cloneWithRowsAndSections(dataBlob, ?sectionIDs, ?rowIDs);
+     * // ..
+     * <SwipeableListView renderRow={..} renderQuickActions={..} {..ListView props} />
+     *
+     * SwipeableRow can be used independently of this component, but the main
+     * benefit of using this component is
+     *
+     * - It ensures that at most 1 row is swiped open (auto closes others)
+     * - It can bounce the 1st row of the list so users know it's swipeable
+     * - More to come
+     */
     export interface SwipeableListViewStatic extends React.ComponentClass<SwipeableListViewProps> {
         getNewDataSource(): SwipeableListViewDataSource
     }
