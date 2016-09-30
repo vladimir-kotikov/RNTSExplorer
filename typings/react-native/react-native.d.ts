@@ -5361,6 +5361,8 @@ declare namespace  __React {
         multiMerge( keyValuePairs: string[][], callback?: ( errors?: Error[] ) => void ): Promise<string>
     }
 
+    export type BackPressEventName = "hardwareBackPress"
+
     /**
      * Detect hardware back button presses, and programmatically invoke the
      * default back button functionality to exit the app if there are no
@@ -5369,8 +5371,8 @@ declare namespace  __React {
      */
     export interface BackAndroidStatic {
         exitApp(): void;
-        addEventListener(eventName: string, handler: () => void): void;
-        removeEventListener(eventName: string, handler: () => void): void;
+        addEventListener(eventName: BackPressEventName, handler: () => void): void;
+        removeEventListener(eventName: BackPressEventName, handler: () => void): void;
     }
 
     export type CameraRollGroupType = "Album" | "All" | "Event" | "Faces" | "Library" | "PhotoStream" | "SavedPhotos";
