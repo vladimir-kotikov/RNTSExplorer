@@ -5492,7 +5492,8 @@ declare namespace  __React {
          */
         getPhotos(params: GetPhotosParamType): Promise<GetPhotosReturnType>;
     }
-    //CameraRollFetchParams
+
+    /** Clipboard gives you an interface for setting and getting content from Clipboard on both iOS and Android */
     export interface ClipboardStatic {
         getString(): Promise<string>;
         setString(content: string): void;
