@@ -119,24 +119,23 @@ declare namespace  __React {
     // @see lib.es6.d.ts
     export var Promise: PromiseConstructor;
 
-    module NativeMethodsMixin {
-      type MeasureOnSuccessCallback = (
+    export type MeasureOnSuccessCallback = (
         x: number,
         y: number,
         width: number,
         height: number,
         pageX: number,
         pageY: number
-      ) => void
+    ) => void
 
-      type MeasureInWindowOnSuccessCallback = (
+    export type MeasureInWindowOnSuccessCallback = (
         x: number,
         y: number,
         width: number,
         height: number
-      ) => void
+    ) => void
 
-      type MeasureLayoutOnSuccessCallback = (
+    export type MeasureLayoutOnSuccessCallback = (
         left: number,
         top: number,
         width: number,
@@ -358,12 +357,16 @@ declare namespace  __React {
         removeListener(eventType: string, listener: () => any): void
     }
 
-    /**
+    /** NativeMethodsMixin provides methods to access the underlying native component directly. 
+     * This can be useful in cases when you want to focus a view or measure its on-screen dimensions, 
+     * for example.
+     * The methods described here are available on most of the default components provided by React Native. 
+     * Note, however, that they are not available on composite components that aren't directly backed by a 
+     * native view. This will generally include most components that you define in your own app.
+     * For more information, see [Direct Manipulation](http://facebook.github.io/react-native/docs/direct-manipulation.html).
      * @see https://github.com/facebook/react-native/blob/master/Libraries/ReactIOS/NativeMethodsMixin.js
-     */
-    // export class Component<P, S> extends React.Component<P, S> {
-    export interface NativeComponent {
-
+     */ 
+    export interface NativeMethodsMixinStatic {
       /**
        * Determines the location on screen, width, and height of the given view and
        * returns the values via an async callback. If successful, the callback will
@@ -381,7 +384,7 @@ declare namespace  __React {
        * possible, consider using the [`onLayout`
        * prop](docs/view.html#onlayout) instead.
        */
-      measure(callback: NativeMethodsMixin.MeasureOnSuccessCallback): void;
+      measure(callback: MeasureOnSuccessCallback): void;
 
       /**
        * Determines the location of the given view in the window and returns the
@@ -398,7 +401,7 @@ declare namespace  __React {
        * Note that these measurements are not available until after the rendering
        * has been completed in native.
        */
-      measureInWindow(callback: NativeMethodsMixin.MeasureInWindowOnSuccessCallback): void;
+      measureInWindow(callback: MeasureInWindowOnSuccessCallback): void;
 
       /**
        * Like [`measure()`](#measure), but measures the view relative an ancestor,
@@ -410,7 +413,7 @@ declare namespace  __React {
        */
       measureLayout(
         relativeToNativeNode: number,
-        onSuccess: NativeMethodsMixin.MeasureLayoutOnSuccessCallback,
+        onSuccess: MeasureLayoutOnSuccessCallback,
         onFail: () => void /* currently unused */
       ): void;
 
@@ -8075,6 +8078,11 @@ declare namespace  __React {
 
     export var LinkingIOS: LinkingIOSStatic
     export type LinkingIOS = LinkingIOSStatic
+
+    export var NativeMethodsMixin: NativeMethodsMixinStatic
+    export type NativeMethodsMixin = NativeMethodsMixinStatic
+    export var NativeComponent: NativeMethodsMixinStatic
+    export type NativeComponent = NativeMethodsMixinStatic
 
     export var NetInfo: NetInfoStatic
     export type NetInfo = NetInfoStatic
