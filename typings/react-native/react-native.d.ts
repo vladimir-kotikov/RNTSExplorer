@@ -2963,6 +2963,52 @@ declare namespace  __React {
         SIZE: Object // Undocumented
     }
 
+    export interface RecyclerViewBackedScrollViewProperties extends ScrollViewProperties, React.Props<RecyclerViewBackedScrollViewStatic> {
+        ref?: Ref<RecyclerViewBackedScrollViewProperties & ScrollViewProperties>
+    }
+
+    /**
+     * Wrapper around android native recycler view.
+     *
+     * It simply renders rows passed as children in a separate recycler view cells
+     * similarly to how `ScrollView` is doing it. Thanks to the fact that it uses
+     * native `RecyclerView` though, rows that are out of sight are going to be
+     * automatically detached (similarly on how this would work with
+     * `removeClippedSubviews = true` on a `ScrollView.js`).
+     *
+     * CAUTION: This is an experimental component and should only be used together
+     * with javascript implementation of list view (see ListView.js). In order to
+     * use it pass this component as `renderScrollComponent` to the list view. For
+     * now only horizontal scrolling is supported.
+     */
+    export interface RecyclerViewBackedScrollViewStatic extends ScrollResponderMixin, React.ClassicComponentClass<RecyclerViewBackedScrollViewProperties> {
+
+        /**
+         * A helper function to scroll to a specific point  in the scrollview.
+         * This is currently used to help focus on child textviews, but can also
+         * be used to quickly scroll to any element we want to focus. Syntax:
+         *
+         * scrollResponderScrollTo(options: {x: number = 0; y: number = 0; animated: boolean = true})
+         *
+         * Note: The weird argument signature is due to the fact that, for historical reasons,
+         * the function also accepts separate arguments as as alternative to the options object.
+         * This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
+         */
+        scrollTo(
+            y?: number | { x?: number, y?: number, animated?: boolean },
+            x?: number,
+            animated?: boolean
+        ): void;
+
+        /**
+         * Returns a reference to the underlying scroll responder, which supports
+         * operations like `scrollTo`. All ScrollView-like components should
+         * implement this method so that they can be composed while providing access
+         * to the underlying scroll responder's methods.
+         */
+        getScrollResponder(): JSX.Element;
+    }
+
     export interface SliderPropertiesIOS extends ViewProperties, React.Props<SliderStatic> {
 
         /**
@@ -7545,7 +7591,6 @@ declare namespace  __React {
     // - [ ] ImageEditor
     // - [ ] ImageStore
     // - [ ] LayoutAnimationStatic ???
-    // - [ ] RecyclerViewBackedScrollView
     // - [ ] RefreshControl ???
     // - [ ] SliderIOS
     // - [ ] SnapshotViewIOS
@@ -7603,6 +7648,9 @@ declare namespace  __React {
 
     export var RefreshControl: RefreshControlStatic
     export type RefreshControl = RefreshControlStatic
+
+    export var RecyclerViewBackedScrollView: RecyclerViewBackedScrollViewStatic
+    export type RecyclerViewBackedScrollView = RecyclerViewBackedScrollViewStatic
 
     export var Slider: SliderIOS
     export type Slider = SliderIOS
