@@ -7761,7 +7761,7 @@ declare namespace  __React {
         resizeMode?: null | 'contain' | 'cover' | 'stretch'
     }
 
-    export var ImageEditor = {
+    export interface ImageEditor {
         /**
          * Crop the image specified by the URI param. If URI points to a remote
          * image, it will be downloaded automatically. If the image cannot be
@@ -7775,12 +7775,12 @@ declare namespace  __React {
         cropImage( uri: string, cropData: ImageCropData, success: (uri: string) => void, failure: (error: Object) => void ): void
     }
 
-    export var ImageStore = {
+    export interface ImageStore {
         /**
          * Check if the ImageStore contains image data for the specified URI.
          * @platform ios
          */
-        hasImageForTag(uri: string, callback: (hasImage: boolean) => void): void,
+        hasImageForTag( uri: string, callback: (hasImage: boolean) => void): void,
 
         /**
          * Delete an image from the ImageStore. Images are stored in memory and
@@ -7790,7 +7790,7 @@ declare namespace  __React {
          * will simply fail silently.
          * @platform ios
          */
-        removeImageForTag(uri: string): void,
+        removeImageForTag(uri: string): void;
 
         /**
          * Stores a base64-encoded image in the ImageStore, and returns a URI that
