@@ -5315,6 +5315,15 @@ declare namespace  __React {
         setDeadline(deadline: number): void
     }
 
+    export class NativeEventEmitterStatic extends EventEmitterStatic {
+        constructor(nativeModule: Object)
+        addListener(
+            eventType: string, listener: Function, context?: Object): EmitterSubscription
+        removeAllListeners(eventType: string): void
+        removeSubscription(subscription: EmitterSubscription): void
+    }
+
+    export var Keyboard: NativeEventEmitter
 
     export interface ScrollViewStyle extends FlexStyle, TransformsStyle {
 
@@ -8129,6 +8138,10 @@ declare namespace  __React {
      * <code>const MyModule = NativeModules.ModuleName</code>
      */
     export var NativeModules: any
+    /**
+     * Deprecated - subclass NativeEventEmitter to create granular event modules instead of
+     * adding all event listeners directly to RCTNativeAppEventEmitter.
+     */
     export var NativeAppEventEmitter: NativeAppEventEmitterStatic
 
 
@@ -8158,6 +8171,13 @@ declare namespace  __React {
     export var DeviceEventSubscription: DeviceEventSubscriptionStatic
     export type DeviceEventSubscription = DeviceEventSubscriptionStatic
     export var InteractionManager: InteractionManagerStatic
+
+    /**
+     * Abstract base class for implementing event-emitting modules. This implements
+     * a subset of the standard EventEmitter node module API.
+     */
+    export var NativeEventEmitter: NativeEventEmitterStatic
+    export type NativeEventEmitter = NativeEventEmitterStatic
 
     export var EventEmitter: EventEmitterStatic
     export type EventEmitter = EventEmitterStatic
