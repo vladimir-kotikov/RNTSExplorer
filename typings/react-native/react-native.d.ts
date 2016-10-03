@@ -7481,6 +7481,28 @@ declare namespace  __React {
         cropImage(uri: string, cropData: ImageCropData, success: (uri: string) => void, failure: (error: Object) => void): void
     }
 
+    export interface OpenCameraDialogOptions {
+        /** Defaults to false */
+        videoMode?: boolean
+    }
+
+    export interface OpenSelectDialogOptions {
+        /** Defaults to true */
+        showImages?: boolean
+        /** Defaults to false */
+        showVideos?: boolean
+    }
+
+    /** [imageURL|tempImageTag, height, width] */
+    export type ImagePickerResult = [string, number, number] 
+
+    export interface ImagePickerIOSStatic {
+        canRecordVideos(callback: (value: boolean) => void): void
+        canUseCamera(callback: (value: boolean) => void): void
+        openCameraDialog(config: OpenCameraDialogOptions, successCallback: (args:ImagePickerResult) => void, cancelCallback: (args:any[]) => void): void
+        openSelectDialog(config: OpenSelectDialogOptions, successCallback: (args:ImagePickerResult) => void, cancelCallback: (args:any[]) => void): void
+    }
+
     // Network Polyfill
     // TODO: Add proper support for fetch
     export type fetch = (url: string, options?: Object) => Promise<any>
@@ -7645,6 +7667,9 @@ declare namespace  __React {
     // TODO: ImageStore, KeyboardAvoidingView
     export var ImageEditor: ImageEditorStatic
     export type ImageEditor = ImageEditorStatic
+
+    export var ImagePickerIOS: ImagePickerIOSStatic
+    export type ImagePickerIOS = ImagePickerIOSStatic
 
     export var LayoutAnimation: LayoutAnimationStatic
     export type LayoutAnimation = LayoutAnimationStatic
