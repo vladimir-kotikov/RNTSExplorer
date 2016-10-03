@@ -6617,16 +6617,15 @@ declare namespace  __React {
         getInitialURL(callback: (url: string) => void):void
     }
 
-    export interface LinkingStatic {
+    export class LinkingStatic extends NativeEventEmitterStatic {
         /**
-         * Add a handler to Linking changes by listening to the url event type and providing the handler
-         * @platform ios
+         * Add a handler to Linking changes by listening to the `url` event type
+         * and providing the handler
          */
         addEventListener(type: string, handler: (event: {url: string}) => void): void
 
         /**
-         * Remove a handler by passing the url event type and the handler
-         * @platform ios
+         * Remove a handler by passing the `url` event type and the handler
          */
         removeEventListener(type: string, handler: (event: {url: string}) => void): void
 
@@ -6636,7 +6635,7 @@ declare namespace  __React {
          * NOTE: This method will fail if the system doesn't know how to open the specified URL. If you're passing in a non-http(s) URL, it's best to check {@code canOpenURL} first.
          * NOTE: For web URLs, the protocol ("http://", "https://") must be set accordingly!
          */
-        openURL(url: string): Promise<boolean>
+        openURL(url: string): Promise<any>
 
         /**
          * Determine whether or not an installed app can handle a given URL.
