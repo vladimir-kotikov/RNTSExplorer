@@ -618,10 +618,34 @@ declare namespace  __React {
         delete?: LayoutAnimationAnim
     }
 
+    /**
+     * Automatically animates views to their new positions when the
+     * next layout happens.
+     *
+     * A common way to use this API is to call `LayoutAnimation.configureNext`
+     * before calling `setState`.
+     */
     export interface LayoutAnimationStatic {
+        /**
+         * Schedules an animation to happen on the next layout.
+         *
+         * @param config Specifies animation properties:
+         *
+         *   - `duration` in milliseconds
+         *   - `create`, config for animating in new views (see `Anim` type)
+         *   - `update`, config for animating views that have been updated
+         * (see `Anim` type)
+         *
+         * @param onAnimationDidEnd Called when the animation finished.
+         * Only supported on iOS.
+         * @param onError Called on error. Only supported on iOS.
+         */
+        configureNext( config: LayoutAnimationConfig, onAnimationDidEnd?: () => void, onError?: ( error?: any ) => void ): void
 
-        configureNext: ( config: LayoutAnimationConfig, onAnimationDidEnd?: () => void, onError?: ( error?: any ) => void ) => void
-        create: ( duration: number, type?: string, creationProp?: string ) => LayoutAnimationConfig
+        /**
+         * Helper for creating a config for `configureNext`.
+         */
+        create( duration: number, type?: string, creationProp?: string ): LayoutAnimationConfig
         Types: LayoutAnimationTypes
         Properties: LayoutAnimationProperties
         configChecker: ( conf: {config: LayoutAnimationConfig}, name: string, next: string ) => void
@@ -7548,7 +7572,6 @@ declare namespace  __React {
 
     // TODO: The following components need to be added/updated
     // - [ ] ART
-    // - [ ] LayoutAnimationStatic ???
     // - [ ] StyleSheet ???
 
 
