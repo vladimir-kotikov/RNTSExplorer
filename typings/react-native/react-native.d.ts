@@ -8130,6 +8130,7 @@ declare namespace  __React {
     //See https://facebook.github.io/react-native/docs/native-modules-ios.html
 
     /**
+     * Define lazy getters for each module. These will return the module if already loaded, or load it if not.
      * Use:
      * <code>const MyModule = NativeModules.ModuleName</code>
      */
