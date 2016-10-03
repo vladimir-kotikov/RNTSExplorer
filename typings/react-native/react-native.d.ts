@@ -618,42 +618,31 @@ declare namespace  __React {
         delete?: LayoutAnimationAnim
     }
 
-    /**
-     * Automatically animates views to their new positions when the
-     * next layout happens.
-     *
-     * A common way to use this API is to call `LayoutAnimation.configureNext`
-     * before calling `setState`.
-     */
+    /** Automatically animates views to their new positions when the next layout happens.
+     * A common way to use this API is to call LayoutAnimation.configureNext before 
+     * calling setState. */
     export interface LayoutAnimationStatic {
-        /**
-         * Schedules an animation to happen on the next layout.
-         *
+        /** Schedules an animation to happen on the next layout.
          * @param config Specifies animation properties:
-         *
-         *   - `duration` in milliseconds
-         *   - `create`, config for animating in new views (see `Anim` type)
-         *   - `update`, config for animating views that have been updated
-         * (see `Anim` type)
-         *
-         * @param onAnimationDidEnd Called when the animation finished.
-         * Only supported on iOS.
-         * @param onError Called on error. Only supported on iOS.
+         * `duration` in milliseconds
+         * `create`, config for animating in new views (see Anim type)
+         * `update`, config for animating views that have been updated (see Anim type)
+         * @param onAnimationDidEnd Called when the animation finished. Only supported on iOS. 
          */
-        configureNext( config: LayoutAnimationConfig, onAnimationDidEnd?: () => void, onError?: ( error?: any ) => void ): void
-
-        /**
-         * Helper for creating a config for `configureNext`.
-         */
-        create( duration: number, type?: string, creationProp?: string ): LayoutAnimationConfig
+        configureNext: (config: LayoutAnimationConfig, onAnimationDidEnd?: () => void) => void
+        /** Helper for creating a config for configureNext. */
+        create: (duration: number, type?: string, creationProp?: string) => LayoutAnimationConfig
         Types: LayoutAnimationTypes
         Properties: LayoutAnimationProperties
-        configChecker: ( conf: {config: LayoutAnimationConfig}, name: string, next: string ) => void
+        configChecker: (shapeTypes: {[key: string]: any}) => any
         Presets : {
             easeInEaseOut: LayoutAnimationConfig
             linear:LayoutAnimationConfig
             spring: LayoutAnimationConfig
         }
+        easeInEaseOut: (config: LayoutAnimationConfig, onAnimationDidEnd?: () => void) => void
+        linear: (config: LayoutAnimationConfig, onAnimationDidEnd?: () => void) => void
+        spring: (config: LayoutAnimationConfig, onAnimationDidEnd?: () => void) => void
     }
 
     export type FlexAlignType = "flex-start" | "flex-end" | "center" | "stretch";
