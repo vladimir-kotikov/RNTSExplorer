@@ -1689,7 +1689,7 @@ declare namespace  __React {
     /**
      * @see https://facebook.github.io/react-native/docs/view.html#props
      */
-    export interface ViewProperties extends ViewPropertiesAndroid, ViewPropertiesIOS, GestureResponderHandlers, React.Props<ViewStatic> {
+    export interface ViewProperties extends ViewPropertiesAndroid, ViewPropertiesIOS, GestureResponderHandlers, Touchable, React.Props<ViewStatic> {
 
         /**
          * Overrides the text that's read by the screen reader when the user interacts with the element. By default, the label is constructed by traversing all the children and accumulating all the Text nodes separated by space.
@@ -1797,14 +1797,14 @@ declare namespace  __React {
             'startsMedia',
             'adjustable',
             'allowsDirectInteraction',
-            'pageTurn',
+            'pageTurn'
         ]
 
         AccessibilityComponentType: [
             'none',
             'button',
             'radiobutton_checked',
-            'radiobutton_unchecked',
+            'radiobutton_unchecked'
         ],
 
         /**
@@ -2130,7 +2130,7 @@ declare namespace  __React {
     }
 
 
-    export interface WebViewStatic extends React.ComponentClass<WebViewProperties> {
+    export interface WebViewStatic extends React.ClassicComponentClass<WebViewProperties> {
 
         /**
          * Go back one page in the webview's history.
@@ -2498,7 +2498,7 @@ declare namespace  __React {
          */
         timeZoneOffsetInMinutes?: number
 
-        ref?: Ref<DatePickerIOSStatic>
+        ref?: Ref<DatePickerIOSStatic & ViewStatic>
     }
 
     export interface DatePickerIOSStatic extends React.NativeComponent, React.ComponentClass<DatePickerIOSProperties> {
@@ -4504,7 +4504,6 @@ declare namespace  __React {
             }
         }
 
-
         export interface NavigationBarRouteMapper {
             Title: ( route: Route, nav: Navigator, index: number, navState: NavState ) => React.ReactElement<any>;
             LeftButton: ( route: Route, nav: Navigator, index: number, navState: NavState )=> React.ReactElement<any>;
@@ -4516,7 +4515,7 @@ declare namespace  __React {
          */
         export interface NavigationBarProperties extends React.Props<NavigationBarStatic> {
             navigator?: Navigator
-            routeMapper: NavigationBarRouteMapper
+            routeMapper?: NavigationBarRouteMapper
             navState?: NavState
             navigationStyles?: NavigationBarStyle
             style?: ViewStyle
