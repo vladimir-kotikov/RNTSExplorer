@@ -32,7 +32,7 @@ import {
 const NAVIGATOR_REF = 'navigator'
 const JUMPING_NAV_BAR_REF = 'jumpingNavBar'
 
-interface Style { 
+interface Style {
   button: React.ViewStyle,
   buttonText: React.TextStyle,
   appContainer: React.ViewStyle,
@@ -178,7 +178,8 @@ class JumpingNavSample extends React.Component<any,any> {
     render() {
         return (
             <Navigator
-                debugOverlay={false}
+                // TODO: double-check debugOverlay existence on Navigator
+                // debugOverlay={false}
                 //TODO: Fix this use case
                 //ref={(navigator: React.Navigator) => this._navigator = navigator}
                 ref={NAVIGATOR_REF}
