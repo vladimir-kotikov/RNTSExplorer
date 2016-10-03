@@ -27,7 +27,7 @@ import {
           View
           } from 'react-native';
 
-interface Style { 
+interface Style {
   messageText: React.TextStyle,
   button: React.ViewStyle,
   buttonText: React.TextStyle,
@@ -156,7 +156,9 @@ class NavigationBarSample extends React.Component<any,any> {
     render() {
         return (
             <Navigator
-                debugOverlay={false}
+                // TODO: double-check if debugOverlay property still exists
+                // from looking at the code of Navigator component it does not anymore
+                // debugOverlay={false}
                 initialRoute={newRandomRoute()}
                 renderScene={(route: React.Route, navigator: React.Navigator) => (
                   <ScrollView style={styles.scene}>
