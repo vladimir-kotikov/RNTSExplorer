@@ -2592,19 +2592,19 @@ declare namespace  __React {
          * The navigation view that will be rendered to the side of the
          * screen and can be pulled in.
          */
-        renderNavigationView?: () => JSX.Element
+        renderNavigationView: () => JSX.Element
 
         /**
          * Make the drawer take the entire screen and draw the background of
          * the status bar to allow it to open over the status bar. It will
          * only have an effect on API 21+.
          */
-        statusBarBackgroundColor?: any
+        statusBarBackgroundColor?: string
 
         ref?: Ref<DrawerLayoutAndroidStatic & ViewStatic>
     }
 
-    export interface DrawerLayoutAndroidStatic extends React.ComponentClass<DrawerLayoutAndroidProperties> {
+    export interface DrawerLayoutAndroidStatic extends NativeComponent, React.ClassicComponentClass<DrawerLayoutAndroidProperties> {
 
         /**
          * Opens the drawer.
@@ -7533,7 +7533,6 @@ declare namespace  __React {
 
     // TODO: The following components need to be added/updated
     // - [ ] ART
-    // - [ ] DrawerLayoutAndroid
     // - [ ] ImageEditor
     // - [ ] ImageStore
     // - [ ] KeyboardAvoidingView
