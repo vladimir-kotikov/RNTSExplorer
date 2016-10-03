@@ -1898,13 +1898,20 @@ declare namespace  __React {
         setPageWithoutAnimation(selectedPage: number): void
     }
 
-    export interface KeyboardAvoidingViewStatic extends React.ComponentClass<KeyboardAvoidingViewProps> {
-
-    }
+    /**
+     * It is a component to solve the common problem of views that need to move out of the way of the virtual keyboard.
+     * It can automatically adjust either its position or bottom padding based on the position of the keyboard.
+     */
+    export interface KeyboardAvoidingViewStatic extends TimerMixin, React.ClassicComponentClass<KeyboardAvoidingViewProps> {}
 
     export interface KeyboardAvoidingViewProps extends ViewProperties, React.Props<KeyboardAvoidingViewStatic> {
 
         behavior?: 'height' | 'position' | 'padding'
+
+        /**
+         * The style of the content container(View) when behavior is 'position'.
+         */
+        contentContainerStyle: ViewStyle
 
         /**
          * This is the distance between the top of the user screen and the react native view,
@@ -7535,7 +7542,6 @@ declare namespace  __React {
     // - [ ] ART
     // - [ ] ImageEditor
     // - [ ] ImageStore
-    // - [ ] KeyboardAvoidingView
     // - [ ] LayoutAnimationStatic ???
     // - [ ] PickerIOS
     // - [ ] ProgressBarAndroid
