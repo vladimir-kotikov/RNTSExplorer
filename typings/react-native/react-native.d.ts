@@ -7780,9 +7780,6 @@ declare namespace  __React {
     export var I18nManager: I18nManagerStatic
     export type I18nManager = I18nManagerStatic
 
-    export var IntentAndroid: IntentAndroidStatic
-    export type IntentAndroid = IntentAndroidStatic
-
     export var ImageEditor: ImageEditorStatic
     export type ImageEditor = ImageEditorStatic
 
@@ -7790,6 +7787,9 @@ declare namespace  __React {
     export type ImageStore = ImageStoreStatic
 
     export var InteractionManager: InteractionManagerStatic
+
+    export var IntentAndroid: IntentAndroidStatic
+    export type IntentAndroid = IntentAndroidStatic
 
     export var KeyboardAvoidingView: KeyboardAvoidingViewStatic
     export type KeyboardAvoidingView = KeyboardAvoidingViewStatic
