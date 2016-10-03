@@ -7531,13 +7531,32 @@ declare namespace  __React {
     //
     //////////////////////////////////////////////////////////////////////////
 
+    // TODO: The following components need to be added/updated
+    // - [ ] ART
+    // - [ ] DrawerLayoutAndroid
+    // - [ ] ImageEditor
+    // - [ ] ImageStore
+    // - [ ] KeyboardAvoidingView
+    // - [ ] LayoutAnimationStatic ???
+    // - [ ] PickerIOS
+    // - [ ] ProgressBarAndroid
+    // - [ ] ProgressViewIOS
+    // - [ ] RecyclerViewBackedScrollView
+    // - [ ] RefreshControl ???
+    // - [ ] SliderIOS
+    // - [ ] SnapshotViewIOS
+    // - [ ] StyleSheet ???
+    // - [ ] Switch
+    // - [ ] SwitchAndroid
+    // - [ ] SwitchIOS
+    // - [ ] ToastAndroid
+
+
     export var ActivityIndicator: ActivityIndicatorStatic
     export type ActivityIndicator = ActivityIndicatorStatic
 
     export var ActivityIndicatorIOS: ActivityIndicatorIOSStatic
     export type ActivityIndicatorIOS = ActivityIndicatorIOSStatic
-
-    // TODO: ReactNativeArt
 
     export var DatePickerIOS: DatePickerIOSStatic
     export type DatePickerIOS = DatePickerIOSStatic
@@ -7547,8 +7566,6 @@ declare namespace  __React {
 
     export var Image: ImageStatic
     export type Image = ImageStatic
-
-    // TODO: ImageEditor, ImageStore, KeyboardAvoidingView
 
     export var LayoutAnimation: LayoutAnimationStatic
     export type LayoutAnimation = LayoutAnimationStatic
@@ -7583,15 +7600,11 @@ declare namespace  __React {
     export var RefreshControl: RefreshControlStatic
     export type RefreshControl = RefreshControlStatic
 
-    // TODO: RecyclerViewBackedScrollView, RefreshControl
-
     export var Slider: SliderIOS
     export type Slider = SliderIOS
 
     export var SliderIOS: SliderIOSStatic
     export type SliderIOS = SliderIOSStatic
-
-    // TODO: SnapshotViewIOS
 
     export var StatusBar: StatusBarStatic
     export type StatusBar = StatusBarStatic
@@ -7608,8 +7621,6 @@ declare namespace  __React {
     export var Switch: SwitchStatic
     export type Switch = SwitchStatic
 
-    // TODO: SwitchAndroid
-
     export var SwitchIOS: SwitchIOSStatic
     export type SwitchIOS = SwitchIOSStatic
 
@@ -7624,8 +7635,6 @@ declare namespace  __React {
 
     export var ToolbarAndroid: ToolbarAndroidStatic
     export type ToolbarAndroid = ToolbarAndroidStatic
-
-    // TODO: Touchable: Do we need to expose it?
 
     export var TouchableHighlight: TouchableHighlightStatic
     export type TouchableHighlight = TouchableHighlightStatic
