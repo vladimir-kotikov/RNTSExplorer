@@ -7446,6 +7446,41 @@ declare namespace  __React {
         stopObserving(): void
     }
 
+    export type ImageCropData = {
+        /**
+         * The top-left corner of the cropped image, specified in the original
+         * image's coordinate space.
+         */
+        offset: {
+            x: number,
+            y: number,
+        },
+        /**
+         * The size (dimensions) of the cropped image, specified in the original
+         * image's coordinate space.
+         */
+        size: {
+            width: number,
+            height: number,
+        },
+        /**
+         * (Optional) size to scale the cropped image to.
+         */
+        displaySize?: {
+            width: number,
+            height: number,
+        },
+        /**
+         * (Optional) the resizing mode to use when scaling the image. If the
+         * `displaySize` param is not specified, this has no effect.
+         */
+        resizeMode?: "contain" | "cover" | "stretch"
+    }
+
+    export interface ImageEditorStatic {
+        cropImage(uri: string, cropData: ImageCropData, success: (uri: string) => void, failure: (error: Object) => void): void
+    }
+
     // Network Polyfill
     // TODO: Add proper support for fetch
     export type fetch = (url: string, options?: Object) => Promise<any>
@@ -7607,6 +7642,10 @@ declare namespace  __React {
     export var Image: ImageStatic
     export type Image = ImageStatic
 
+    // TODO: ImageStore, KeyboardAvoidingView
+    export var ImageEditor: ImageEditorStatic
+    export type ImageEditor = ImageEditorStatic
+
     export var LayoutAnimation: LayoutAnimationStatic
     export type LayoutAnimation = LayoutAnimationStatic
 
@@ -7743,98 +7782,6 @@ declare namespace  __React {
 
     export var IntentAndroid: IntentAndroidStatic
     export type IntentAndroid = IntentAndroidStatic
-
-    interface ImageCropData {
-        /**
-         * The top-left corner of the cropped image, specified in the original
-         * image's coordinate space.
-         */
-        offset: {
-            x: number;
-            y: number;
-        }
-
-        /**
-         * The size (dimensions) of the cropped image, specified in the original
-         * image's coordinate space.
-         */
-        size: {
-            width: number;
-            height: number;
-        }
-
-        /**
-         * (Optional) size to scale the cropped image to.
-         */
-        displaySize?: null | {
-            width: number,
-            height: number,
-        }
-
-        /**
-         * (Optional) the resizing mode to use when scaling the image. If the
-         * `displaySize` param is not specified, this has no effect.
-         */
-        resizeMode?: null | 'contain' | 'cover' | 'stretch'
-    }
-
-    export interface ImageEditor {
-        /**
-         * Crop the image specified by the URI param. If URI points to a remote
-         * image, it will be downloaded automatically. If the image cannot be
-         * loaded/downloaded, the failure callback will be called.
-         *
-         * If the cropping process is successful, the resultant cropped image
-         * will be stored in the ImageStore, and the URI returned in the success
-         * callback will point to the image in the store. Remember to delete the
-         * cropped image from the ImageStore when you are done with it.
-         */
-        cropImage( uri: string, cropData: ImageCropData, success: (uri: string) => void, failure: (error: Object) => void ): void
-    }
-
-    export interface ImageStore {
-        /**
-         * Check if the ImageStore contains image data for the specified URI.
-         * @platform ios
-         */
-        hasImageForTag( uri: string, callback: (hasImage: boolean) => void): void,
-
-        /**
-         * Delete an image from the ImageStore. Images are stored in memory and
-         * must be manually removed when you are finished with them, otherwise they
-         * will continue to use up RAM until the app is terminated. It is safe to
-         * call `removeImageForTag()` without first calling `hasImageForTag()`, it
-         * will simply fail silently.
-         * @platform ios
-         */
-        removeImageForTag(uri: string): void;
-
-        /**
-         * Stores a base64-encoded image in the ImageStore, and returns a URI that
-         * can be used to access or display the image later. Images are stored in
-         * memory only, and must be manually deleted when you are finished with
-         * them by calling `removeImageForTag()`.
-         *
-         * Note that it is very inefficient to transfer large quantities of binary
-         * data between JS and native code, so you should avoid calling this more
-         * than necessary.
-         * @platform ios
-         */
-        addImageFromBase64( base64ImageData: string, success: (uri: string) => void, failure: (error: any) => void ): void,
-
-        /**
-         * Retrieves the base64-encoded data for an image in the ImageStore. If the
-         * specified URI does not match an image in the store, the failure callback
-         * will be called.
-         *
-         * Note that it is very inefficient to transfer large quantities of binary
-         * data between JS and native code, so you should avoid calling this more
-         * than necessary. To display an image in the ImageStore, you can just pass
-         * the URI to an `<Image/>` component; there is no need to retrieve the
-         * base64 data.
-         */
-        getBase64ForTag( uri: string, success: (base64ImageData: string) => void, failure: (error: any) => void ): void
-    }
 
     export var KeyboardAvoidingView: KeyboardAvoidingViewStatic
     export type KeyboardAvoidingView = KeyboardAvoidingViewStatic
