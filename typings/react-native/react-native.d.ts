@@ -22,7 +22,7 @@
 import React = __React;
 
 //react-native "extends" react
-declare namespace  __React {
+declare namespace __React {
     /**
      * Represents the completion of an asynchronous operation
      * @see lib.es6.d.ts
@@ -120,28 +120,28 @@ declare namespace  __React {
     export var Promise: PromiseConstructor;
 
     module NativeMethodsMixin {
-      type MeasureOnSuccessCallback = (
-        x: number,
-        y: number,
-        width: number,
-        height: number,
-        pageX: number,
-        pageY: number
-      ) => void
+        export type MeasureOnSuccessCallback = (
+            x: number,
+            y: number,
+            width: number,
+            height: number,
+            pageX: number,
+            pageY: number
+        ) => void
 
-      type MeasureInWindowOnSuccessCallback = (
-        x: number,
-        y: number,
-        width: number,
-        height: number
-      ) => void
+        export type MeasureInWindowOnSuccessCallback = (
+            x: number,
+            y: number,
+            width: number,
+            height: number
+        ) => void
 
-      type MeasureLayoutOnSuccessCallback = (
-        left: number,
-        top: number,
-        width: number,
-        height: number
-      ) => void
+        export type MeasureLayoutOnSuccessCallback = (
+            left: number,
+            top: number,
+            width: number,
+            height: number
+        ) => void
     }
 
     /**
@@ -353,12 +353,16 @@ declare namespace  __React {
         removeListener(eventType: string, listener: (...args: any[]) => any): void
     }
 
-    /**
+    /** NativeMethodsMixin provides methods to access the underlying native component directly.
+     * This can be useful in cases when you want to focus a view or measure its on-screen dimensions,
+     * for example.
+     * The methods described here are available on most of the default components provided by React Native.
+     * Note, however, that they are not available on composite components that aren't directly backed by a
+     * native view. This will generally include most components that you define in your own app.
+     * For more information, see [Direct Manipulation](http://facebook.github.io/react-native/docs/direct-manipulation.html).
      * @see https://github.com/facebook/react-native/blob/master/Libraries/ReactIOS/NativeMethodsMixin.js
      */
-    // export class Component<P, S> extends React.Component<P, S> {
-    export interface NativeComponent {
-
+    export interface NativeMethodsMixinStatic {
       /**
        * Determines the location on screen, width, and height of the given view and
        * returns the values via an async callback. If successful, the callback will
@@ -925,7 +929,7 @@ declare namespace  __React {
     /**
      * A React component for displaying text which supports nesting, styling, and touch handling.
      */
-    export interface TextStatic extends NativeComponent, React.ClassicComponentClass<TextProperties> {}
+    export interface TextStatic extends NativeMethodsMixin, React.ClassicComponentClass<TextProperties> {}
 
     type DataDetectorTypes = 'phoneNumber' | 'link' | 'address' | 'calendarEvent' | 'none' | 'all';
 
@@ -1270,7 +1274,7 @@ declare namespace  __React {
     /**
      * @see https://facebook.github.io/react-native/docs/textinput.html#methods
      */
-    export interface TextInputStatic extends NativeComponent, TimerMixin, React.ComponentClass<TextInputProperties> {
+    export interface TextInputStatic extends NativeMethodsMixin, TimerMixin, React.ComponentClass<TextInputProperties> {
         State: TextInputState
 
         /**
@@ -1441,7 +1445,7 @@ declare namespace  __React {
      *
      * [0]: https://developer.android.com/reference/android/support/v7/widget/Toolbar.html
      */
-    export interface ToolbarAndroidStatic extends NativeComponent, React.ComponentClass<ToolbarAndroidProperties> {}
+    export interface ToolbarAndroidStatic extends NativeMethodsMixin, React.ComponentClass<ToolbarAndroidProperties> {}
 
 
     /**
@@ -1772,7 +1776,7 @@ declare namespace  __React {
      * View maps directly to the native view equivalent on whatever platform React is running on,
      * whether that is a UIView, <div>, android.view, etc.
      */
-    export interface ViewStatic extends NativeComponent, React.ClassicComponentClass<ViewProperties> {
+    export interface ViewStatic extends NativeMethodsMixin, React.ClassicComponentClass<ViewProperties> {
         AccessibilityTraits: [
             'none',
             'button',
@@ -1877,7 +1881,7 @@ declare namespace  __React {
         pageMargin?: number
     }
 
-    export interface ViewPagerAndroidStatic extends NativeComponent, React.ComponentClass<ViewPagerAndroidProperties> {
+    export interface ViewPagerAndroidStatic extends NativeMethodsMixin, React.ComponentClass<ViewPagerAndroidProperties> {
         /**
          * A helper function to scroll to a specific page in the ViewPager.
          * The transition between pages will be animated.
@@ -2232,7 +2236,7 @@ declare namespace  __React {
      * />
      * ````
      */
-    export interface SegmentedControlIOSStatic extends NativeComponent, React.ClassicComponentClass<SegmentedControlIOSProperties> {}
+    export interface SegmentedControlIOSStatic extends NativeMethodsMixin, React.ClassicComponentClass<SegmentedControlIOSProperties> {}
 
 
     export interface NavigatorIOSProperties extends React.Props<NavigatorIOSStatic> {
@@ -2403,7 +2407,7 @@ declare namespace  __React {
         ref?: Ref<ActivityIndicatorStatic>
     }
 
-    export interface ActivityIndicatorStatic extends React.NativeComponent, React.ClassicComponentClass<ActivityIndicatorProperties> {
+    export interface ActivityIndicatorStatic extends React.NativeMethodsMixin, React.ClassicComponentClass<ActivityIndicatorProperties> {
     }
 
 
@@ -2501,7 +2505,7 @@ declare namespace  __React {
         ref?: Ref<DatePickerIOSStatic & ViewStatic>
     }
 
-    export interface DatePickerIOSStatic extends React.NativeComponent, React.ComponentClass<DatePickerIOSProperties> {
+    export interface DatePickerIOSStatic extends React.NativeMethodsMixin, React.ComponentClass<DatePickerIOSProperties> {
     }
 
     export interface DrawerSlideEvent extends NativeSyntheticEvent<NativeTouchEvent> {
@@ -2604,7 +2608,7 @@ declare namespace  __React {
         ref?: Ref<DrawerLayoutAndroidStatic & ViewStatic>
     }
 
-    export interface DrawerLayoutAndroidStatic extends NativeComponent, React.ClassicComponentClass<DrawerLayoutAndroidProperties> {
+    export interface DrawerLayoutAndroidStatic extends NativeMethodsMixin, React.ClassicComponentClass<DrawerLayoutAndroidProperties> {
 
         /**
          * Opens the drawer.
@@ -2748,7 +2752,7 @@ declare namespace  __React {
      * @see https://facebook.github.io/react-native/docs/pickerios.html
      * @see PickerIOS.ios.js
      */
-    export interface PickerIOSStatic extends NativeComponent, React.ClassicComponentClass<PickerIOSProperties> {
+    export interface PickerIOSStatic extends NativeMethodsMixin, React.ClassicComponentClass<PickerIOSProperties> {
         Item: PickerIOSItemStatic
     }
 
@@ -2798,7 +2802,7 @@ declare namespace  __React {
      * React component that wraps the Android-only `ProgressBar`. This component is used to indicate
      * that the app is loading or there is some activity in the app.
     */
-    export interface ProgressBarAndroidStatic extends NativeComponent, React.ClassicComponentClass<ProgressBarAndroidProperties> {}
+    export interface ProgressBarAndroidStatic extends NativeMethodsMixin, React.ClassicComponentClass<ProgressBarAndroidProperties> {}
 
     /**
      * @see https://facebook.github.io/react-native/docs/progressviewios.html
@@ -2839,7 +2843,7 @@ declare namespace  __React {
         ref?: Ref<ProgressViewIOSStatic & ViewStatic>
     }
 
-    export interface ProgressViewIOSStatic extends NativeComponent, React.ClassicComponentClass<ProgressViewIOSProperties> {}
+    export interface ProgressViewIOSStatic extends NativeMethodsMixin, React.ClassicComponentClass<ProgressViewIOSProperties> {}
 
     export interface RefreshControlPropertiesIOS extends ViewProperties, React.Props<RefreshControlStatic> {
 
@@ -2952,7 +2956,7 @@ declare namespace  __React {
      * __Note:__ `refreshing` is a controlled prop, this is why it needs to be set to true
      * in the `onRefresh` function otherwise the refresh indicator will stop immediately.
      */
-    export interface RefreshControlStatic extends NativeComponent, React.ClassicComponentClass<RefreshControlProperties> {
+    export interface RefreshControlStatic extends NativeMethodsMixin, React.ClassicComponentClass<RefreshControlProperties> {
         SIZE: Object // Undocumented
     }
 
@@ -3101,7 +3105,7 @@ declare namespace  __React {
     /**
      * A component used to select a single value from a range of values.
      */
-    export interface SliderStatic extends NativeComponent, React.ClassicComponentClass<SliderProperties> {}
+    export interface SliderStatic extends NativeMethodsMixin, React.ClassicComponentClass<SliderProperties> {}
 
     /**
      * https://facebook.github.io/react-native/docs/switchios.html#props
@@ -3417,7 +3421,7 @@ declare namespace  __React {
 
     }
 
-    export interface ImageStatic extends React.NativeComponent, React.ComponentClass<ImageProperties> {
+    export interface ImageStatic extends React.NativeMethodsMixin, React.ComponentClass<ImageProperties> {
         resizeMode: ImageResizeMode
         getSize(uri: string, success: (width: number, height: number) => void, failure: (error: any) => void): any
         prefetch(url: string): any
@@ -3760,7 +3764,7 @@ declare namespace  __React {
     /**
      * @see https://facebook.github.io/react-native/docs/mapview.html#content
      */
-    export interface MapViewStatic extends React.NativeComponent, React.ComponentClass<MapViewProperties> {
+    export interface MapViewStatic extends React.NativeMethodsMixin, React.ComponentClass<MapViewProperties> {
         PinColors: {
             RED: string,
             GREEN: string,
@@ -4032,7 +4036,7 @@ declare namespace  __React {
      *
      * @see https://facebook.github.io/react-native/docs/touchablehighlight.html
      */
-    export interface TouchableHighlightStatic extends NativeComponent, TimerMixin, TouchableMixin, React.ClassicComponentClass<TouchableHighlightProperties> {}
+    export interface TouchableHighlightStatic extends NativeMethodsMixin, TimerMixin, TouchableMixin, React.ClassicComponentClass<TouchableHighlightProperties> {}
 
 
     /**
@@ -4054,7 +4058,7 @@ declare namespace  __React {
      *
      * @see https://facebook.github.io/react-native/docs/touchableopacity.html
      */
-    export interface TouchableOpacityStatic extends TimerMixin, TouchableMixin, NativeComponent, React.ClassicComponentClass<TouchableOpacityProperties> {
+    export interface TouchableOpacityStatic extends TimerMixin, TouchableMixin, NativeMethodsMixin, React.ClassicComponentClass<TouchableOpacityProperties> {
         /**
          * Animate the touchable to a new opacity.
          */
@@ -5672,7 +5676,7 @@ declare namespace  __React {
         ref?: Ref<ViewStatic & SnapshotViewIOSStatic>
     }
 
-    export interface SnapshotViewIOSStatic extends NativeComponent, React.ComponentClass<SnapshotViewIOSProperties> {}
+    export interface SnapshotViewIOSStatic extends NativeMethodsMixin, React.ComponentClass<SnapshotViewIOSProperties> {}
 
     // Deduced from
     // https://github.com/facebook/react-native/commit/052cd7eb8afa7a805ef13e940251be080499919c
@@ -6977,7 +6981,7 @@ declare namespace  __React {
      * If the `value` prop is not updated, the component will continue to render
      * the supplied `value` prop instead of the expected result of any user actions.
      */
-    export interface SwitchStatic extends NativeComponent, React.ClassicComponentClass<SwitchProperties> {}
+    export interface SwitchStatic extends NativeMethodsMixin, React.ClassicComponentClass<SwitchProperties> {}
 
     /**
      * The Vibration API is exposed at VibrationIOS.vibrate().
@@ -7833,6 +7837,12 @@ declare namespace  __React {
 
     export var LinkingIOS: LinkingIOSStatic
     export type LinkingIOS = LinkingIOSStatic
+
+    export var NativeMethodsMixin: NativeMethodsMixinStatic
+    export type NativeMethodsMixin = NativeMethodsMixinStatic
+
+    export var NativeComponent: NativeMethodsMixinStatic
+    export type NativeComponent = NativeMethodsMixinStatic
 
     export var NetInfo: NetInfoStatic
     export type NetInfo = NetInfoStatic
