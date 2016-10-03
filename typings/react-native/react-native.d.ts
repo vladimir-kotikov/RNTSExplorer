@@ -5013,20 +5013,32 @@ declare namespace  __React {
         set( dims: {[key: string]: any} ): void
     }
 
+    export type SimpleTask = {
+        name: string
+        gen: () => void
+    }
     export type PromiseTask = {
+        name: string
         gen: () => Promise<any>
     }
 
     export type Handle = number
 
     export interface InteractionManagerStatic {
+        Events: {
+            interactionStart: string
+            interactionComplete: string
+        }
+
+        addListener(
+            eventType: string, listener: Function, context?: Object): EmitterSubscription
 
         /**
          * Schedule a function to run after all interactions have completed.
          * Returns a cancellable
          * @param fn
          */
-        runAfterInteractions( fn: () => void | PromiseTask):
+        runAfterInteractions( task: Function | SimpleTask | PromiseTask):
           {then: Function, done: Function, cancel: Function}
 
         /**
@@ -7805,6 +7817,9 @@ declare namespace  __React {
 
     export var DatePickerAndroid: DatePickerAndroidStatic
     export type DatePickerAndroid = DatePickerAndroidStatic
+
+    export var Geolocation: GeolocationStatic
+    export type Geolocation = GeolocationStatic
 
     /** http://facebook.github.io/react-native/blog/2016/08/19/right-to-left-support-for-react-native-apps.html */
     export var I18nManager: I18nManagerStatic
