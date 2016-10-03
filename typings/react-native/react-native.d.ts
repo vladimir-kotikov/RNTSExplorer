@@ -7349,6 +7349,17 @@ declare namespace  __React {
       export var Text: any;
     }
 
+    export type I18nManagerStatus = {
+        isRTL: boolean
+        allowRTL: (allowRTL: boolean) => {}
+        forceRTL: (forceRTL: boolean) => {}
+    }
+    export interface I18nManagerStatic {
+        isRTL: boolean
+        allowRTL: (allowRTL: boolean) => {}
+        forceRTL: (forceRTL: boolean) => {}
+    }
+
     export interface GeolocationStatic {
         /*
          * Invokes the success callback once with the latest location info.  Supported
@@ -7758,6 +7769,10 @@ declare namespace  __React {
 
     export var DatePickerAndroid: DatePickerAndroidStatic
     export type DatePickerAndroid = DatePickerAndroidStatic
+
+    /** http://facebook.github.io/react-native/blog/2016/08/19/right-to-left-support-for-react-native-apps.html */
+    export var I18nManager: I18nManagerStatic
+    export type I18nManager = I18nManagerStatic
 
     export var IntentAndroid: IntentAndroidStatic
     export type IntentAndroid = IntentAndroidStatic
