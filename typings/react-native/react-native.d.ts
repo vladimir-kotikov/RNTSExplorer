@@ -607,12 +607,12 @@ declare namespace  __React {
         /**
          * Specifies whether font should be scaled down automatically to fit given style constraints.
          */
-        adjustsFontSizeToFit: boolean
+        adjustsFontSizeToFit?: boolean
 
         /**
          * Specifies smallest possible scale a font can reach when adjustsFontSizeToFit is enabled. (values 0.01-1.0).
          */
-        minimumFontScale: number
+        minimumFontScale?: number
 
         /**
          * When `true`, no visual change is made when text is pressed down. By
@@ -625,7 +625,7 @@ declare namespace  __React {
         /**
          * Lets the user select text, to use the native copy and paste functionality.
          */
-        selectable: boolean
+        selectable?: boolean
     }
 
     // https://facebook.github.io/react-native/docs/text.html#props
@@ -704,7 +704,7 @@ declare namespace  __React {
          */
         testID?: string
 
-        ref: Ref<TextPropertiesIOS & TextPropertiesAndroid & TextProperties>
+        ref?: Ref<TextPropertiesIOS & TextPropertiesAndroid & TextProperties>
     }
 
     /**
@@ -747,7 +747,7 @@ declare namespace  __React {
          * - `'none'`
          * - `'all'`
          */
-        dataDetectorTypes: DataDetectorTypes | DataDetectorTypes[]
+        dataDetectorTypes?: DataDetectorTypes | DataDetectorTypes[]
 
         /**
          * If true, the keyboard disables the return key when there is no text and automatically enables it when there is text.
@@ -758,7 +758,7 @@ declare namespace  __React {
         /**
          * Determines the color of the keyboard.
          */
-        keyboardAppearance: 'default' | 'light' | 'dark'
+        keyboardAppearance?: 'default' | 'light' | 'dark'
 
         /**
          * Callback that is called when a key is pressed.
@@ -782,12 +782,12 @@ declare namespace  __React {
         /**
          * If defined, the provided image resource will be rendered on the left.
          */
-        inlineImageLeft: string
+        inlineImageLeft?: string
 
         /**
          * Padding between the inline image, if any, and the text input itself.
          */
-        inlineImagePadding: number
+        inlineImagePadding?: number
 
         /**
          * Sets the number of lines for a TextInput.
@@ -901,7 +901,7 @@ declare namespace  __React {
          *
          * Only called for multiline text inputs.
          */
-        onContentSizeChange: ( event: {nativeEvent: {contentSize: { width: number, height: number}}} ) => void
+        onContentSizeChange?: ( event: {nativeEvent: {contentSize: { width: number, height: number}}} ) => void
 
         /**
          * Callback that is called when text input ends.
@@ -985,7 +985,7 @@ declare namespace  __React {
          */
         value?: string
 
-        ref: Ref<ViewStatic & TextInputStatic>
+        ref?: Ref<ViewStatic & TextInputStatic>
     }
 
     /**
@@ -5724,8 +5724,8 @@ declare namespace  __React {
     }
 
     /**
-     * CameraRoll provides access to the local camera roll / gallery. 
-     * Before using this you must link the RCTCameraRoll library. 
+     * CameraRoll provides access to the local camera roll / gallery.
+     * Before using this you must link the RCTCameraRoll library.
      * You can refer to (Linking)[https://facebook.github.io/react-native/docs/linking-libraries-ios.html] for help.
      */
     export interface CameraRollStatic {
@@ -5797,9 +5797,9 @@ declare namespace  __React {
         /*
          Opens the standard Android date picker dialog.
 
-         The available keys for the options object are: 
-         * date (Date object or timestamp in milliseconds) - date to show by default 
-         * minDate (Date object or timestamp in milliseconds) - minimum date that can be selected 
+         The available keys for the options object are:
+         * date (Date object or timestamp in milliseconds) - date to show by default
+         * minDate (Date object or timestamp in milliseconds) - minimum date that can be selected
          * maxDate (Date object or timestamp in milliseconds) - maximum date that can be selected
 
          Returns a Promise which will be invoked an object containing action, year, month (0-11), day if the user picked a date. If the user dismissed the dialog, the Promise will still be resolved with action being DatePickerAndroid.dismissedAction and all the other keys being undefined. Always check whether the action before reading the values.
