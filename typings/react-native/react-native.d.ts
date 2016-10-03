@@ -1966,6 +1966,11 @@ declare namespace  __React {
          */
         allowsInlineMediaPlayback?: boolean
 
+        /**
+         * Boolean value that determines whether the web view bounces
+         * when it reaches the edge of the content. The default value is `true`.
+         * @platform ios
+         */
         bounces?: boolean
 
         /**
@@ -1985,6 +1990,10 @@ declare namespace  __React {
          */
         onShouldStartLoadWithRequest?: (event: WebViewIOSLoadRequestEvent) => boolean
 
+        /**
+         * Boolean value that determines whether scrolling is enabled in the
+         * `WebView`. The default value is `true`.
+         */
         scrollEnabled?: boolean
     }
 
@@ -2034,16 +2043,27 @@ declare namespace  __React {
      */
     export interface WebViewProperties extends ViewProperties, WebViewPropertiesAndroid, WebViewPropertiesIOS, React.Props<WebViewStatic> {
 
+        /**
+         * Controls whether to adjust the content inset for web views that are
+         * placed behind a navigation bar, tab bar, or toolbar. The default value
+         * is `true`.
+         */
         automaticallyAdjustContentInsets?: boolean
 
-        bounces?: boolean
-
+        /**
+         * The amount by which the web view content is inset from the edges of
+         * the scroll view. Defaults to {top: 0, left: 0, bottom: 0, right: 0}.
+         */
         contentInset?: Insets
 
+        /**
+         * @deprecated
+         */
         html?: string
 
         /**
-         * Sets the JS to be injected when the webpage loads.
+         * Set this to provide JavaScript that will be injected into the web page
+         * when the view loads.
          */
         injectedJavaScript?: string
 
@@ -2067,26 +2087,25 @@ declare namespace  __React {
          */
         onLoadStart?:  ( event: NavState ) => void
 
+        /**
+         * Function that is invoked when the `WebView` loading starts or ends.
+         */
         onNavigationStateChange?: ( event: NavState ) => void
 
         /**
-         * Allows custom handling of any webview requests by a JS handler.
-         * Return true or false from this method to continue loading the request.
-         */
-        onShouldStartLoadWithRequest?: () => boolean
-
-        /**
-         * view to show if there's an error
+         * Function that returns a view to show if there's an error.
          */
         renderError?: () => React.ReactElement<ViewProperties>
 
         /**
-         * loading indicator to show
+         * Function that returns a loading indicator.
          */
         renderLoading?: () => React.ReactElement<ViewProperties>
 
-        scrollEnabled?: boolean
-
+        /**
+         * Boolean value that forces the `WebView` to show the loading view
+         * on the first load.
+         */
         startInLoadingState?: boolean
 
         style?: ViewStyle
@@ -2127,6 +2146,11 @@ declare namespace  __React {
          * Reloads the current page.
          */
         reload: () => void
+
+        /**
+         * Stop loading the current page.
+         */
+        stopLoading(): void
 
         /**
          * Returns the native webview node.
