@@ -601,7 +601,7 @@ declare namespace  __React {
     }
 
     /** Automatically animates views to their new positions when the next layout happens.
-     * A common way to use this API is to call LayoutAnimation.configureNext before 
+     * A common way to use this API is to call LayoutAnimation.configureNext before
      * calling setState. */
     export interface LayoutAnimationStatic {
         /** Schedules an animation to happen on the next layout.
@@ -609,7 +609,7 @@ declare namespace  __React {
          * `duration` in milliseconds
          * `create`, config for animating in new views (see Anim type)
          * `update`, config for animating views that have been updated (see Anim type)
-         * @param onAnimationDidEnd Called when the animation finished. Only supported on iOS. 
+         * @param onAnimationDidEnd Called when the animation finished. Only supported on iOS.
          */
         configureNext: (config: LayoutAnimationConfig, onAnimationDidEnd?: () => void) => void
         /** Helper for creating a config for configureNext. */
@@ -6351,16 +6351,15 @@ declare namespace  __React {
         getInitialURL(callback: (url: string) => void):void
     }
 
-    export interface LinkingStatic {
+    export class LinkingStatic extends NativeEventEmitter {
         /**
-         * Add a handler to Linking changes by listening to the url event type and providing the handler
-         * @platform ios
+         * Add a handler to Linking changes by listening to the `url` event type
+         * and providing the handler
          */
         addEventListener(type: string, handler: (event: {url: string}) => void): void
 
         /**
-         * Remove a handler by passing the url event type and the handler
-         * @platform ios
+         * Remove a handler by passing the `url` event type and the handler
          */
         removeEventListener(type: string, handler: (event: {url: string}) => void): void
 
@@ -6370,7 +6369,7 @@ declare namespace  __React {
          * NOTE: This method will fail if the system doesn't know how to open the specified URL. If you're passing in a non-http(s) URL, it's best to check {@code canOpenURL} first.
          * NOTE: For web URLs, the protocol ("http://", "https://") must be set accordingly!
          */
-        openURL(url: string): Promise<boolean>
+        openURL(url: string): Promise<any>
 
         /**
          * Determine whether or not an installed app can handle a given URL.
