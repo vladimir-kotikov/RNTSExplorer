@@ -4584,7 +4584,7 @@ declare namespace  __React {
          * If set to true it renders the image as original,
          * it defaults to being displayed as a template
          */
-        renderAsOriginal: boolean
+        renderAsOriginal?: boolean
 
         /**
          * It specifies whether the children are visible or not. If you see a blank content, you probably forgot to add a selected one.
@@ -4608,7 +4608,7 @@ declare namespace  __React {
          *
          *  enum('bookmarks', 'contacts', 'downloads', 'favorites', 'featured', 'history', 'more', 'most-recent', 'most-viewed', 'recents', 'search', 'top-rated')
          */
-        systemIcon: "bookmarks" | "contacts" | "downloads" | "favorites" | "featured" | "history" | "more" | "most-recent" | "most-viewed" | "recents" | "search" | "top-rated"
+        systemIcon?: "bookmarks" | "contacts" | "downloads" | "favorites" | "featured" | "history" | "more" | "most-recent" | "most-viewed" | "recents" | "search" | "top-rated"
 
         /**
          * Text that appears under the icon. It is ignored when a system icon is defined.
@@ -4640,7 +4640,7 @@ declare namespace  __React {
          * this value defaults to `fill`, in a horizontally regular one (e.g. iPad)
          * it defaults to center.
          */
-        itemPositioning: 'fill' | 'center' | 'auto'
+        itemPositioning?: 'fill' | 'center' | 'auto'
 
         /**
          * Color of the currently selected tab icon
