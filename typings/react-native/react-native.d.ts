@@ -5059,7 +5059,6 @@ declare namespace  __React {
         setDeadline(deadline: number): void
     }
 
-
     export interface ScrollViewStyle extends FlexStyle, TransformsStyle {
 
         backfaceVisibility?: "visible" | "hidden"
@@ -7836,6 +7835,8 @@ declare namespace  __React {
     export var IntentAndroid: IntentAndroidStatic
     export type IntentAndroid = IntentAndroidStatic
 
+    export var Keyboard: NativeEventEmitter
+
     export var KeyboardAvoidingView: KeyboardAvoidingViewStatic
     export type KeyboardAvoidingView = KeyboardAvoidingViewStatic
 
@@ -7892,6 +7893,16 @@ declare namespace  __React {
     //////////// Plugins //////////////
 
     export var DeviceEventEmitter: RCTDeviceEventEmitter
+    /**
+     * Abstract base class for implementing event-emitting modules. This implements
+     * a subset of the standard EventEmitter node module API.
+     */
+    export interface NativeEventEmitter extends EventEmitter {}
+    export var NativeEventEmitter: NativeEventEmitter
+    /**
+     * Deprecated - subclass NativeEventEmitter to create granular event modules instead of
+     * adding all event listeners directly to RCTNativeAppEventEmitter.
+     */
     export var NativeAppEventEmitter: RCTNativeAppEventEmitter
     /**
      * Native Modules written in ObjectiveC/Swift/Java exposed via the RCTBridge
