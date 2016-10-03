@@ -5062,7 +5062,7 @@ declare namespace  __React {
          * This should only be called from native code by sending the didUpdateDimensions event.
          * @param {object} dims Simple string-keyed object of dimensions to set
          */
-        set( dims: {[key: string]: any}[] ): void
+        set( dims: {[key: string]: any} ): void
     }
 
     export type PromiseTask = {
