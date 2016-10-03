@@ -3748,6 +3748,72 @@ declare namespace  __React {
     export interface ModalStatic extends React.ComponentClass<ModalProperties> {
     }
 
+    /**
+     * @see https://github.com/facebook/react-native/blob/0.34-stable\Libraries\Components\Touchable\Touchable.js
+     */
+    interface TouchableMixin {
+
+        /**
+         * Invoked when the item should be highlighted. Mixers should implement this
+         * to visually distinguish the `VisualRect` so that the user knows that
+         * releasing a touch will result in a "selection" (analog to click).
+         */
+        touchableHandleActivePressIn(e: Event): void
+
+        /**
+         * Invoked when the item is "active" (in that it is still eligible to become
+         * a "select") but the touch has left the `PressRect`. Usually the mixer will
+         * want to unhighlight the `VisualRect`. If the user (while pressing) moves
+         * back into the `PressRect` `touchableHandleActivePressIn` will be invoked
+         * again and the mixer should probably highlight the `VisualRect` again. This
+         * event will not fire on an `touchEnd/mouseUp` event, only move events while
+         * the user is depressing the mouse/touch.
+         */
+        touchableHandleActivePressOut(e: Event): void
+
+        /**
+         * Invoked when the item is "selected" - meaning the interaction ended by
+         * letting up while the item was either in the state
+         * `RESPONDER_ACTIVE_PRESS_IN` or `RESPONDER_INACTIVE_PRESS_IN`.
+         */
+        touchableHandlePress(e: Event): void
+
+        /**
+         * Invoked when the item is long pressed - meaning the interaction ended by
+         * letting up while the item was in `RESPONDER_ACTIVE_LONG_PRESS_IN`. If
+         * `touchableHandleLongPress` is *not* provided, `touchableHandlePress` will
+         * be called as it normally is. If `touchableHandleLongPress` is provided, by
+         * default any `touchableHandlePress` callback will not be invoked. To
+         * override this default behavior, override `touchableLongPressCancelsPress`
+         * to return false. As a result, `touchableHandlePress` will be called when
+         * lifting up, even if `touchableHandleLongPress` has also been called.
+         */
+        touchableHandleLongPress(e: Event): void
+
+        // TODO: Define result type as separate type
+        /**
+         * Returns the amount to extend the `HitRect` into the `PressRect`. Positive
+         * numbers mean the size expands outwards.
+         */
+        touchableGetPressRectOffset(): {
+            top: number;
+            left: number;
+            right: number;
+            bottom: number;
+        }
+
+        /**
+         * Returns the number of millis to wait before triggering a highlight.
+         */
+        touchableGetHighlightDelayMS(): number
+
+        // TODO: these methods are undocumented but still being used by TouchableMixin internals
+        touchableGetLongPressDelayMS(): number
+        touchableGetPressOutDelayMS(): number
+        // TODO: refine result type
+        touchableGetHitSlop(): boolean
+    }
+
     export interface TouchableWithoutFeedbackAndroidProperties {
 
         /**
@@ -3756,8 +3822,10 @@ declare namespace  __React {
          *
          * @enum('none', 'button', 'radiobutton_checked', 'radiobutton_unchecked' )
          */
-        accessibilityComponentType?: string
+        accessibilityComponentType?: 'none' | 'button' | 'radiobutton_checked' | 'radiobutton_unchecked'
     }
+
+    type ViewAccessibilityTraits = 'none' | 'button' | 'link' | 'header' | 'search' | 'image' | 'selected' | 'plays' | 'key' | 'text' | 'summary' | 'disabled' | 'frequentUpdates' | 'startsMedia' | 'adjustable' | 'allowsDirectInteraction' | 'pageTurn'
 
     export interface TouchableWithoutFeedbackIOSProperties {
 
@@ -3767,7 +3835,7 @@ declare namespace  __React {
          *
          * @enum('none', 'button', 'link', 'header', 'search', 'image', 'selected', 'plays', 'key', 'text','summary', 'disabled', 'frequentUpdates', 'startsMedia', 'adjustable', 'allowsDirectInteraction', 'pageTurn')
          */
-        accessibilityTraits?: string | string[];
+        accessibilityTraits?: ViewAccessibilityTraits | ViewAccessibilityTraits[]
 
     }
 
@@ -3809,7 +3877,7 @@ declare namespace  __React {
          * the Z-index of sibling views always takes precedence if a touch hits
          * two overlapping views.
          */
-        hitSlop?: {top: number, left: number, bottom: number, right: number}
+        hitSlop?: Insets
 
         /**
          * Invoked on mount and layout changes with
@@ -3842,13 +3910,11 @@ declare namespace  __React {
          * while the scroll view is disabled. Ensure you pass in a constant
          * to reduce memory allocations.
          */
-        pressRetentionOffset?: {top: number, left: number, bottom: number, right: number}
+        pressRetentionOffset?: Insets
     }
 
 
-    export interface TouchableWithoutFeedbackProps extends TouchableWithoutFeedbackProperties, React.Props<TouchableWithoutFeedbackStatic> {
-
-    }
+    export interface TouchableWithoutFeedbackProps extends TouchableWithoutFeedbackProperties, React.Props<TouchableWithoutFeedbackStatic> {}
 
     /**
      * Do not use unless you have a very good reason.
@@ -3857,9 +3923,7 @@ declare namespace  __React {
      *
      * @see https://facebook.github.io/react-native/docs/touchablewithoutfeedback.html
      */
-    export interface TouchableWithoutFeedbackStatic extends React.ComponentClass<TouchableWithoutFeedbackProps> {
-
-    }
+    export interface TouchableWithoutFeedbackStatic extends TimerMixin, TouchableMixin, React.ClassicComponentClass<TouchableWithoutFeedbackProps> {}
 
 
     /**
@@ -3888,7 +3952,6 @@ declare namespace  __React {
          */
         style?: ViewStyle
 
-
         /**
          * The color of the underlay that will show through when the touch is active.
          */
@@ -3908,8 +3971,7 @@ declare namespace  __React {
      *
      * @see https://facebook.github.io/react-native/docs/touchablehighlight.html
      */
-    export interface TouchableHighlightStatic extends React.ComponentClass<TouchableHighlightProperties> {
-    }
+    export interface TouchableHighlightStatic extends NativeComponent, TimerMixin, TouchableMixin, React.ClassicComponentClass<TouchableHighlightProperties> {}
 
 
     /**
@@ -3931,13 +3993,29 @@ declare namespace  __React {
      *
      * @see https://facebook.github.io/react-native/docs/touchableopacity.html
      */
-    export interface TouchableOpacityStatic extends React.ComponentClass<TouchableOpacityProperties> {
+    export interface TouchableOpacityStatic extends TimerMixin, TouchableMixin, NativeComponent, React.ClassicComponentClass<TouchableOpacityProperties> {
         /**
-         * Determines what the opacity of the wrapped view should be when touch is active.
+         * Animate the touchable to a new opacity.
          */
         setOpacityTo: (value: number) => void
     }
 
+    interface BaseBackgroundPropType {
+        type: string
+    }
+
+    interface RippleBackgroundPropType extends BaseBackgroundPropType {
+        type: 'RippleAndroid'
+        color?: number,
+        borderless?: boolean
+    }
+
+    interface ThemeAttributeBackgroundPropType extends BaseBackgroundPropType {
+        type: 'ThemeAttrAndroid'
+        attribute: string
+    }
+
+    type BackgroundPropType = RippleBackgroundPropType & ThemeAttributeBackgroundPropType
 
     /**
      * @see https://facebook.github.io/react-native/docs/touchableopacity.html#props
@@ -3951,7 +4029,7 @@ declare namespace  __React {
          *      2) TouchableNativeFeedback.SelectableBackgroundBorderless() - will create object that represent android theme's default background for borderless selectable elements (?android:attr/selectableItemBackgroundBorderless). Available on android API level 21+
          *      3) TouchableNativeFeedback.Ripple(color, borderless) - will create object that represents ripple drawable with specified color (as a string). If property borderless evaluates to true the ripple will render outside of the view bounds (see native actionbar buttons as an example of that behavior). This background type is available on Android API level 21+
          */
-        background?: any
+        background?: BackgroundPropType
     }
 
     /**
@@ -3964,10 +4042,32 @@ declare namespace  __React {
      *
      * @see https://facebook.github.io/react-native/docs/touchablenativefeedback.html#content
      */
-    export interface TouchableNativeFeedbackStatic extends React.ComponentClass<TouchableNativeFeedbackProperties> {
-        SelectableBackground: () => TouchableNativeFeedbackStatic
-        SelectableBackgroundBorderless: () => TouchableNativeFeedbackStatic
-        Ripple: ( color: string, borderless?: boolean ) => TouchableNativeFeedbackStatic
+    export interface TouchableNativeFeedbackStatic extends TouchableMixin, React.ClassicComponentClass<TouchableNativeFeedbackProperties> {
+
+        /**
+         * Creates an object that represents android theme's default background for
+         * selectable elements (?android:attr/selectableItemBackground).
+         */
+        SelectableBackground(): ThemeAttributeBackgroundPropType
+
+        /**
+         * Creates an object that represent android theme's default background for borderless
+         * selectable elements (?android:attr/selectableItemBackgroundBorderless).
+         * Available on android API level 21+.
+         */
+        SelectableBackgroundBorderless(): ThemeAttributeBackgroundPropType
+
+        /**
+         * Creates an object that represents ripple drawable with specified color (as a
+         * string). If property `borderless` evaluates to true the ripple will
+         * render outside of the view bounds (see native actionbar buttons as an
+         * example of that behavior). This background type is available on Android
+         * API level 21+.
+         *
+         * @param color The ripple color
+         * @param borderless If the ripple can render outside it's bounds
+         */
+        Ripple( color: string, borderless?: boolean ): RippleBackgroundPropType
     }
 
     export interface LeftToRightGesture {
@@ -7421,6 +7521,8 @@ declare namespace  __React {
 
     export var ToolbarAndroid: ToolbarAndroidStatic
     export type ToolbarAndroid = ToolbarAndroidStatic
+
+    // TODO: Touchable: Do we need to expose it?
 
     export var TouchableHighlight: TouchableHighlightStatic
     export type TouchableHighlight = TouchableHighlightStatic
