@@ -7904,6 +7904,7 @@ declare namespace __React {
     export var NativeAppEventEmitter: RCTNativeAppEventEmitter
     /**
      * Native Modules written in ObjectiveC/Swift/Java exposed via the RCTBridge
+     * Define lazy getters for each module. These will return the module if already loaded, or load it if not.
      * See https://facebook.github.io/react-native/docs/native-modules-ios.html
      * Use:
      * <code>const MyModule = NativeModules.ModuleName</code>
