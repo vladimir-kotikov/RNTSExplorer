@@ -6910,6 +6910,16 @@ declare namespace  __React {
         dismissedAction: string
     }
 
+    /**
+     * This exposes the native ToastAndroid module as a JS module. This has a function 'show'
+     * which takes the following parameters:
+     *
+     * 1. String message: A string with the text to toast
+     * 2. int duration: The duration of the toast. May be ToastAndroid.SHORT or ToastAndroid.LONG
+     *
+     * There is also a function `showWithGravity` to specify the layout gravity. May be
+     * ToastAndroid.TOP, ToastAndroid.BOTTOM, ToastAndroid.CENTER
+     */
     export interface ToastAndroidStatic {
         /**
          * String message: A string with the text to toast
@@ -6917,8 +6927,17 @@ declare namespace  __React {
          * May be ToastAndroid.SHORT or ToastAndroid.LONG
          */
         show(message: string, duration: number): void
+
+        showWithGravity(message: string, duration: number, gravity: number): void
+
+        // Toast duration constants
         SHORT: number
         LONG: number
+
+        // Toast gravity constants
+        TOP: number
+        BOTTOM: number
+        CENTER: number
     }
 
     export interface SwitchPropertiesIOS extends ViewProperties, React.Props<SwitchStatic> {
@@ -7525,7 +7544,6 @@ declare namespace  __React {
     // - [ ] Switch
     // - [ ] SwitchAndroid
     // - [ ] SwitchIOS
-    // - [ ] ToastAndroid
 
 
     export var ActivityIndicator: ActivityIndicatorStatic
