@@ -1494,6 +1494,8 @@ declare namespace __React {
          * If the View returns true and attempts to become the responder, one of the following will happen:
          */
 
+        onResponderEnd?: ( event: GestureResponderEvent ) => void
+
         /**
          * The View is now responding for touch events.
          * This is the time to highlight and show the user what is happening
@@ -1518,6 +1520,8 @@ declare namespace __React {
          * Fired at the end of the touch, ie "touchUp"
          */
         onResponderRelease?: ( event: GestureResponderEvent ) => void
+
+        onResponderStart?: ( event: GestureResponderEvent ) => void
 
         /**
          *  Something else wants to become responder.
@@ -7485,10 +7489,6 @@ declare namespace __React {
 
     export type TabsReducerFunction = (params:any) => any;
 
-    export interface NavigationReducerStatic {
-        TabsReducer: any; // (TabsReducerFunction | TabsReducerStatic);
-    }
-
     export interface NavigationTab
     {
         key: string;
@@ -7513,19 +7513,6 @@ declare namespace __React {
         onNavigate: (action: NavigationAction) => boolean
     ) => JSX.Element;
 
-    // Definitions for NavigationExperimental feature are deduced
-    // from code examples
-    export interface NavigationAnimatedViewStaticProps {
-        route?: any
-        style?: ViewStyle
-        renderOverlay?(props: Object): JSX.Element
-        applyAnimation(pos: any, navState: Object): void // TODO: what's pos?
-        renderScene?(props: Object): JSX.Element
-    }
-
-    export interface NavigationAnimatedViewStatic extends React.ComponentClass<NavigationAnimatedViewStaticProps> {
-    }
-
     export interface NavigationHeaderProps {
         renderTitleComponent?(props: Object): JSX.Element
         onNavigateBack(): void
@@ -7537,41 +7524,254 @@ declare namespace __React {
     }
 
     export interface NavigationCardStackProps {
+        /**
+         * Custom style applied to the card.
+         */
+        cardStyle?: ViewStyle
+        /**
+         * Direction of the cards movement. Value could be `horizontal` or
+         * `vertical`. Default value is `horizontal`.
+         */
         direction?: 'horizontal' | 'vertical'
-        style?: ViewStyle
-        route?: any
-        renderScene?(props: any /* undocumented on 0.27 */): JSX.Element
-        onNavigateBack(): void
+        /**
+         * The distance from the edge of the card which gesture response can start
+         * for. Defaults value is `30`.
+         */
+        gestureResponseDistance?: number
+        /**
+         * Enable gestures. Default value is true
+         */
+        enableGestures?: boolean,
+        /**
+         * The controlled navigation state. Typically, the navigation state
+         * look like this:
+         *
+         * ```js
+         * const navigationState = {
+         *   index: 0, // the index of the selected route.
+         *   routes: [ // A list of routes.
+         *     {key: 'page 1'}, // The 1st route.
+         *     {key: 'page 2'}, // The second route.
+         *   ],
+         * };
+         * ```
+         */
+        navigationState: NavigationState,
+        /**
+         * Callback that is called when the "back" action is performed.
+         * This happens when the back button is pressed or the back gesture is
+         * performed.
+         */
+        onNavigateBack?: Function,
+        /**
+         * Function that renders the header.
+         */
+        renderHeader?: Function,
+
+        /**
+         * Function that renders the a scene for a route.
+         */
+        renderScene: Function,
+
+        /**
+         * Custom style applied to the cards stack.
+         */
+        style?: ViewStyle,
+    }
+
+    // Object Instances
+
+    export type NavigationAnimatedValue = Animated.Value;
+
+    // Value  & Structs.
+
+    export type NavigationGestureDirection = 'horizontal' | 'vertical';
+
+    export type NavigationLayout = {
+        height: NavigationAnimatedValue,
+        initHeight: number,
+        initWidth: number,
+        isMeasured: boolean,
+        width: NavigationAnimatedValue,
+    };
+
+    export type NavigationScene = {
+        index: number,
+        isActive: boolean,
+        isStale: boolean,
+        key: string,
+        route: NavigationRoute,
+    };
+
+    export interface NavigationSceneRendererProps {
+        // The layout of the transitioner of the scenes.
+        layout: NavigationLayout,
+
+        // The navigation state of the transitioner.
+        navigationState: NavigationState,
+
+        // The progressive index of the transitioner's navigation state.
+        position: NavigationAnimatedValue,
+
+        // The value that represents the progress of the transition when navigation
+        // state changes from one to another. Its numberic value will range from 0
+        // to 1.
+        //  progress.__getAnimatedValue() < 1 : transtion is happening.
+        //  progress.__getAnimatedValue() == 1 : transtion completes.
+        progress: NavigationAnimatedValue,
+
+        // All the scenes of the transitioner.
+        scenes: Array<NavigationScene>,
+
+        // The active scene, corresponding to the route at
+        // `navigationState.routes[navigationState.index]`.
+        scene: NavigationScene,
+
+        // The gesture distance for `horizontal` and `vertical` transitions
+        gestureResponseDistance?: number,
+    }
+
+    export interface NavigationSceneRenderer extends React.ComponentClass<NavigationSceneRendererProps> {
+    }
+
+    export interface NavigationPropTypes {
+        // helpers
+        extractSceneRendererProps(props: NavigationSceneRendererProps): NavigationSceneRendererProps
+
+        // Bundled propTypes.
+        SceneRendererProps: {
+            layout: string,
+            navigationState: string,
+            position: string,
+            progress: string,
+            scene: string,
+            scenes: NavigationScene[],
+        }
+
+        // propTypes
+        SceneRenderer: any, // TODO: fix this
+        action: NavigationAction,
+        navigationState: NavigationState,
+        navigationRoute: NavigationRoute,
+        panHandlers: GestureResponderHandlers,
+    }
+
+    export interface NavigationCardProps extends React.ComponentClass<NavigationSceneRendererProps> {
+        onComponentRef: (ref: any) => void,
+        onNavigateBack: Function,
+        panHandlers: GestureResponderHandlers,
+        pointerEvents: string,
+        renderScene: NavigationSceneRenderer,
+        style: any,
     }
 
     export interface NavigationCardStackStatic extends React.ComponentClass<NavigationCardStackProps> {
     }
 
+    export interface NavigationCardStatic extends React.ComponentClass<NavigationCardProps> {
+    }
+
+    /**
+     * Utilities to perform atomic operation with navigate state and routes.
+     *
+     * ```javascript
+     * const state1 = {key: 'page 1'};
+     * const state2 = NavigationStateUtils.push(state1, {key: 'page 2'});
+     * ```
+     */
+    export interface NavigationStateUtils {
+        get(state: NavigationState, key: string): NavigationRoute
+        indexOf(state: NavigationState, key: string): number
+        has(state: NavigationState, key: string): boolean
+        push(state: NavigationState, route: NavigationRoute): NavigationState
+        pop(state: NavigationState): NavigationState
+        jumpToIndex(state: NavigationState, index: number): NavigationState
+        jumpTo(state: NavigationState, key: string): NavigationState
+        back(state: NavigationState): NavigationState
+        forward(state: NavigationState): NavigationState
+        replaceAt(
+            state: NavigationState,
+            key: string,
+            route: NavigationRoute
+        ): NavigationState
+        replaceAtIndex(
+            state: NavigationState,
+            index: number,
+            route: NavigationRoute
+        ): NavigationState
+        reset(
+            state: NavigationState,
+            routes: Array<NavigationRoute>,
+            index?: number
+        ): NavigationState
+    }
+
+    export type NavigationTransitionProps = {
+        // The layout of the transitioner of the scenes.
+        layout: NavigationLayout,
+
+        // The navigation state of the transitioner.
+        navigationState: NavigationState,
+
+        // The progressive index of the transitioner's navigation state.
+        position: NavigationAnimatedValue,
+
+        // The value that represents the progress of the transition when navigation
+        // state changes from one to another. Its numberic value will range from 0
+        // to 1.
+        //  progress.__getAnimatedValue() < 1 : transtion is happening.
+        //  progress.__getAnimatedValue() == 1 : transtion completes.
+        progress: NavigationAnimatedValue,
+
+        // All the scenes of the transitioner.
+        scenes: Array<NavigationScene>,
+
+        // The active scene, corresponding to the route at
+        // `navigationState.routes[navigationState.index]`.
+        scene: NavigationScene,
+
+        // The gesture distance for `horizontal` and `vertical` transitions
+        gestureResponseDistance?: number,
+    }
+    export type NavigationTransitionSpec = {
+        duration?: number,
+        // An easing function from `Easing`.
+        easing?: () => any,
+        // A timing function such as `Animated.timing`.
+        timing?: (value: NavigationAnimatedValue, config: any) => any,
+    }
+    export interface NavigationTransitionerProps {
+        configureTransition: (
+            a: NavigationTransitionProps,
+            b?: NavigationTransitionProps
+        ) => NavigationTransitionSpec,
+        navigationState: NavigationState,
+        onTransitionEnd: () => void,
+        onTransitionStart: () => void,
+        render: (a: NavigationTransitionProps, b?: NavigationTransitionProps) => any,
+        style: any,
+    }
+
+    export interface NavigationTransitioner extends React.ComponentClass<NavigationTransitionerProps> {
+    }
+
+    export interface NavigationCard extends React.ComponentClass<NavigationCardProps> {
+    }
+
     export interface NavigationExperimentalStatic {
-        AnimatedView: NavigationAnimatedViewStatic;
+        // Core
+        StateUtils: NavigationStateUtils
+
+        // Views
+        Transitioner: NavigationTransitioner,
+
+        //AnimatedView: NavigationAnimatedViewStatic;
+        // CustomComponents:
+        Card: NavigationCard,
         CardStack: NavigationCardStackStatic;
         Header: NavigationHeaderStatic;
-        Reducer: NavigationReducerStatic;
-    }
 
-    export interface NavigationContainerProps {
-        tabs: NavigationTab[];
-        index: number;
-    }
-
-    export interface NavigationContainerStatic extends React.ComponentClass<NavigationContainerProps> {
-        create(inClass: any): any;
-    }
-
-    export interface NavigationRootContainerProps extends React.Props<NavigationRootContainerStatic> {
-        renderNavigation: NavigationRenderer;
-        reducer: NavigationReducerStatic;
-        persistenceKey?: string;
-    }
-
-    export interface NavigationRootContainerStatic extends React.ComponentClass<NavigationRootContainerProps> {
-        getBackAction(): NavigationAction;
-        handleNavigation( action: NavigationAction ): boolean;
+        PropTypes: NavigationPropTypes,
     }
 
     //
@@ -7875,15 +8075,6 @@ declare namespace __React {
 
     export type NavigationExperimental = NavigationExperimentalStatic;
     export var NavigationExperimental: NavigationExperimentalStatic;
-
-    export type NavigationContainer = NavigationContainerStatic;
-    export var NavigationContainer: NavigationContainerStatic;
-
-    export type NavigationRootContainer = NavigationRootContainerStatic;
-    export var NavigationRootContainer: NavigationRootContainerStatic;
-
-    export type NavigationReducer = NavigationReducerStatic;
-    export var NavigationReducer: NavigationReducerStatic;
 
     export type Easing = EasingStatic;
     export var Easing: EasingStatic;
