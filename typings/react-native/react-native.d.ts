@@ -2134,60 +2134,59 @@ declare namespace  __React {
         getWebViewHandle: () => any
     }
 
-
     /**
      * @see https://facebook.github.io/react-native/docs/segmentedcontrolios.html
      * @see SegmentedControlIOS.ios.js
      */
-     export interface NativeSegmentedControlIOSChangeEvent {
-         value: string
-         selectedSegmentIndex: number
-         target: number
-     }
+    export interface NativeSegmentedControlIOSChangeEvent {
+        value: string
+        selectedSegmentIndex: number
+        target: number
+    }
 
-     export interface SegmentedControlIOSProperties extends ViewProperties, React.Props<SegmentedControlIOSStatic> {
+    export interface SegmentedControlIOSProperties extends ViewProperties, React.Props<SegmentedControlIOSStatic> {
 
-         /**
-          * If false the user won't be able to interact with the control. Default value is true.
-          */
-         enabled?: boolean
+        /**
+         * If false the user won't be able to interact with the control. Default value is true.
+         */
+        enabled?: boolean
 
-         /**
-          * If true, then selecting a segment won't persist visually.
-          * The onValueChange callback will still work as expected.
-          */
-         momentary?: boolean
+        /**
+         * If true, then selecting a segment won't persist visually.
+         * The onValueChange callback will still work as expected.
+         */
+        momentary?: boolean
 
-         /**
-          * Callback that is called when the user taps a segment;
-          * passes the event as an argument
-          * @param event
-          */
-         onChange?: (event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>) => void
+        /**
+         * Callback that is called when the user taps a segment;
+         * passes the event as an argument
+         * @param event
+         */
+        onChange?: (event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>) => void
 
-         /**
-          * Callback that is called when the user taps a segment; passes the segment's value as an argument
-          * @param value
-          */
-         onValueChange?: (value: string) => void
+        /**
+         * Callback that is called when the user taps a segment; passes the segment's value as an argument
+         * @param value
+         */
+        onValueChange?: (value: string) => void
 
-         /**
-          * The index in props.values of the segment to be (pre)selected.
-          */
-         selectedIndex?: number
+        /**
+         * The index in props.values of the segment to be (pre)selected.
+         */
+        selectedIndex?: number
 
-         /**
-          * Accent color of the control.
-          */
-         tintColor?: string
+        /**
+         * Accent color of the control.
+         */
+        tintColor?: string
 
-         /**
-          * The labels for the control's segment buttons, in order.
-          */
-         values?: string[]
+        /**
+         * The labels for the control's segment buttons, in order.
+         */
+        values?: string[]
 
-         ref?: Ref<SegmentedControlIOSStatic>
-     }
+        ref?: Ref<SegmentedControlIOSStatic>
+    }
 
     /**
      * Use `SegmentedControlIOS` to render a UISegmentedControl iOS.
