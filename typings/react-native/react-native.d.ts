@@ -5689,6 +5689,19 @@ declare namespace  __React {
         zoomScale: number;
     }
 
+    export interface SnapshotViewIOSProperties extends ViewProperties, React.Props<SnapshotViewIOSStatic> {
+
+        // A callback when the Snapshot view is ready to be compared
+        onSnapshotReady(): any,
+
+        // A name to identify the individual instance to the SnapshotView
+        testIdentifier : string,
+
+        ref?: Ref<ViewStatic & SnapshotViewIOSStatic>
+    }
+
+    export interface SnapshotViewIOSStatic extends NativeComponent, React.ComponentClass<SnapshotViewIOSProperties> {}
+
     // Deduced from
     // https://github.com/facebook/react-native/commit/052cd7eb8afa7a805ef13e940251be080499919c
 
@@ -7539,11 +7552,7 @@ declare namespace  __React {
     // - [ ] ImageStore
     // - [ ] LayoutAnimationStatic ???
     // - [ ] RefreshControl ???
-    // - [ ] SnapshotViewIOS
     // - [ ] StyleSheet ???
-    // - [ ] Switch
-    // - [ ] SwitchAndroid
-    // - [ ] SwitchIOS
 
 
     export var ActivityIndicator: ActivityIndicatorStatic
@@ -7608,6 +7617,9 @@ declare namespace  __React {
 
     export var ScrollView: ScrollViewStatic
     export type ScrollView = ScrollViewStatic
+
+    export var SnapshotViewIOS: SnapshotViewIOSStatic
+    export type SnapshotViewIOS = SnapshotViewIOSStatic
 
     export var StyleSheet: StyleSheetStatic
     export type StyleSheet = StyleSheetStatic
