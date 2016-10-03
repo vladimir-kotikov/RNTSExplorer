@@ -597,28 +597,68 @@ declare namespace  __React {
         testID?: string
     }
 
-    export interface TextPropertiesIOS {
-
+    export interface TextPropertiesIOS extends React.Props<TextPropertiesIOS> {
         /**
-         * Specifies should fonts scale to respect Text Size accessibility
-         * setting on iOS.
+         * Specifies whether fonts should scale to respect Text Size accessibility setting on iOS. The
+         * default is `true`.
          */
-        allowFontScaling: boolean
+        allowFontScaling?: boolean
 
         /**
-         * When true, no visual change is made when text is pressed down.
-         * By default, a gray oval highlights the text on press down.
+         * Specifies whether font should be scaled down automatically to fit given style constraints.
+         */
+        adjustsFontSizeToFit: boolean
+
+        /**
+         * Specifies smallest possible scale a font can reach when adjustsFontSizeToFit is enabled. (values 0.01-1.0).
+         */
+        minimumFontScale: number
+
+        /**
+         * When `true`, no visual change is made when text is pressed down. By
+         * default, a gray oval highlights the text on press down.
          */
         suppressHighlighting?: boolean
     }
 
+    export interface TextPropertiesAndroid extends React.Props<TextPropertiesAndroid> {
+        /**
+         * Lets the user select text, to use the native copy and paste functionality.
+         */
+        selectable: boolean
+    }
+
     // https://facebook.github.io/react-native/docs/text.html#props
-    export interface TextProperties extends React.Props<TextProperties> {
+    export interface TextProperties extends TextPropertiesIOS, TextPropertiesAndroid, React.Props<TextProperties> {
 
         /**
-         * Specifies should fonts scale to respect Text Size accessibility setting on iOS.
+         * When set to `true`, indicates that the view is an accessibility element. The default value
+         * for a `Text` element is `true`.
+         *
+         * See the
+         * [Accessibility guide](/react-native/docs/accessibility.html#accessible-ios-android)
+         * for more information.
          */
-        allowFontScaling?: boolean
+        accessible?: boolean
+
+        /**
+         * This can be one of the following values:
+         *
+         * - `head` - The line is displayed so that the end fits in the container and the missing text
+         * at the beginning of the line is indicated by an ellipsis glyph. e.g., "...wxyz"
+         * - `middle` - The line is displayed so that the beginning and end fit in the container and the
+         * missing text in the middle is indicated by an ellipsis glyph. "ab...yz"
+         * - `tail` - The line is displayed so that the beginning fits in the container and the
+         * missing text at the end of the line is indicated by an ellipsis glyph. e.g., "abcd..."
+         * - `clip` - Lines are not drawn past the edge of the text container.
+         *
+         * The default is `tail`.
+         *
+         * `numberOfLines` must be set in conjunction with this prop.
+         *
+         * > `clip` is working only for iOS
+         */
+        ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip'
 
         /**
          * Line Break mode. Works only with numberOfLines.
@@ -627,7 +667,11 @@ declare namespace  __React {
         lineBreakMode?: 'head' | 'middle' | 'tail' | 'clip'
 
         /**
-         * Used to truncate the text with an elipsis after computing the text layout, including line wrapping, such that the total number of lines does not exceed this number.
+         * Used to truncate the text with an ellipsis after computing the text
+         * layout, including line wrapping, such that the total number of lines
+         * does not exceed this number.
+         *
+         * This prop is commonly used with `ellipsizeMode`.
          */
         numberOfLines?: number
 
@@ -645,6 +689,12 @@ declare namespace  __React {
         onPress?: () => void
 
         /**
+         * This function is called on long press.
+         * e.g., `onLongPress={this.increaseSize}>``
+         */
+        onLongPress?: () => void
+
+        /**
          * @see https://facebook.github.io/react-native/docs/text.html#style
          */
         style?: TextStyle
@@ -653,15 +703,16 @@ declare namespace  __React {
          * Used to locate this view in end-to-end tests.
          */
         testID?: string
+
+        ref: Ref<TextPropertiesIOS & TextPropertiesAndroid & TextProperties>
     }
 
     /**
      * A React component for displaying text which supports nesting, styling, and touch handling.
      */
-    export interface TextStatic extends React.ComponentClass<TextProperties> {
+    export interface TextStatic extends NativeComponent, React.ClassicComponentClass<TextProperties> {}
 
-    }
-
+    type DataDetectorTypes = 'phoneNumber' | 'link' | 'address' | 'calendarEvent' | 'none' | 'all';
 
     /**
      * IOS Specific properties for TextInput
@@ -673,12 +724,30 @@ declare namespace  __React {
          * enum('never', 'while-editing', 'unless-editing', 'always')
          * When the clear button should appear on the right side of the text view
          */
-        clearButtonMode?: string
+        clearButtonMode?: 'never' | 'while-editing' | 'unless-editing' | 'always'
 
         /**
          * If true, clears the text field automatically when editing begins
          */
         clearTextOnFocus?: boolean
+
+        /**
+         * Determines the types of data converted to clickable URLs in the text input.
+         * Only valid if `multiline={true}` and `editable={false}`.
+         * By default no data types are detected.
+         *
+         * You can provide one type or an array of many types.
+         *
+         * Possible values for `dataDetectorTypes` are:
+         *
+         * - `'phoneNumber'`
+         * - `'link'`
+         * - `'address'`
+         * - `'calendarEvent'`
+         * - `'none'`
+         * - `'all'`
+         */
+        dataDetectorTypes: DataDetectorTypes | DataDetectorTypes[]
 
         /**
          * If true, the keyboard disables the return key when there is no text and automatically enables it when there is text.
@@ -687,19 +756,21 @@ declare namespace  __React {
         enablesReturnKeyAutomatically?: boolean
 
         /**
+         * Determines the color of the keyboard.
+         */
+        keyboardAppearance: 'default' | 'light' | 'dark'
+
+        /**
          * Callback that is called when a key is pressed.
          * Pressed key value is passed as an argument to the callback handler.
          * Fires before onChange callbacks.
          */
-        onKeyPress?: () => void
+        onKeyPress?: (key: string) => void
 
         /**
-         * //FIXME: requires typing
          * See DocumentSelectionState.js, some state that is responsible for maintaining selection information for a document
          */
-        selectionState?: any
-
-
+        selectionState?: DocumentSelectionState
     }
 
     /**
@@ -707,6 +778,16 @@ declare namespace  __React {
      * @see https://facebook.github.io/react-native/docs/textinput.html#props
      */
     export interface TextInputAndroidProperties {
+
+        /**
+         * If defined, the provided image resource will be rendered on the left.
+         */
+        inlineImageLeft: string
+
+        /**
+         * Padding between the inline image, if any, and the text input itself.
+         */
+        inlineImagePadding: number
 
         /**
          * Sets the number of lines for a TextInput.
@@ -721,30 +802,22 @@ declare namespace  __React {
         returnKeyLabel?: string
 
         /**
-         * enum('start', 'center', 'end')
-         * Set the position of the cursor from where editing will begin.
-         */
-        textAlign?: string
-
-        /**
-         * enum('top', 'center', 'bottom')
-         * Aligns text vertically within the TextInput.
-         */
-        textAlignVertical?: string
-
-        /**
          * The color of the textInput underline.
          */
         underlineColorAndroid?: string
     }
 
-    export type KeyboardType = "default" | "email-address" | "numeric" | "phone-pad" | "ascii-capable" | "numbers-and-punctuation" | "url" | "number-pad" | "name-phone-pad" | "decimal-pad" | "twitter" | "web-search"
-    export type ReturnKeyType = "default" | "go" | "google" | "join" | "next" | "route" | "search" | "send" | "yahoo" | "done" | "emergency-call"
+    export type KeyboardType = "default" | "email-address" | "numeric" | "phone-pad"
+    export type KeyboardTypeIOS = "ascii-capable" | "numbers-and-punctuation" | "url" | "number-pad" | "name-phone-pad" | "decimal-pad" | "twitter" | "web-search"
+
+    export type ReturnKeyType = "done" | "go" | "next" | "search" | "send"
+    export type ReturnKeyTypeAndroid = "none" | "previous"
+    export type ReturnKeyTypeIOS = "default" | "google" | "join" | "route" | "yahoo" | "emergency-call"
 
     /**
      * @see https://facebook.github.io/react-native/docs/textinput.html#props
      */
-    export interface TextInputProperties extends TextInputIOSProperties, TextInputAndroidProperties, React.Props<TextInputStatic> {
+    export interface TextInputProperties extends ViewProperties, TextInputIOSProperties, TextInputAndroidProperties, React.Props<TextInputStatic> {
 
         /**
          * Can tell TextInput to automatically capitalize certain characters.
@@ -790,9 +863,9 @@ declare namespace  __React {
         /**
          * enum("default", 'numeric', 'email-address', "ascii-capable", 'numbers-and-punctuation', 'url', 'number-pad', 'phone-pad', 'name-phone-pad', 'decimal-pad', 'twitter', 'web-search')
          * Determines which keyboard to open, e.g.numeric.
-         * The following values work across platforms: - default - numeric - email-address
+         * The following values work across platforms: - default - numeric - email-address - phone-pad
          */
-        keyboardType?: KeyboardType
+        keyboardType?: KeyboardType | KeyboardTypeIOS
 
         /**
          * Limits the maximum number of characters that can be entered.
@@ -822,6 +895,15 @@ declare namespace  __React {
         onChangeText?: ( text: string ) => void
 
         /**
+         * Callback that is called when the text input's content size changes.
+         * This will be called with
+         * `{ nativeEvent: { contentSize: { width, height } } }`.
+         *
+         * Only called for multiline text inputs.
+         */
+        onContentSizeChange: ( event: {nativeEvent: {contentSize: { width: number, height: number}}} ) => void
+
+        /**
          * Callback that is called when text input ends.
          */
         onEndEditing?: ( event: {nativeEvent: {text: string}} ) => void
@@ -832,10 +914,8 @@ declare namespace  __React {
         onFocus?: () => void
 
         /**
-         * Invoked on mount and layout changes with {x, y, width, height}.
+         * Callback that is called when the text input selection is changed.
          */
-        onLayout?: ( event: {nativeEvent: {x: number, y: number, width: number, height: number}} ) => void
-
         onSelectionChange?: () => void
 
         /**
@@ -862,7 +942,7 @@ declare namespace  __React {
          * enum('default', 'go', 'google', 'join', 'next', 'route', 'search', 'send', 'yahoo', 'done', 'emergency-call')
          * Determines how the return key should look.
          */
-        returnKeyType?: "default" | "go" | "google" | "join" | "next" | "route" | "search" | "send" | "yahoo" | "done" | "emergency-call"
+        returnKeyType?: ReturnKeyType | ReturnKeyTypeAndroid | ReturnKeyTypeIOS
 
         /**
          * If true, the text input obscures the text entered so that sensitive text like passwords stay secure.
@@ -874,6 +954,12 @@ declare namespace  __React {
          * If true, all text will automatically be selected on focus
          */
         selectTextOnFocus?: boolean
+
+        /**
+         * The start and end of the text input's selection. Set start and end to
+         * the same value to position the cursor.
+         */
+        selection?: { start: number, end?: number }
 
         /**
          * The highlight (and cursor on ios) color of the text input
@@ -898,12 +984,43 @@ declare namespace  __React {
          * or set/update maxLength to prevent unwanted edits without flicker.
          */
         value?: string
+
+        ref: Ref<ViewStatic & TextInputStatic>
+    }
+
+    /**
+     * This class is responsible for coordinating the "focused"
+     * state for TextInputs. All calls relating to the keyboard
+     * should be funneled through here
+     */
+    interface TextInputState {
+        /**
+         * Returns the ID of the currently focused text field, if one exists
+         * If no text field is focused it returns null
+         */
+        currentlyFocusedField(): number | null
+
+        /**
+         * @param {number} TextInputID id of the text field to focus
+         * Focuses the specified text field
+         * noop if the text field was already focused
+         */
+        focusTextInput(textFieldID: number | null): void
+
+        /**
+         * @param {number} textFieldID id of the text field to focus
+         * Unfocuses the specified text field
+         * noop if it wasn't focused
+         */
+        blurTextInput(textFieldID: number | null) : void
     }
 
     /**
      * @see https://facebook.github.io/react-native/docs/textinput.html#methods
      */
-    export interface TextInputStatic extends NativeComponent, React.ComponentClass<TextInputProperties> {
+    export interface TextInputStatic extends NativeComponent, TimerMixin, React.ComponentClass<TextInputProperties> {
+        State: TextInputState
+
         /**
          * Returns if the input is currently focused.
          */
@@ -913,10 +1030,6 @@ declare namespace  __React {
          * Removes all text from the input.
          */
         clear: () => void
-
-        // The following methods are found only in implementation
-        blur: () => void
-        focus: () => void
     }
 
     export type ToolbarAndroidAction = {
@@ -1689,9 +1802,27 @@ declare namespace  __React {
          ref?: Ref<SegmentedControlIOSStatic>
      }
 
-    export interface SegmentedControlIOSStatic extends React.ComponentClass<SegmentedControlIOSProperties> {
-
-    }
+    /**
+     * Use `SegmentedControlIOS` to render a UISegmentedControl iOS.
+     *
+     * #### Programmatically changing selected index
+     *
+     * The selected index can be changed on the fly by assigning the
+     * selectIndex prop to a state variable, then changing that variable.
+     * Note that the state variable would need to be updated as the user
+     * selects a value and changes the index, as shown in the example below.
+     *
+     * ````
+     * <SegmentedControlIOS
+     *   values={['One', 'Two']}
+     *   selectedIndex={this.state.selectedIndex}
+     *   onChange={(event) => {
+     *     this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+     *   }}
+     * />
+     * ````
+     */
+    export interface SegmentedControlIOSStatic extends NativeComponent, React.ClassicComponentClass<SegmentedControlIOSProperties> {}
 
 
     export interface NavigatorIOSProperties extends React.Props<NavigatorIOSStatic> {
@@ -1935,7 +2066,7 @@ declare namespace  __React {
          *  enum(1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30)
          *  The interval at which minutes can be selected.
          */
-        minuteInterval?: number
+        minuteInterval?: 1 | 2 | 3 | 4 | 5 | 6 | 10 | 12 | 15 | 20 | 30
 
         /**
          *  enum('date', 'time', 'datetime')
@@ -2359,12 +2490,57 @@ declare namespace  __React {
         /**
          * Whether the view should be indicating an active refresh.
          */
-        refreshing?: boolean
+        refreshing: boolean
 
         ref?: Ref<RefreshControlStatic>
     }
 
-    export interface RefreshControlStatic extends React.ComponentClass<RefreshControlProperties> {
+    /**
+     * This component is used inside a ScrollView or ListView to add pull to refresh
+     * functionality. When the ScrollView is at `scrollY: 0`, swiping down
+     * triggers an `onRefresh` event.
+     *
+     * ### Usage example
+     *
+     * ``` js
+     * class RefreshableList extends Component {
+     *   constructor(props) {
+     *     super(props);
+     *     this.state = {
+     *       refreshing: false,
+     *     };
+     *   }
+     *
+     *   _onRefresh() {
+     *     this.setState({refreshing: true});
+     *     fetchData().then(() => {
+     *       this.setState({refreshing: false});
+     *     });
+     *   }
+     *
+     *   render() {
+     *     return (
+     *       <ListView
+     *         refreshControl={
+     *           <RefreshControl
+     *             refreshing={this.state.refreshing}
+     *             onRefresh={this._onRefresh.bind(this)}
+     *           />
+     *         }
+     *         ...
+     *       >
+     *       ...
+     *       </ListView>
+     *     );
+     *   }
+     *   ...
+     * }
+     * ```
+     *
+     * __Note:__ `refreshing` is a controlled prop, this is why it needs to be set to true
+     * in the `onRefresh` function otherwise the refresh indicator will stop immediately.
+     */
+    export interface RefreshControlStatic extends NativeComponent, React.ClassicComponentClass<RefreshControlProperties> {
         SIZE: Object // Undocumented
     }
 
@@ -2374,7 +2550,7 @@ declare namespace  __React {
          * Assigns a maximum track image. Only static images are supported.
          * The leftmost pixel of the image will be stretched to fill the track.
          */
-        maximumTrackImage?: any
+        maximumTrackImage?: ImageURISource
 
         /**
          * The color used for the track to the right of the button.
@@ -2386,7 +2562,7 @@ declare namespace  __React {
          * Assigns a minimum track image. Only static images are supported.
          * The rightmost pixel of the image will be stretched to fill the track.
          */
-        minimumTrackImage?: string
+        minimumTrackImage?: ImageURISource
 
         /**
          * The color used for the track to the left of the button.
@@ -2397,14 +2573,14 @@ declare namespace  __React {
         /**
          * Sets an image for the thumb. Only static images are supported.
          */
-        thumbImage?: any
+        thumbImage?: ImageURISource
 
         /**
          * Assigns a single image for the track. Only static images
          * are supported. The center pixel of the image will be stretched
          * to fill the track.
          */
-        trackImage?: any
+        trackImage?: ImageURISource
 
         ref?: Ref<SliderStatic>
     }
@@ -2464,9 +2640,10 @@ declare namespace  __React {
         value?: number
     }
 
-    export interface SliderStatic extends React.ComponentClass<SliderProperties> {
-
-    }
+    /**
+     * A component used to select a single value from a range of values.
+     */
+    export interface SliderStatic extends NativeComponent, React.ClassicComponentClass<SliderProperties> {}
 
 
     /**
@@ -3638,11 +3815,6 @@ declare namespace  __React {
          */
         sceneStyle?: ViewStyle
 
-        /**
-         * //FIXME: not found in doc but found in examples
-         */
-        debugOverlay?: boolean
-
     }
 
    /**
@@ -3834,7 +4006,7 @@ declare namespace  __React {
          */
         export interface NavigationBarProperties extends React.Props<NavigationBarStatic> {
             navigator?: Navigator
-            routeMapper?: NavigationBarRouteMapper
+            routeMapper: NavigationBarRouteMapper
             navState?: NavState
             navigationStyles?: NavigationBarStyle
             style?: ViewStyle
@@ -3996,10 +4168,66 @@ declare namespace  __React {
     }
 
     /**
-     * //FIXME: Could not find docs. Inferred from examples and js code: ListViewDataSource.js
+     * Provides efficient data processing and access to the
+     * `ListView` component.  A `ListViewDataSource` is created with functions for
+     * extracting data from the input blob, and comparing elements (with default
+     * implementations for convenience).  The input blob can be as simple as an
+     * array of strings, or an object with rows nested inside section objects.
+     *
+     * To update the data in the datasource, use `cloneWithRows` (or
+     * `cloneWithRowsAndSections` if you care about sections).  The data in the
+     * data source is immutable, so you can't modify it directly.  The clone methods
+     * suck in the new data and compute a diff for each row so ListView knows
+     * whether to re-render it or not.
+     *
+     * In this example, a component receives data in chunks, handled by
+     * `_onDataArrived`, which concats the new data onto the old data and updates the
+     * data source.  We use `concat` to create a new array - mutating `this._data`,
+     * e.g. with `this._data.push(newRowData)`, would be an error. `_rowHasChanged`
+     * understands the shape of the row data and knows how to efficiently compare
+     * it.
+     *
+     * ```
+     * getInitialState: function() {
+     *   var ds = new ListViewDataSource({rowHasChanged: this._rowHasChanged});
+     *   return {ds};
+     * },
+     * _onDataArrived(newData) {
+     *   this._data = this._data.concat(newData);
+     *   this.setState({
+     *     ds: this.state.ds.cloneWithRows(this._data)
+     *   });
+     * }
+     * ```
      */
     export interface ListViewDataSource {
+        /**
+         * You can provide custom extraction and `hasChanged` functions for section
+         * headers and rows.  If absent, data will be extracted with the
+         * `defaultGetRowData` and `defaultGetSectionHeaderData` functions.
+         *
+         * The default extractor expects data of one of the following forms:
+         *
+         *      { sectionID_1: { rowID_1: <rowData1>, ... }, ... }
+         *
+         *    or
+         *
+         *      { sectionID_1: [ <rowData1>, <rowData2>, ... ], ... }
+         *
+         *    or
+         *
+         *      [ [ <rowData1>, <rowData2>, ... ], ... ]
+         *
+         * The constructor takes in a params argument that can contain any of the
+         * following:
+         *
+         * - getRowData(dataBlob, sectionID, rowID);
+         * - getSectionHeaderData(dataBlob, sectionID);
+         * - rowHasChanged(prevRowData, nextRowData);
+         * - sectionHeaderHasChanged(prevSectionData, nextSectionData);
+         */
         new( onAsset: DataSourceAssetCallback ): ListViewDataSource;
+
         /**
          * Clones this `ListViewDataSource` with the specified `dataBlob` and
          * `rowIdentities`. The `dataBlob` is just an aribitrary blob of data. At
@@ -4032,6 +4260,12 @@ declare namespace  __React {
         cloneWithRowsAndSections( dataBlob: Array<any> | {[key: string]: any}, sectionIdentities?: Array<string | number>, rowIdentities?: Array<Array<string | number>> ): ListViewDataSource
 
         getRowCount(): number
+        getRowAndSectionCount(): number
+
+        /**
+         * Returns if the row is dirtied and needs to be rerendered
+         */
+        rowShouldUpdate(sectionIndex: number, rowIndex: number): boolean
 
         /**
          * Gets the data required to render the row.
@@ -4042,13 +4276,13 @@ declare namespace  __React {
          * Gets the rowID at index provided if the dataSource arrays were flattened,
          * or null of out of range indexes.
          */
-        getRowIDForFlatIndex( index: number ): string
+        getRowIDForFlatIndex( index: number ): string | null
 
         /**
          * Gets the sectionID at index provided if the dataSource arrays were flattened,
          * or null for out of range indexes.
          */
-        getSectionIDForFlatIndex( index: number ): string
+        getSectionIDForFlatIndex( index: number ): string | null
 
         /**
          * Returns an array containing the number of rows in each section
@@ -4066,7 +4300,6 @@ declare namespace  __React {
         getSectionHeaderData( sectionIndex: number ): any
     }
 
-
     /**
      * @see https://facebook.github.io/react-native/docs/tabbarios-item.html#props
      */
@@ -4080,13 +4313,19 @@ declare namespace  __React {
         /**
          * A custom icon for the tab. It is ignored when a system icon is defined.
          */
-        icon?: {uri: string} | string
+        icon?: ImageURISource
 
         /**
          * Callback when this tab is being selected,
          * you should change the state of your component to set selected={true}.
          */
         onPress?: () => void
+
+        /**
+         * If set to true it renders the image as original,
+         * it defaults to being displayed as a template
+         */
+        renderAsOriginal: boolean
 
         /**
          * It specifies whether the children are visible or not. If you see a blank content, you probably forgot to add a selected one.
@@ -4097,7 +4336,7 @@ declare namespace  __React {
          * A custom icon when the tab is selected.
          * It is ignored when a system icon is defined. If left empty, the icon will be tinted in blue.
          */
-        selectedIcon?: {uri: string} | string;
+        selectedIcon?: ImageURISource
 
         /**
          * React style object.
@@ -4133,7 +4372,16 @@ declare namespace  __React {
          */
         barTintColor?: string
 
-        style?: ViewStyle
+        /**
+         * Specifies tab bar item positioning. Available values are:
+         * - fill - distributes items across the entire width of the tab bar
+         * - center - centers item in the available tab bar space
+         * - auto (default) - distributes items dynamically according to the
+         * user interface idiom. In a horizontally compact environment (e.g. iPhone 5)
+         * this value defaults to `fill`, in a horizontally regular one (e.g. iPad)
+         * it defaults to center.
+         */
+        itemPositioning: 'fill' | 'center' | 'auto'
 
         /**
          * Color of the currently selected tab icon
@@ -4962,24 +5210,56 @@ declare namespace  __React {
      */
     export interface SwipeableListViewDataSource {
         cloneWithRowsAndSections(dataBlob: any,
-                                 sectionIdentities: Array<string>,
-                                 rowIdentities: Array<Array<string>>): SwipeableListViewDataSource
+                                 sectionIdentities: Array<string> | null,
+                                 rowIdentities: Array<Array<string>> | null): SwipeableListViewDataSource
         getDataSource(): ListViewDataSource
-        getOpenRowID(): string
-        setOpenRowID(rowID: string): ListViewDataSource
+        getOpenRowID(): string | null
+        getFirstRowID(): string | null
+        setOpenRowID(rowID: string): SwipeableListViewDataSource
     }
 
     export interface SwipeableListViewProps extends React.Props<SwipeableListViewStatic> {
+
+        /**
+         * To alert the user that swiping is possible, the first row can bounce
+         * on component mount.
+         */
+        bounceFirstRowOnMount: boolean
+
+        /**
+         * Use `SwipeableListView.getNewDataSource()` to get a data source to use,
+         * then use it just like you would a normal ListView data source
+         */
         dataSource: SwipeableListViewDataSource
-        maxSwipeDistance?: number
+
+        // Maximum distance to open to after a swipe
+        maxSwipeDistance: number
 
         // Callback method to render the swipeable view
         renderRow: ( rowData: any, sectionID: string | number, rowID: string | number, highlightRow?: boolean ) => React.ReactElement<any>
 
         // Callback method to render the view that will be unveiled on swipe
-        renderQuickActions(rowData: Object, sectionID: string, rowID: string): React.ReactElement<any>
+        renderQuickActions: (rowData: any, sectionID: string | number, rowID: string | number) => React.ReactElement<any>
     }
 
+    /**
+     * A container component that renders multiple SwipeableRow's in a ListView
+     * implementation. This is designed to be a drop-in replacement for the
+     * standard React Native `ListView`, so use it as if it were a ListView, but
+     * with extra props, i.e.
+     *
+     * let ds = SwipeableListView.getNewDataSource();
+     * ds.cloneWithRowsAndSections(dataBlob, ?sectionIDs, ?rowIDs);
+     * // ..
+     * <SwipeableListView renderRow={..} renderQuickActions={..} {..ListView props} />
+     *
+     * SwipeableRow can be used independently of this component, but the main
+     * benefit of using this component is
+     *
+     * - It ensures that at most 1 row is swiped open (auto closes others)
+     * - It can bounce the 1st row of the list so users know it's swipeable
+     * - More to come
+     */
     export interface SwipeableListViewStatic extends React.ComponentClass<SwipeableListViewProps> {
         getNewDataSource(): SwipeableListViewDataSource
     }
@@ -5993,9 +6273,9 @@ declare namespace  __React {
     export type StatusBarStyle =  "default" | "light-content"
 
     /**
-     * @enum('none','fade', 'slide')
+     * @enum('fade', 'slide')
      */
-    type StatusBarAnimation = "none" | "fade" | "slide"
+    export type StatusBarAnimation = "none" | "fade" | "slide"
 
     export interface StatusBarPropertiesIOS extends React.Props<StatusBarStatic> {
         /**
@@ -6019,7 +6299,7 @@ declare namespace  __React {
         /**
          * The background color of the status bar.
          */
-        backgroundColor?: any
+        backgroundColor?: string
 
         /**
          * If the status bar is translucent. When translucent is set to true,
@@ -6045,17 +6325,46 @@ declare namespace  __React {
 
     export interface StatusBarStatic extends React.ComponentClass<StatusBarProperties> {
 
-        setHidden: (hidden: boolean, animation: StatusBarAnimation) => void
+        /**
+         * The current height of the status bar on the device.
+         * @platform android
+         */
+        currentHeight?: number
 
-        setBarStyle: (style: StatusBarStyle, animated: boolean) => void
+        /**
+         * Show or hide the status bar
+         * @param hidden The dialog's title.
+         * @param animation Optional animation when
+         *    changing the status bar hidden property.
+         */
+        setHidden: (hidden: boolean, animation?: StatusBarAnimation) => void
 
+        /**
+         * Set the status bar style
+         * @param style Status bar style to set
+         * @param animated Animate the style change.
+         */
+        setBarStyle: (style: StatusBarStyle, animated?: boolean) => void
+
+        /**
+         * Control the visibility of the network activity indicator
+         * @param visible Show the indicator.
+         */
         setNetworkActivityIndicatorVisible: (visible: boolean) => void
 
-        setBackgroundColor: (color: string, animated: boolean) => void
+        /**
+         * Set the background color for the status bar
+         * @param color Background color.
+         * @param animated Animate the style change.
+         */
+        setBackgroundColor: (color: string, animated?: boolean) => void
 
+        /**
+         * Control the translucency of the status bar
+         * @param translucent Set as translucent.
+         */
         setTranslucent: (translucent: boolean) => void
     }
-
 
     /**
      * StatusBarIOS is being deprecated.
@@ -6140,7 +6449,7 @@ declare namespace  __React {
         ref?: Ref<SwitchStatic>
     }
 
-    export interface SwitchProperties extends ViewProperties, React.Props<SwitchStatic> {
+    export interface SwitchProperties extends SwitchPropertiesIOS, React.Props<SwitchStatic> {
 
         /**
          * If true the user won't be able to toggle the switch.
@@ -6165,13 +6474,17 @@ declare namespace  __React {
         value?: boolean
 
 	    style?: ViewStyle
-
-        ref?: Ref<SwitchStatic>
     }
 
-    export interface SwitchStatic extends React.ComponentClass<SwitchProperties> {
-
-    }
+    /**
+     * Renders a boolean input.
+     *
+     * This is a controlled component that requires an `onValueChange` callback that
+     * updates the `value` prop in order for the component to reflect user actions.
+     * If the `value` prop is not updated, the component will continue to render
+     * the supplied `value` prop instead of the expected result of any user actions.
+     */
+    export interface SwitchStatic extends NativeComponent, React.ClassicComponentClass<SwitchProperties> {}
 
     /**
      * The Vibration API is exposed at VibrationIOS.vibrate().
@@ -6761,11 +7074,15 @@ declare namespace  __React {
     export var RefreshControl: RefreshControlStatic
     export type RefreshControl = RefreshControlStatic
 
+    // TODO: RecyclerViewBackedScrollView, RefreshControl
+
     export var Slider: SliderIOS
     export type Slider = SliderIOS
 
     export var SliderIOS: SliderIOSStatic
     export type SliderIOS = SliderIOSStatic
+
+    // TODO: SnapshotViewIOS
 
     export var StatusBar: StatusBarStatic
     export type StatusBar = StatusBarStatic
@@ -6781,6 +7098,8 @@ declare namespace  __React {
 
     export var Switch: SwitchStatic
     export type Switch = SwitchStatic
+
+    // TODO: SwitchAndroid
 
     export var SwitchIOS: SwitchIOSStatic
     export type SwitchIOS = SwitchIOSStatic
