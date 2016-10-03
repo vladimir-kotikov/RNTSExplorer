@@ -1595,7 +1595,6 @@ declare namespace  __React {
         testID?: string;
     }
 
-
     export interface ViewPropertiesIOS {
 
         /**
@@ -1604,7 +1603,7 @@ declare namespace  __React {
          *
          * @enum('none', 'button', 'link', 'header', 'search', 'image', 'selected', 'plays', 'key', 'text','summary', 'disabled', 'frequentUpdates', 'startsMedia', 'adjustable', 'allowsDirectInteraction', 'pageTurn')
          */
-        accessibilityTraits?: string | string[];
+        accessibilityTraits?: ViewAccessibilityTraits | ViewAccessibilityTraits[];
 
         /**
          * Whether this view should be rendered as a bitmap before compositing.
@@ -1627,7 +1626,7 @@ declare namespace  __React {
          *
          * @enum('none', 'button', 'radiobutton_checked', 'radiobutton_unchecked' )
          */
-        accessibilityComponentType?: string
+        accessibilityComponentType?: 'none' | 'button' | 'radiobutton_checked' | 'radiobutton_unchecked'
 
 
         /**
@@ -1635,7 +1634,7 @@ declare namespace  __React {
          * Works for Android API >= 19 only.
          * See http://developer.android.com/reference/android/view/View.html#attr_android:accessibilityLiveRegion for references.
          */
-        accessibilityLiveRegion?: string
+        accessibilityLiveRegion?: 'none' | 'polite' | 'assertive'
 
         /**
          * Views that are only used to layout their children or otherwise don't draw anything
@@ -1656,7 +1655,7 @@ declare namespace  __React {
          *      'no' - The view is not important for accessibility.
          *      'no-hide-descendants' - The view is not important for accessibility, nor are any of its descendant views.
          */
-        importantForAccessibility?: string
+        importantForAccessibility?: 'auto' | 'yes' | 'no' | 'no-hide-descendants'
 
 
         /**
@@ -1690,7 +1689,7 @@ declare namespace  __React {
     /**
      * @see https://facebook.github.io/react-native/docs/view.html#props
      */
-    export interface ViewProperties extends ViewPropertiesAndroid, ViewPropertiesIOS, GestureResponderHandlers, Touchable, React.Props<ViewStatic> {
+    export interface ViewProperties extends ViewPropertiesAndroid, ViewPropertiesIOS, GestureResponderHandlers, React.Props<ViewStatic> {
 
         /**
          * Overrides the text that's read by the screen reader when the user interacts with the element. By default, the label is constructed by traversing all the children and accumulating all the Text nodes separated by space.
@@ -1714,7 +1713,7 @@ declare namespace  __React {
         * hits two overlapping views.
         */
 
-        hitSlop?: {top: number, left: number, bottom: number, right: number}
+        hitSlop?: Insets
 
         /**
          * When `accessible` is true, the system will try to invoke this function when the user performs accessibility tap gesture.
@@ -1780,8 +1779,39 @@ declare namespace  __React {
      * View maps directly to the native view equivalent on whatever platform React is running on,
      * whether that is a UIView, <div>, android.view, etc.
      */
-    export interface ViewStatic extends NativeComponent, React.ComponentClass<ViewProperties> {
+    export interface ViewStatic extends NativeComponent, React.ClassicComponentClass<ViewProperties> {
+        AccessibilityTraits: [
+            'none',
+            'button',
+            'link',
+            'header',
+            'search',
+            'image',
+            'selected',
+            'plays',
+            'key',
+            'text',
+            'summary',
+            'disabled',
+            'frequentUpdates',
+            'startsMedia',
+            'adjustable',
+            'allowsDirectInteraction',
+            'pageTurn',
+        ]
 
+        AccessibilityComponentType: [
+            'none',
+            'button',
+            'radiobutton_checked',
+            'radiobutton_unchecked',
+        ],
+
+        /**
+         * Is 3D Touch / Force Touch available (i.e. will touch events include `force`)
+         * @platform ios
+         */
+        forceTouchAvailable: boolean,
     }
 
     /**
