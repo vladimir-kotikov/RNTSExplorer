@@ -2843,10 +2843,10 @@ declare namespace  __React {
          */
         trackImage?: ImageURISource | ImageURISource[]
 
-        ref?: Ref<ProgressViewIOSStatic>
+        ref?: Ref<ProgressViewIOSStatic & ViewStatic>
     }
 
-    export interface ProgressViewIOSStatic extends NativeComponent, React.ComponentClass<ProgressViewIOSProperties> {}
+    export interface ProgressViewIOSStatic extends NativeComponent, React.ClassicComponentClass<ProgressViewIOSProperties> {}
 
     export interface RefreshControlPropertiesIOS extends ViewProperties, React.Props<RefreshControlStatic> {
 
@@ -7545,7 +7545,6 @@ declare namespace  __React {
     // - [ ] ImageEditor
     // - [ ] ImageStore
     // - [ ] LayoutAnimationStatic ???
-    // - [ ] ProgressViewIOS
     // - [ ] RecyclerViewBackedScrollView
     // - [ ] RefreshControl ???
     // - [ ] SliderIOS
