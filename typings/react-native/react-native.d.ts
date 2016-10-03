@@ -2636,8 +2636,7 @@ declare namespace  __React {
     /**
      * @see PickerIOS.ios.js
      */
-    export interface PickerIOSItemStatic extends React.ComponentClass<PickerIOSItemProperties> {
-    }
+    export interface PickerIOSItemStatic extends React.ComponentClass<PickerIOSItemProperties> {}
 
     /**
      * @see Picker.js
@@ -2743,21 +2742,20 @@ declare namespace  __React {
      * @see https://facebook.github.io/react-native/docs/pickerios.html
      * @see PickerIOS.ios.js
      */
-    export interface PickerIOSProperties extends React.Props<PickerIOSStatic> {
+    export interface PickerIOSProperties extends ViewProperties, React.Props<PickerIOSStatic> {
 
+        itemStyle?: TextStyle
         onValueChange?: ( value: string | number ) => void
-
         selectedValue?: string | number
 
-        style?: ViewStyle
+        ref?: Ref<PickerIOSStatic & ViewStatic>
     }
 
     /**
      * @see https://facebook.github.io/react-native/docs/pickerios.html
      * @see PickerIOS.ios.js
      */
-    export interface PickerIOSStatic extends React.ComponentClass<PickerIOSProperties> {
-
+    export interface PickerIOSStatic extends NativeComponent, React.ClassicComponentClass<PickerIOSProperties> {
         Item: PickerIOSItemStatic
     }
 
@@ -2800,10 +2798,14 @@ declare namespace  __React {
          */
         testID?: string
 
-        ref?: Ref<ProgressBarAndroidStatic>
+        ref?: Ref<ProgressBarAndroidStatic & ViewProperties>
     }
 
-    export interface ProgressBarAndroidStatic extends NativeComponent, React.ComponentClass<ProgressBarAndroidProperties> { }
+    /**
+     * React component that wraps the Android-only `ProgressBar`. This component is used to indicate
+     * that the app is loading or there is some activity in the app.
+    */
+    export interface ProgressBarAndroidStatic extends NativeComponent, React.ClassicComponentClass<ProgressBarAndroidProperties> {}
 
     /**
      * @see https://facebook.github.io/react-native/docs/progressviewios.html
@@ -7543,8 +7545,6 @@ declare namespace  __React {
     // - [ ] ImageEditor
     // - [ ] ImageStore
     // - [ ] LayoutAnimationStatic ???
-    // - [ ] PickerIOS
-    // - [ ] ProgressBarAndroid
     // - [ ] ProgressViewIOS
     // - [ ] RecyclerViewBackedScrollView
     // - [ ] RefreshControl ???
