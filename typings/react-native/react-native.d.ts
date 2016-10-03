@@ -145,6 +145,220 @@ declare namespace  __React {
     }
 
     /**
+     * EventSubscription represents a subscription to a particular event. It can
+     * remove its own subscription.
+     */
+    interface EventSubscription {
+
+        eventType: string;
+        key: number;
+        subscriber: EventSubscriptionVendor;
+
+        /**
+         * @param {EventSubscriptionVendor} subscriber the subscriber that controls
+         *   this subscription.
+         */
+        new(subscriber: EventSubscriptionVendor): EventSubscription
+
+        /**
+         * Removes this subscription from the subscriber that controls it.
+         */
+        remove(): void
+    }
+
+    /**
+     * EventSubscriptionVendor stores a set of EventSubscriptions that are
+     * subscribed to a particular event type.
+     */
+    interface EventSubscriptionVendor {
+
+        constructor(): EventSubscriptionVendor
+
+        /**
+         * Adds a subscription keyed by an event type.
+         *
+         * @param {string} eventType
+         * @param {EventSubscription} subscription
+         */
+        addSubscription(eventType: string, subscription: EventSubscription): EventSubscription
+
+        /**
+         * Removes a bulk set of the subscriptions.
+         *
+         * @param {?string} eventType - Optional name of the event type whose
+         *   registered supscriptions to remove, if null remove all subscriptions.
+         */
+        removeAllSubscriptions(eventType?: string): void
+
+        /**
+         * Removes a specific subscription. Instead of calling this function, call
+         * `subscription.remove()` directly.
+         *
+         * @param {object} subscription
+         */
+        removeSubscription(subscription: any): void
+
+        /**
+         * Returns the array of subscriptions that are currently registered for the
+         * given event type.
+         *
+         * Note: This array can be potentially sparse as subscriptions are deleted
+         * from it when they are removed.
+         *
+         * TODO: This returns a nullable array. wat?
+         *
+         * @param {string} eventType
+         * @returns {?array}
+         */
+        getSubscriptionsForType(eventType: string): EventSubscription[] | null
+    }
+
+    /**
+     * EmitterSubscription represents a subscription with listener and context data.
+     */
+    interface EmitterSubscription extends EventSubscription {
+        emitter: EventEmitter
+        listener: () => any
+        context: any
+
+        /**
+         * @param {EventEmitter} emitter - The event emitter that registered this
+         *   subscription
+         * @param {EventSubscriptionVendor} subscriber - The subscriber that controls
+         *   this subscription
+         * @param {function} listener - Function to invoke when the specified event is
+         *   emitted
+         * @param {*} context - Optional context object to use when invoking the
+         *   listener
+         */
+        new(emitter: EventEmitter, subscriber: EventSubscriptionVendor, listener: () => any, context: any): EmitterSubscription
+
+        /**
+         * Removes this subscription from the emitter that registered it.
+         * Note: we're overriding the `remove()` method of EventSubscription here
+         * but deliberately not calling `super.remove()` as the responsibility
+         * for removing the subscription lies with the EventEmitter.
+         */
+        remove(): void
+    }
+
+    interface EventEmitter {
+        /**
+         * @constructor
+         *
+         * @param {EventSubscriptionVendor} subscriber - Optional subscriber instance
+         *   to use. If omitted, a new subscriber will be created for the emitter.
+         */
+        new(subscriber?: EventSubscriptionVendor): EventEmitter
+
+        /**
+         * Adds a listener to be invoked when events of the specified type are
+         * emitted. An optional calling context may be provided. The data arguments
+         * emitted will be passed to the listener function.
+         *
+         * TODO: Annotate the listener arg's type. This is tricky because listeners
+         *       can be invoked with varargs.
+         *
+         * @param {string} eventType - Name of the event to listen to
+         * @param {function} listener - Function to invoke when the specified event is
+         *   emitted
+         * @param {*} context - Optional context object to use when invoking the
+         *   listener
+         */
+        addListener(eventType: string, listener: () => any, context: any): EmitterSubscription
+
+        /**
+         * Similar to addListener, except that the listener is removed after it is
+         * invoked once.
+         *
+         * @param {string} eventType - Name of the event to listen to
+         * @param {function} listener - Function to invoke only once when the
+         *   specified event is emitted
+         * @param {*} context - Optional context object to use when invoking the
+         *   listener
+         */
+        once(eventType: string, listener: () => any, context: any): EmitterSubscription
+
+        /**
+         * Removes all of the registered listeners, including those registered as
+         * listener maps.
+         *
+         * @param {?string} eventType - Optional name of the event whose registered
+         *   listeners to remove
+         */
+        removeAllListeners(eventType?: string): void
+
+        /**
+         * Provides an API that can be called during an eventing cycle to remove the
+         * last listener that was invoked. This allows a developer to provide an event
+         * object that can remove the listener (or listener map) during the
+         * invocation.
+         *
+         * If it is called when not inside of an emitting cycle it will throw.
+         *
+         * @throws {Error} When called not during an eventing cycle
+         *
+         * @example
+         *   var subscription = emitter.addListenerMap({
+         *     someEvent: function(data, event) {
+         *       console.log(data);
+         *       emitter.removeCurrentListener();
+         *     }
+         *   });
+         *
+         *   emitter.emit('someEvent', 'abc'); // logs 'abc'
+         *   emitter.emit('someEvent', 'def'); // does not log anything
+         */
+        removeCurrentListener(): void
+
+        /**
+         * Removes a specific subscription. Called by the `remove()` method of the
+         * subscription itself to ensure any necessary cleanup is performed.
+         */
+        removeSubscription(subscription: EmitterSubscription): void
+
+        /**
+         * Returns an array of listeners that are currently registered for the given
+         * event.
+         *
+         * @param {string} eventType - Name of the event to query
+         * @returns {array}
+         */
+        listeners(eventType: string): EmitterSubscription[]
+
+        /**
+         * Emits an event of the given type with the given data. All handlers of that
+         * particular type will be notified.
+         *
+         * @param {string} eventType - Name of the event to emit
+         * @param {...*} Arbitrary arguments to be passed to each registered listener
+         *
+         * @example
+         *   emitter.addListener('someEvent', function(message) {
+         *     console.log(message);
+         *   });
+         *
+         *   emitter.emit('someEvent', 'abc'); // logs 'abc'
+         */
+        emit(eventType: string): void
+
+        /**
+         * Removes the given listener for event of specific type.
+         *
+         * @param {string} eventType - Name of the event to emit
+         * @param {function} listener - Function to invoke when the specified event is
+         *   emitted
+         *
+         * @example
+         *   emitter.removeListener('someEvent', function(message) {
+         *     console.log(message);
+         *   }); // removes the listener if already registered
+         *
+         */
+        removeListener(eventType: string, listener: () => any): void
+    }
+
+    /**
      * @see https://github.com/facebook/react-native/blob/master/Libraries/ReactIOS/NativeMethodsMixin.js
      */
     // export class Component<P, S> extends React.Component<P, S> {
@@ -713,6 +927,51 @@ declare namespace  __React {
     export interface TextStatic extends NativeComponent, React.ClassicComponentClass<TextProperties> {}
 
     type DataDetectorTypes = 'phoneNumber' | 'link' | 'address' | 'calendarEvent' | 'none' | 'all';
+
+    // TODO: replace EventEmitter w/ EventEmitter generic class w/ allowed event names
+    // enum typed argument, e.g. DocumentSelectionState extends EventEmitter<DocumentSelectionStateEvents>
+    // where DocumentSelectionStateEvents = 'blur' | 'focus' | 'update'
+    /**
+     * DocumentSelectionState is responsible for maintaining selection information
+     * for a document.
+     *
+     * It is intended for use by AbstractTextEditor-based components for
+     * identifying the appropriate start/end positions to modify the
+     * DocumentContent, and for programatically setting browser selection when
+     * components re-render.
+     */
+    export interface DocumentSelectionState extends EventEmitter {
+        new(anchor: number, focus: number): DocumentSelectionState
+
+        /**
+         * Apply an update to the state. If either offset value has changed,
+         * set the values and emit the `change` event. Otherwise no-op.
+         *
+         * @param {number} anchor
+         * @param {number} focus
+         */
+        update(anchor: number, focus: number): void
+
+        /**
+         * Given a max text length, constrain our selection offsets to ensure
+         * that the selection remains strictly within the text range.
+         *
+         * @param {number} maxLength
+         */
+        constrainLength(maxLength: number): void
+
+        focus(): void
+        blur(): void
+        hasFocus(): boolean
+        isCollapsed(): boolean
+        isBackward(): boolean
+
+        getAnchorOffset(): number | null
+        getFocusOffset(): number | null
+        getStartOffset(): number | null
+        getEndOffset(): number | null
+        overlaps(start: number, end: number): boolean
+    }
 
     /**
      * IOS Specific properties for TextInput
