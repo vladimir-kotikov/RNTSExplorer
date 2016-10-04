@@ -6855,6 +6855,37 @@ declare namespace  __React {
         create( config: PanResponderCallbacks ): PanResponderInstance
     }
 
+    export type Rationale = {
+        title: string
+        message: string
+    }
+
+    export type Permission = "android.permission.READ_CALENDAR" | "android.permission.WRITE_CALENDAR" | "android.permission.CAMERA" | "android.permission.READ_CONTACTS" | "android.permission.WRITE_CONTACTS" | "android.permission.GET_ACCOUNTS" | "android.permission.ACCESS_FINE_LOCATION" | "android.permission.ACCESS_COARSE_LOCATION" | "android.permission.RECORD_AUDIO" | "android.permission.READ_PHONE_STATE" | "android.permission.CALL_PHONE" | "android.permission.READ_CALL_LOG" | "android.permission.WRITE_CALL_LOG" | "com.android.voicemail.permission.ADD_VOICEMAIL" | "android.permission.USE_SIP" | "android.permission.PROCESS_OUTGOING_CALLS" | "android.permission.BODY_SENSORS" | "android.permission.SEND_SMS" | "android.permission.RECEIVE_SMS" | "android.permission.READ_SMS" | "android.permission.RECEIVE_WAP_PUSH" | "android.permission.RECEIVE_MMS" | "android.permission.READ_EXTERNAL_STORAGE" | "android.permission.WRITE_EXTERNAL_STORAGE"
+
+    export class PermissionsAndroidStatic {
+        /**
+         * A list of specified "dangerous" permissions that require prompting the user
+         */
+        PERMISSIONS: {[key: string]: Permission}
+        constructor()
+        /**
+         * Returns a promise resolving to a boolean value as to whether the specified
+         * permissions has been granted
+         */
+        checkPermission(permission: Permission): Promise<boolean>
+        /**
+         * Prompts the user to enable a permission and returns a promise resolving to a
+         * boolean value indicating whether the user allowed or denied the request
+         *
+         * If the optional rationale argument is included (which is an object with a
+         * `title` and `message`), this function checks with the OS whether it is
+         * necessary to show a dialog explaining why the permission is needed
+         * (https://developer.android.com/training/permissions/requesting.html#explain)
+         * and then shows the system permission dialog
+         */
+        requestPermission(permission: Permission, rationale?: Rationale): Promise<boolean>  
+    } 
+
     export interface PushNotificationPermissions {
         alert?: boolean
         badge?: boolean
@@ -8289,6 +8320,9 @@ declare namespace  __React {
 
     export var PanResponder: PanResponderStatic
     export type PanResponder = PanResponderStatic
+
+    export var PermissionsAndroid: PermissionsAndroidStatic
+    export type PermissionsAndroid = PermissionsAndroidStatic
 
     export var PushNotificationIOS: PushNotificationIOSStatic
     export type PushNotificationIOS = PushNotificationIOSStatic
