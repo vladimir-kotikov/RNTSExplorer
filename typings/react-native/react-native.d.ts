@@ -7946,6 +7946,13 @@ declare namespace  __React {
         export var TestModule: TestModuleStatic
         export type TestModule = TestModuleStatic
     }
+
+    //
+    // Prop Types
+    //
+    export var ColorPropType: Requireable<any>
+    export var EdgeInsetsPropType: Requireable<any>
+    export var PointPropType: Requireable<any>
 }
 
 declare module "react-native" {
