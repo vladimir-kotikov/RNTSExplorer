@@ -6727,7 +6727,7 @@ declare namespace  __React {
          * sensitive to heavy data usage on that connection due to monetary
          * costs, data limitations or battery/performance issues.
          */
-        isConnectionExpensive: FetchableListenable<boolean>
+        isConnectionExpensive: Promise<boolean>
     }
 
 
