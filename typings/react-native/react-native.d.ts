@@ -205,8 +205,6 @@ declare namespace  __React {
          * Note: This array can be potentially sparse as subscriptions are deleted
          * from it when they are removed.
          *
-         * TODO: This returns a nullable array. wat?
-         *
          * @param {string} eventType
          * @returns {?array}
          */
@@ -523,13 +521,6 @@ declare namespace  __React {
         right?: number
     }
 
-    /**
-     * //FIXME: need to find documentation on which compoenent is a native (i.e. non composite component)
-     */
-    /*
-    export interface NativeComponent {
-    }
-    */
     /**
      * //FIXME: need to find documentation on which component is a TTouchable and can implement that interface
      * @see React.DOMAtributes
@@ -943,9 +934,6 @@ declare namespace  __React {
 
     type DataDetectorTypes = 'phoneNumber' | 'link' | 'address' | 'calendarEvent' | 'none' | 'all';
 
-    // TODO: replace EventEmitter w/ EventEmitter generic class w/ allowed event names
-    // enum typed argument, e.g. DocumentSelectionState extends EventEmitter<DocumentSelectionStateEvents>
-    // where DocumentSelectionStateEvents = 'blur' | 'focus' | 'update'
     /**
      * DocumentSelectionState is responsible for maintaining selection information
      * for a document.
@@ -1196,11 +1184,6 @@ declare namespace  __React {
          * Callback that is called when the text input's submit button is pressed.
          */
         onSubmitEditing?: ( event: {nativeEvent: {text: string}} ) => void
-
-        /**
-         * //FIXME: Not part of the doc but found in examples
-         */
-        password?: boolean
 
         /**
          * The string that will be rendered before text input has been entered
@@ -3126,19 +3109,9 @@ declare namespace  __React {
     export interface SliderStatic extends NativeComponent, React.ClassicComponentClass<SliderProperties> {}
 
     /**
-     * //FIXME: no dcumentation, inferred
-     * @see SwitchIOS.ios.js
-     */
-    export interface SwitchIOSStyle extends ViewStyle {
-        height?: number
-        width?: number
-    }
-
-
-    /**
      * https://facebook.github.io/react-native/docs/switchios.html#props
      */
-    export interface SwitchIOSProperties extends React.Props<SwitchIOSStatic> {
+    export interface SwitchIOSProperties extends ViewProperties, React.Props<SwitchIOSStatic> {
 
         /**
          * If true the user won't be able to toggle the switch. Default value is false.
@@ -3170,7 +3143,7 @@ declare namespace  __React {
          */
         value?: boolean
 
-        style?: SwitchIOSStyle
+        ref?: Ref<SwitchIOSStatic>
     }
 
     /**
