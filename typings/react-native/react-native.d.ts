@@ -256,16 +256,13 @@ declare namespace  __React {
          * emitted. An optional calling context may be provided. The data arguments
          * emitted will be passed to the listener function.
          *
-         * TODO: Annotate the listener arg's type. This is tricky because listeners
-         *       can be invoked with varargs.
-         *
          * @param {string} eventType - Name of the event to listen to
          * @param {function} listener - Function to invoke when the specified event is
          *   emitted
          * @param {*} context - Optional context object to use when invoking the
          *   listener
          */
-        addListener(eventType: string, listener: () => any, context: any): EmitterSubscription
+        addListener(eventType: string, listener: (...args: any[]) => any, context: any): EmitterSubscription
 
         /**
          * Similar to addListener, except that the listener is removed after it is
@@ -277,7 +274,7 @@ declare namespace  __React {
          * @param {*} context - Optional context object to use when invoking the
          *   listener
          */
-        once(eventType: string, listener: () => any, context: any): EmitterSubscription
+        once(eventType: string, listener: (...args: any[]) => any, context: any): EmitterSubscription
 
         /**
          * Removes all of the registered listeners, including those registered as
@@ -355,7 +352,7 @@ declare namespace  __React {
          *   }); // removes the listener if already registered
          *
          */
-        removeListener(eventType: string, listener: () => any): void
+        removeListener(eventType: string, listener: (...args: any[]) => any): void
     }
 
     /**
@@ -436,12 +433,6 @@ declare namespace  __React {
       refs: {
         [key: string]: Component<any, any>
       };
-    }
-
-    //TODO: BGR: Replace with ComponentClass ?
-    // node_modules/react-tools/src/classic/class/ReactClass.js
-    export interface ReactClass<D, P, S> {
-        // TODO:
     }
 
     // see react-jsx.d.ts
@@ -555,7 +546,7 @@ declare namespace  __React {
 
     export type AppConfig = {
         appKey: string;
-        component?: ReactClass<any, any, any>;
+        component?: ComponentProvider
         run?: Runnable;
     }
 
@@ -3462,9 +3453,8 @@ declare namespace  __React {
         resizeMode: ImageResizeMode
         getSize(uri: string, success: (width: number, height: number) => void, failure: (error: any) => void): any
         prefetch(url: string): any
-        // TODO: methods below available on android only
-        abortPrefetch(requestId: number): void
-        queryCache(urls: string[]): Promise<Map<string, 'memory' | 'disk'>>
+        abortPrefetch?(requestId: number): void
+        queryCache?(urls: string[]): Promise<Map<string, 'memory' | 'disk'>>
     }
 
     /**
@@ -3615,8 +3605,7 @@ declare namespace  __React {
         cancelAnimationFrame: typeof cancelAnimationFrame,
     }
 
-    // TODO: extend ScrollResponder.Mixin (https://github.com/facebook/react-native/blob/master\Libraries\CustomComponents\ListView\ListView.js#L116)
-    export interface ListViewStatic extends TimerMixin, React.ComponentClass<ListViewProperties> {
+    export interface ListViewStatic extends ScrollResponderMixin, TimerMixin, React.ComponentClass<ListViewProperties> {
         DataSource: ListViewDataSource;
 
         /**
@@ -3901,28 +3890,21 @@ declare namespace  __React {
          */
         touchableHandleLongPress(e: Event): void
 
-        // TODO: Define result type as separate type
         /**
          * Returns the amount to extend the `HitRect` into the `PressRect`. Positive
          * numbers mean the size expands outwards.
          */
-        touchableGetPressRectOffset(): {
-            top: number;
-            left: number;
-            right: number;
-            bottom: number;
-        }
+        touchableGetPressRectOffset(): Insets
 
         /**
          * Returns the number of millis to wait before triggering a highlight.
          */
         touchableGetHighlightDelayMS(): number
 
-        // TODO: these methods are undocumented but still being used by TouchableMixin internals
+        // These methods are undocumented but still being used by TouchableMixin internals
         touchableGetLongPressDelayMS(): number
         touchableGetPressOutDelayMS(): number
-        // TODO: refine result type
-        touchableGetHitSlop(): boolean
+        touchableGetHitSlop(): Insets | null
     }
 
     export interface TouchableWithoutFeedbackAndroidProperties {
