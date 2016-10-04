@@ -4982,11 +4982,11 @@ declare namespace  __React {
     /**
      * @see https://facebook.github.io/react-native/docs/platform-specific-code.html#content
      */
+    type PlatformOSType = 'ios' | 'android'
 
-    export type PlatformOSType = 'ios' | 'android'
-
-    export interface PlatformStatic {
-        OS: PlatformOSType,
+    interface PlatformStatic {
+        OS: PlatformOSType
+        Version?: number
 
         /**
          * @see https://facebook.github.io/react-native/docs/platform-specific-code.html#content
@@ -4994,27 +4994,14 @@ declare namespace  __React {
         select<T>( specifics: { ios?: T, android?: T} ): T;
     }
 
-    export interface DeviceEventSubscriptionStatic {
-        remove(): void;
-    }
-
-    export interface DeviceEventEmitterStatic {
-        addListener<T>( type: string, onReceived: ( data: T ) => void ): DeviceEventSubscription;
-
-        /**
-         * Removes the given listener for event of specific type.
-         *
-         * @param {string} eventType - Name of the event to emit
-         * @param {function} listener - Function to invoke when the specified event is
-         *   emitted
-         *
-         * @example
-         *   emitter.removeListener('someEvent', function(message) {
-         *     console.log(message);
-         *   }); // removes the listener if already registered
-         *
-         */
-        removeListener( eventType: String, listener: Function): void
+    /**
+     * Deprecated - subclass NativeEventEmitter to create granular event modules instead of
+     * adding all event listeners directly to RCTDeviceEventEmitter.
+     */
+    interface RCTDeviceEventEmitter extends EventEmitter {
+        sharedSubscriber: EventSubscriptionVendor
+        new(): RCTDeviceEventEmitter;
+        addListener<T>( type: string, listener: ( data: T ) => void, context?: any ): EmitterSubscription;
     }
 
     // Used by Dimensions below
@@ -7555,11 +7542,12 @@ declare namespace  __React {
 
     /**
      * Receive events from native-code
+     * Deprecated - subclass NativeEventEmitter to create granular event modules instead of
+     * adding all event listeners directly to RCTNativeAppEventEmitter.
+     * @see https://github.com/facebook/react-native/blob/0.34-stable\Libraries\EventEmitter\RCTNativeAppEventEmitter.js
      * @see https://facebook.github.io/react-native/docs/native-modules-ios.html#sending-events-to-javascript
      */
-    export interface NativeAppEventEmitterStatic {
-        addListener(event: string, handler: (data: any) => void): NativeEventSubscription;
-    }
+    type RCTNativeAppEventEmitter = RCTDeviceEventEmitter
 
     interface ImageCropData {
         /**
@@ -7715,6 +7703,9 @@ declare namespace  __React {
     export var RecyclerViewBackedScrollView: RecyclerViewBackedScrollViewStatic
     export type RecyclerViewBackedScrollView = RecyclerViewBackedScrollViewStatic
 
+    export var SegmentedControlIOS: SegmentedControlIOSStatic
+    export type SegmentedControlIOS = SegmentedControlIOSStatic
+
     export var Slider: SliderStatic
     export type Slider = SliderStatic
 
@@ -7822,6 +7813,8 @@ declare namespace  __React {
     export var ImageStore: ImageStoreStatic
     export type ImageStore = ImageStoreStatic
 
+    export var InteractionManager: InteractionManagerStatic
+
     export var KeyboardAvoidingView: KeyboardAvoidingViewStatic
     export type KeyboardAvoidingView = KeyboardAvoidingViewStatic
 
@@ -7836,6 +7829,8 @@ declare namespace  __React {
 
     export var PanResponder: PanResponderStatic
     export type PanResponder = PanResponderStatic
+
+    export var PixelRatio: PixelRatioStatic
 
     export var PushNotificationIOS: PushNotificationIOSStatic
     export type PushNotificationIOS = PushNotificationIOSStatic
@@ -7873,46 +7868,47 @@ declare namespace  __React {
     export type Easing = EasingStatic;
     export var Easing: EasingStatic;
 
-    //Native Modules written in ObjectiveC/Swift/Java exposed via the RCTBridge
-    //See https://facebook.github.io/react-native/docs/native-modules-ios.html
+    //////////// Plugins //////////////
 
+    export var DeviceEventEmitter: RCTDeviceEventEmitter
+    export var NativeAppEventEmitter: RCTNativeAppEventEmitter
     /**
+     * Native Modules written in ObjectiveC/Swift/Java exposed via the RCTBridge
+     * See https://facebook.github.io/react-native/docs/native-modules-ios.html
      * Use:
      * <code>const MyModule = NativeModules.ModuleName</code>
      */
     export var NativeModules: any
-    export var NativeAppEventEmitter: NativeAppEventEmitterStatic
+    export var Platform: PlatformStatic
 
-
-    //////////// Plugins //////////////
     export interface ComponentInterface<P> {
         name?: string;
         displayName?: string;
         propTypes: P
     }
 
+    /**
+     * Used to create React components that directly wrap native component
+     * implementations.  Config information is extracted from data exported from the
+     * UIManager module.  You should also wrap the native component in a
+     * hand-written component with full propTypes definitions and other
+     * documentation - pass the hand-written component in as `componentInterface` to
+     * verify all the native props are documented via `propTypes`.
+     *
+     * If some native props shouldn't be exposed in the wrapper interface, you can
+     * pass null for `componentInterface` and call `verifyPropTypes` directly
+     * with `nativePropsToIgnore`;
+     *
+     * Common types are lined up with the appropriate prop differs with
+     * `TypeToDifferMap`.  Non-scalar types not in the map default to `deepDiffer`.
+     */
     export function requireNativeComponent<P>(
         viewName: string,
-        componentInterface?: ComponentInterface<P>,
-        extraConfig?: {nativeOnly: Object}
+        componentInterface?: ComponentInterface<P> | null,
+        extraConfig?: {nativeOnly?: any} | null
     ): React.ComponentClass<P>;
 
-    //
-    // /TODO: BGR: These are leftovers of the initial port that must be revisited
-    //
-
-    export var SegmentedControlIOS: SegmentedControlIOSStatic
-    export type SegmentedControlIOS = SegmentedControlIOSStatic
-
-    export var PixelRatio: PixelRatioStatic
-    export var Platform: PlatformStatic
-    export var DeviceEventEmitter: DeviceEventEmitterStatic
-    export var DeviceEventSubscription: DeviceEventSubscriptionStatic
-    export type DeviceEventSubscription = DeviceEventSubscriptionStatic
-    export var InteractionManager: InteractionManagerStatic
-
-    export var Geolocation: GeolocationStatic
-    export type Geolocation = GeolocationStatic
+    export function processColor(color: any): number | undefined;
 
     //////////////////////////////////////////////////////////////////////////
     //
