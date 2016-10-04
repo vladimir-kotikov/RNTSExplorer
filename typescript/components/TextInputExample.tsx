@@ -27,7 +27,7 @@ import {
           StyleSheet,
 } from 'react-native';
 
-interface Style { 
+interface Style {
   page: React.ViewStyle,
   default: React.TextStyle,
   multiline: React.TextStyle,
@@ -272,7 +272,7 @@ export default {
                              return (
                                  <View>
                                      <WithLabel label="true">
-                                         <TextInput password={true} style={styles.default} value="abc"/>
+                                         <TextInput secureTextEntry={true} style={styles.default} value="abc"/>
                                      </WithLabel>
                                  </View>
                              )
