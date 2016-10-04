@@ -140,8 +140,7 @@ declare namespace  __React {
         top: number,
         width: number,
         height: number
-      ) => void
-    }
+    ) => void
 
     /**
      * EventSubscription represents a subscription to a particular event. It can
@@ -7360,13 +7359,15 @@ declare namespace  __React {
          * May be ToastAndroid.SHORT or ToastAndroid.LONG
          */
         show(message: string, duration: number): void
-
-        showWithGravity(message: string, duration: number, gravity: number): void
-
+        /** `gravity` may be ToastAndroid.TOP, ToastAndroid.BOTTOM, ToastAndroid.CENTER */
+        showWithGravity(
+            message: string,
+            duration: number,
+            gravity: number
+        ): void
         // Toast duration constants
         SHORT: number
         LONG: number
-
         // Toast gravity constants
         TOP: number
         BOTTOM: number
