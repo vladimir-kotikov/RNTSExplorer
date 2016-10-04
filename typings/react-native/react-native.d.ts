@@ -6627,7 +6627,6 @@ declare namespace __React {
 
     export interface PushNotification {
 
-
         /**
          * An alias for `getAlert` to get the notification's main message string
          */
@@ -6662,6 +6661,7 @@ declare namespace __React {
         soundName?: string
         category?: string
         userInfo?: Object
+        applicationIconBadgeNumber?: number
     }
 
     type ScheduleLocalNotificationDetails = {
@@ -6671,7 +6671,10 @@ declare namespace __React {
         soundName?: string
         category?: string
         userInfo?: Object
+        applicationIconBadgeNumber?: number
     }
+
+    export type PushNotificationEventName = "notification" | "localNotification" | "register" | "registrationError"
 
     /**
      * Handle push notifications for your app, including permission handling and icon badge number.
@@ -6689,6 +6692,7 @@ declare namespace __React {
          * soundName : The sound played when the notification is fired (optional).
          * category : The category of this notification, required for actionable notifications (optional).
          * userInfo : An optional object containing additional notification data.
+         * applicationIconBadgeNumber (optional) : The number to display as the app's icon badge. The default value of this property is 0, which means that no badge is displayed.
          */
         presentLocalNotification(details: PresentLocalNotificationDetails): void
 
@@ -6701,6 +6705,7 @@ declare namespace __React {
          * soundName : The sound played when the notification is fired (optional).
          * category : The category of this notification, required for actionable notifications (optional).
          * userInfo : An optional object containing additional notification data.
+         * applicationIconBadgeNumber (optional) : The number to display as the app's icon badge. Setting the number to 0 removes the icon badge.
          */
         scheduleLocalNotification(details: ScheduleLocalNotificationDetails): void
 
@@ -6708,12 +6713,6 @@ declare namespace __React {
          * Cancels all scheduled localNotifications
          */
         cancelAllLocalNotifications(): void
-
-        /**
-         * Cancel local notifications.
-         * Optionally restricts the set of canceled notifications to those notifications whose userInfo fields match the corresponding fields in the userInfo argument.
-         */
-        cancelLocalNotifications(userInfo: Object): void
 
         /**
          * Sets the badge number for the app icon on the home screen
@@ -6726,6 +6725,17 @@ declare namespace __React {
         getApplicationIconBadgeNumber( callback: ( badge: number ) => void ): void
 
         /**
+         * Cancel local notifications.
+         * Optionally restricts the set of canceled notifications to those notifications whose userInfo fields match the corresponding fields in the userInfo argument.
+         */
+        cancelLocalNotifications(userInfo: Object): void
+
+        /**
+         * Gets the local notifications that are currently scheduled.
+         */
+        getScheduledLocalNotifications(callback: (notifications: ScheduleLocalNotificationDetails[]) => void): void
+
+        /**
          * Attaches a listener to remote notifications while the app is running in the
          * foreground or the background.
          *
@@ -6733,13 +6743,19 @@ declare namespace __React {
          *
          * The type MUST be 'notification'
          */
-        addEventListener( type: string, handler: ( notification: PushNotification ) => void ):void
+        addEventListener( type: PushNotificationEventName, handler: ( notification: PushNotification ) => void ):void
+
+        /**
+         * Removes the event listener. Do this in `componentWillUnmount` to prevent
+         * memory leaks
+         */
+        removeEventListener( type: PushNotificationEventName, handler: ( notification: PushNotification ) => void ): void
 
         /**
          * Requests all notification permissions from iOS, prompting the user's
          * dialog box.
          */
-        requestPermissions( permissions?: PushNotificationPermissions[] ): Promise<PushNotificationPermissions>
+        requestPermissions( permissions?: PushNotificationPermissions ): Promise<PushNotificationPermissions>
 
         /**
          * Unregister for all remote notifications received via Apple Push
@@ -6764,19 +6780,10 @@ declare namespace __React {
         checkPermissions( callback: ( permissions: PushNotificationPermissions ) => void ): void
 
         /**
-         * Removes the event listener. Do this in `componentWillUnmount` to prevent
-         * memory leaks
+         * This method returns a promise that resolves to either the notification
+         * object if the app was launched by a push notification, or `null` otherwise.
          */
-        removeEventListener( type: string, handler: ( notification: PushNotification ) => void ): void
-
-        /**
-         * An initial notification will be available if the app was cold-launched
-         * from a notification.
-         *
-         * The first caller of `popInitialNotification` will get the initial
-         * notification object, or `null`. Subsequent invocations will return null.
-         */
-        popInitialNotification(): PushNotification
+        getInitialNotification(): PushNotification
     }
 
 
