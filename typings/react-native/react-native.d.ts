@@ -7374,6 +7374,35 @@ declare namespace  __React {
         CENTER: number
     }
 
+    export interface UIManagerStatic {
+        /**
+         * Capture an image of the screen, window or an individual view. The image
+         * will be stored in a temporary file that will only exist for as long as the
+         * app is running.
+         *
+         * The `view` argument can be the literal string `window` if you want to
+         * capture the entire window, or it can be a reference to a specific
+         * React Native component.
+         *
+         * The `options` argument may include:
+         * - width/height (number) - the width and height of the image to capture.
+         * - format (string) - either 'png' or 'jpeg'. Defaults to 'png'.
+         * - quality (number) - the quality when using jpeg. 0.0 - 1.0 (default).
+         *
+         * Returns a Promise<string> (tempFilePath)
+         * @platform ios
+         */
+        takeSnapshot: (
+            view ?: 'window' | ReactElement<any> | number,
+            options ?: {
+                width ?: number,
+                height ?: number,
+                format ?: 'png' | 'jpeg',
+                quality ?: number,
+            }
+        ) => Promise<string>
+    }
+
     export interface SwitchPropertiesIOS extends ViewProperties, React.Props<SwitchStatic> {
 
         /**
@@ -8490,6 +8519,9 @@ declare namespace  __React {
 
     export var ToastAndroid: ToastAndroidStatic
     export type ToastAndroid = ToastAndroidStatic
+
+    export var UIManager: UIManagerStatic
+    export type UIManager = UIManagerStatic
 
     export var VibrationIOS: VibrationIOSStatic
     export type VibrationIOS = VibrationIOSStatic
