@@ -4675,6 +4675,65 @@ declare namespace  __React {
         }
     }
 
+    export type RelayProfiler = {
+        attachProfileHandler(
+            name: string,
+            handler: (name: string, state?: any) => () => void
+        ): void,
+
+        attachAggregateHandler(
+            name: string,
+            handler: (name: string, callback: () => void) => void
+        ): void,
+    }
+
+    export interface SystraceStatic {
+        setEnabled(enabled: boolean): void
+        /**
+         * beginEvent/endEvent for starting and then ending a profile within the same call stack frame
+         **/
+        beginEvent(profileName?: any, args?: any): void
+        endEvent(): void
+        /**
+         * beginAsyncEvent/endAsyncEvent for starting and then ending a profile where the end can either
+         * occur on another thread or out of the current stack frame, eg await
+         * the returned cookie variable should be used as input into the endAsyncEvent call to end the profile
+         **/
+        beginAsyncEvent(profileName?: any): any
+        endAsyncEvent(profileName?: any, cookie?: any): void
+        /**
+         * counterEvent registers the value to the profileName on the systrace timeline
+         **/
+        counterEvent(profileName?: any, value?: any): void
+        /**
+         * Relay profiles use await calls, so likely occur out of current stack frame
+         * therefore async variant of profiling is used
+         **/
+        attachToRelayProfiler(relayProfiler: RelayProfiler): void
+        /* This is not called by default due to perf overhead but it's useful
+            if you want to find traces which spend too much time in JSON. */
+        swizzleJSON(): void
+        /**
+         * Measures multiple methods of a class. For example, you can do:
+         * Systrace.measureMethods(JSON, 'JSON', ['parse', 'stringify']);
+         *
+         * @param object
+         * @param objectName
+         * @param methodNames Map from method names to method display names.
+         */
+        measureMethods(object: any, objectName: string, methodNames: Array<string>): void
+        /**
+         * Returns an profiled version of the input function. For example, you can:
+         * JSON.parse = Systrace.measure('JSON', 'parse', JSON.parse);
+         *
+         * @param objName
+         * @param fnName
+         * @param {function} func
+         * @return {function} replacement function
+         */
+        measure(objName: string, fnName: string, func: Function): Function
+    }
+
     /**
      * //FIXME: Could not find docs. Inferred from examples and jscode : ListViewDataSource.js
      */
@@ -8282,6 +8341,9 @@ declare namespace  __React {
 
     export var StyleSheet: StyleSheetStatic
     export type StyleSheet = StyleSheetStatic
+
+    export var Systrace: SystraceStatic
+    export type Systrace = SystraceStatic
 
     export var SwipeableListView: SwipeableListViewStatic
     export type SwipeableListView = SwipeableListViewStatic
