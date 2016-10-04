@@ -4334,9 +4334,9 @@ declare namespace  __React {
 
     }
 
-   /**
-   * Class that contains the info and methods for app navigation.
-   */
+    /**
+     * Class that contains the info and methods for app navigation.
+     */
     export interface NavigationContext {
         parent: NavigationContext;
         top: NavigationContext;
@@ -6472,7 +6472,6 @@ declare namespace  __React {
         popInitialURL(): string;
     }
 
-
     /**
      * NetInfo exposes info about online/offline status
      *
@@ -6484,13 +6483,12 @@ declare namespace  __React {
      * - `unknown` - error case and the network status is unknown
      * @see https://facebook.github.io/react-native/docs/netinfo.html#content
      */
-
     // This is from code, a few items more than documentation@0.25
     export type NetInfoReturnType = "none" | "wifi" | "cell" | "unknown" |
-   "NONE" | "MOBILE" | "WIFI" | "MOBILE_MMS" | "MOBILE_SUPL" | "MOBILE_DUN" |
-   "MOBILE_HIPRI" | "WIMAX" | "BLUETOOTH" | "DUMMY" | "ETHERNET" | "MOBILE_FOTA" |
-   "MOBILE_IMS" | "MOBILE_CBS" | "WIFI_P2P" | "MOBILE_IA" | "MOBILE_EMERGENCY" |
-   "PROXY" | "VPN" | "UNKNOWN"
+        "NONE" | "MOBILE" | "WIFI" | "MOBILE_MMS" | "MOBILE_SUPL" | "MOBILE_DUN" |
+        "MOBILE_HIPRI" | "WIMAX" | "BLUETOOTH" | "DUMMY" | "ETHERNET" | "MOBILE_FOTA" |
+        "MOBILE_IMS" | "MOBILE_CBS" | "WIFI_P2P" | "MOBILE_IA" | "MOBILE_EMERGENCY" |
+        "PROXY" | "VPN" | "UNKNOWN"
 
     export interface NetInfoStatic extends FetchableListenable<NetInfoReturnType> {
 
