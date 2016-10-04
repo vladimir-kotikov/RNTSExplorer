@@ -7053,6 +7053,12 @@ declare namespace  __React {
         getInitialNotification(): PushNotification
     }
 
+    export interface SettingsStatic {
+        get(key: string): any
+        set(settings: Object): void
+        watchKeys(keys: string | Array<string>, callback: (() => void)): number
+        clearWatch(watchId: number): void
+    }
 
     /**
      * @enum('default', 'light-content')
@@ -8333,6 +8339,9 @@ declare namespace  __React {
 
     export var PushNotificationIOS: PushNotificationIOSStatic
     export type PushNotificationIOS = PushNotificationIOSStatic
+
+    export var Settings: SettingsStatic
+    export type Settings = SettingsStatic
 
     export var StatusBarIOS: StatusBarIOSStatic
     export type StatusBarIOS = StatusBarIOSStatic
