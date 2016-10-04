@@ -6074,6 +6074,58 @@ declare namespace  __React {
         showShareActionSheetWithOptions: ( options: ShareActionSheetIOSOptions, failureCallback: ( error: Error ) => void, successCallback: ( success: boolean, method: string ) => void ) => void
     }
 
+    export type ShareContent = {
+        title?: string
+        message: string
+    } | {
+        title?: string
+        url: string
+    }
+
+    export type ShareOptions = {
+        dialogTitle?: string
+        excludeActivityTypes?: Array<string>
+        tintColor?: string
+    }
+
+    export interface ShareStatic {
+        /**
+         * Open a dialog to share text content.
+         *
+         * In iOS, Returns a Promise which will be invoked an object containing `action`, `activityType`.
+         * If the user dismissed the dialog, the Promise will still be resolved with action being `Share.dismissedAction`
+         * and all the other keys being undefined.
+         *
+         * In Android, Returns a Promise which always be resolved with action being `Share.sharedAction`.
+         *
+         * ### Content
+         *
+         *  - `message` - a message to share
+         *  - `title` - title of the message
+         *
+         * #### iOS
+         *
+         *  - `url` - an URL to share
+         *
+         * At least one of URL and message is required.
+         *
+         * ### Options
+         *
+         * #### iOS
+         *
+         * - `excludedActivityTypes`
+         * - `tintColor`
+         *
+         * #### Android
+         *
+         * - `dialogTitle`
+         *
+         */
+        share(content: ShareContent, options: ShareOptions): Promise<Object>
+        sharedAction: string
+        dismissedAction: string
+    }
+
     /**
      * @see https://facebook.github.io/react-native/docs/alert.html#content
      */
@@ -8277,6 +8329,9 @@ declare namespace  __React {
     //////////// APIS //////////////
     export var ActionSheetIOS: ActionSheetIOSStatic
     export type ActionSheetIOS = ActionSheetIOSStatic
+
+    export var Share: ShareStatic
+    export type Share = ShareStatic
 
     export var AdSupportIOS: AdSupportIOSStatic
     export type AdSupportIOS = AdSupportIOSStatic
