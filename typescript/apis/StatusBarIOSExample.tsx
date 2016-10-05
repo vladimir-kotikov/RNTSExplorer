@@ -26,7 +26,7 @@ import {
           View,
           Text,
           TouchableHighlight,
-          StatusBarIOS
+          StatusBar
 } from 'react-native';
 
 
@@ -47,7 +47,7 @@ const styleTouchables: JSX.Element[] = [ 'default', 'light-content' ].map(
     ( style: React.StatusBarStyle ) =>
         <TouchableHighlight
             style={styles.wrapper}
-            onPress={() => StatusBarIOS.setStyle(style)}
+            onPress={() => StatusBar.setBarStyle(style)}
         >
             <View style={styles.button}>
                 <Text>setStyle({style})</Text>
@@ -58,7 +58,7 @@ const styleTouchables: JSX.Element[] = [ 'default', 'light-content' ].map(
 const styleAnimatedTouchables: JSX.Element[] = [ 'default', 'light-content' ].map(
     ( style: React.StatusBarStyle ) =>
         <TouchableHighlight style={styles.wrapper}
-                            onPress={() => StatusBarIOS.setStyle(style, true)}>
+                            onPress={() => StatusBar.setBarStyle(style, true)}>
             <View style={styles.button}>
                 <Text>setStyle({style}, true)</Text>
             </View>
@@ -70,7 +70,7 @@ const hiddenTouchables: JSX.Element[] = [ 'none', 'fade', 'slide' ].map(
         <View>
             <TouchableHighlight
                 style={styles.wrapper}
-                onPress={() => StatusBarIOS.setHidden(true, anim)}
+                onPress={() => StatusBar.setHidden(true, anim)}
             >
                 <View style={styles.button}>
                     <Text>setHidden(true, {anim})</Text>
@@ -78,7 +78,7 @@ const hiddenTouchables: JSX.Element[] = [ 'none', 'fade', 'slide' ].map(
             </TouchableHighlight>
             <TouchableHighlight
                 style={styles.wrapper}
-                onPress={() => StatusBarIOS.setHidden(false, anim)}
+                onPress={() => StatusBar.setHidden(false, anim)}
             >
                 <View style={styles.button}>
                     <Text>setHidden(false, {anim})</Text>
