@@ -4533,12 +4533,15 @@ declare namespace __React {
 
     }
 
-    export interface StyleSheetStatic extends React.ComponentClass<StyleSheetProperties> {
+    // @see https://github.com/facebook/react-native/blob/0.34-stable\Libraries\StyleSheet\StyleSheetTypes.js
+    export namespace StyleSheet {
+
+        type Style = ViewStyle | TextStyle | ImageStyle
 
         /**
          * Creates a StyleSheet style reference from the given object.
          */
-        create<T>( styles: T ): T;
+        export function create<T>( styles: T ): T;
 
         /**
          * Flattens an array of style objects, into one aggregated style object.
@@ -4579,7 +4582,7 @@ declare namespace __React {
          * their respective objects, merged as one and then returned. This also explains
          * the alternative use.
          */
-        flatten(style: Object): Object
+        export function flatten(style?: Style | Style[]): Style | undefined
 
         /**
          * This is defined as the width of a thin line on the platform. It can be
@@ -4598,15 +4601,14 @@ declare namespace __React {
          * constant size, because on different platforms and screen densities its
          * value may be calculated differently.
          */
-        hairlineWidth: number
+        export var hairlineWidth: number
 
         /**
          * A very common pattern is to create overlays with position absolute and zero positioning,
          * so `absoluteFill` can be used for convenience and to reduce duplication of these repeated
          * styles.
          */
-        absoluteFill: number
-
+        export var absoluteFill: number
 
         /**
          * Sometimes you may want `absoluteFill` but with a couple tweaks - `absoluteFillObject` can be
@@ -4620,7 +4622,7 @@ declare namespace __React {
          *     },
          *   });
          */
-        absoluteFillObject: {
+        export var absoluteFillObject: {
             position: string
             left: number
             right: number
@@ -8278,10 +8280,8 @@ declare namespace __React {
     //
     //////////////////////////////////////////////////////////////////////////
 
-    // TODO: The following components need to be added/updated
+    // TODO: The following components need to be added
     // - [ ] ART
-    // - [ ] StyleSheet ???
-
 
     export var ActivityIndicator: ActivityIndicatorStatic
     export type ActivityIndicator = ActivityIndicatorStatic
@@ -8354,9 +8354,6 @@ declare namespace __React {
 
     export var SnapshotViewIOS: SnapshotViewIOSStatic
     export type SnapshotViewIOS = SnapshotViewIOSStatic
-
-    export var StyleSheet: StyleSheetStatic
-    export type StyleSheet = StyleSheetStatic
 
     export var Systrace: SystraceStatic
     export type Systrace = SystraceStatic
