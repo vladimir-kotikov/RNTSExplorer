@@ -22,7 +22,7 @@
 import React = __React;
 
 //react-native "extends" react
-declare namespace  __React {
+declare namespace __React {
     /**
      * Represents the completion of an asynchronous operation
      * @see lib.es6.d.ts
@@ -203,8 +203,6 @@ declare namespace  __React {
          * Note: This array can be potentially sparse as subscriptions are deleted
          * from it when they are removed.
          *
-         * TODO: This returns a nullable array. wat?
-         *
          * @param {string} eventType
          * @returns {?array}
          */
@@ -254,16 +252,13 @@ declare namespace  __React {
          * emitted. An optional calling context may be provided. The data arguments
          * emitted will be passed to the listener function.
          *
-         * TODO: Annotate the listener arg's type. This is tricky because listeners
-         *       can be invoked with varargs.
-         *
          * @param {string} eventType - Name of the event to listen to
          * @param {function} listener - Function to invoke when the specified event is
          *   emitted
          * @param {*} context - Optional context object to use when invoking the
          *   listener
          */
-        addListener(eventType: string, listener: () => any, context: any): EmitterSubscription
+        addListener(eventType: string, listener: (...args: any[]) => any, context: any): EmitterSubscription
 
         /**
          * Similar to addListener, except that the listener is removed after it is
@@ -275,7 +270,7 @@ declare namespace  __React {
          * @param {*} context - Optional context object to use when invoking the
          *   listener
          */
-        once(eventType: string, listener: () => any, context: any): EmitterSubscription
+        once(eventType: string, listener: (...args: any[]) => any, context: any): EmitterSubscription
 
         /**
          * Removes all of the registered listeners, including those registered as
@@ -353,18 +348,18 @@ declare namespace  __React {
          *   }); // removes the listener if already registered
          *
          */
-        removeListener(eventType: string, listener: () => any): void
+        removeListener(eventType: string, listener: (...args: any[]) => any): void
     }
 
-    /** NativeMethodsMixin provides methods to access the underlying native component directly. 
-     * This can be useful in cases when you want to focus a view or measure its on-screen dimensions, 
+    /** NativeMethodsMixin provides methods to access the underlying native component directly.
+     * This can be useful in cases when you want to focus a view or measure its on-screen dimensions,
      * for example.
-     * The methods described here are available on most of the default components provided by React Native. 
-     * Note, however, that they are not available on composite components that aren't directly backed by a 
+     * The methods described here are available on most of the default components provided by React Native.
+     * Note, however, that they are not available on composite components that aren't directly backed by a
      * native view. This will generally include most components that you define in your own app.
      * For more information, see [Direct Manipulation](http://facebook.github.io/react-native/docs/direct-manipulation.html).
      * @see https://github.com/facebook/react-native/blob/master/Libraries/ReactIOS/NativeMethodsMixin.js
-     */ 
+     */
     export interface NativeMethodsMixinStatic {
       /**
        * Determines the location on screen, width, and height of the given view and
@@ -438,12 +433,6 @@ declare namespace  __React {
       refs: {
         [key: string]: Component<any, any>
       };
-    }
-
-    //TODO: BGR: Replace with ComponentClass ?
-    // node_modules/react-tools/src/classic/class/ReactClass.js
-    export interface ReactClass<D, P, S> {
-        // TODO:
     }
 
     // see react-jsx.d.ts
@@ -535,13 +524,6 @@ declare namespace  __React {
     }
 
     /**
-     * //FIXME: need to find documentation on which compoenent is a native (i.e. non composite component)
-     */
-    /*
-    export interface NativeComponent {
-    }
-    */
-    /**
      * //FIXME: need to find documentation on which component is a TTouchable and can implement that interface
      * @see React.DOMAtributes
      */
@@ -557,7 +539,7 @@ declare namespace  __React {
 
     export type AppConfig = {
         appKey: string;
-        component?: ReactClass<any, any, any>;
+        component?: ComponentProvider
         run?: Runnable;
     }
 
@@ -621,7 +603,7 @@ declare namespace  __React {
     }
 
     /** Automatically animates views to their new positions when the next layout happens.
-     * A common way to use this API is to call LayoutAnimation.configureNext before 
+     * A common way to use this API is to call LayoutAnimation.configureNext before
      * calling setState. */
     export interface LayoutAnimationStatic {
         /** Schedules an animation to happen on the next layout.
@@ -629,7 +611,7 @@ declare namespace  __React {
          * `duration` in milliseconds
          * `create`, config for animating in new views (see Anim type)
          * `update`, config for animating views that have been updated (see Anim type)
-         * @param onAnimationDidEnd Called when the animation finished. Only supported on iOS. 
+         * @param onAnimationDidEnd Called when the animation finished. Only supported on iOS.
          */
         configureNext: (config: LayoutAnimationConfig, onAnimationDidEnd?: () => void) => void
         /** Helper for creating a config for configureNext. */
@@ -945,13 +927,10 @@ declare namespace  __React {
     /**
      * A React component for displaying text which supports nesting, styling, and touch handling.
      */
-    export interface TextStatic extends NativeComponent, React.ClassicComponentClass<TextProperties> {}
+    export interface TextStatic extends NativeMethodsMixin, React.ClassicComponentClass<TextProperties> {}
 
     type DataDetectorTypes = 'phoneNumber' | 'link' | 'address' | 'calendarEvent' | 'none' | 'all';
 
-    // TODO: replace EventEmitter w/ EventEmitter generic class w/ allowed event names
-    // enum typed argument, e.g. DocumentSelectionState extends EventEmitter<DocumentSelectionStateEvents>
-    // where DocumentSelectionStateEvents = 'blur' | 'focus' | 'update'
     /**
      * DocumentSelectionState is responsible for maintaining selection information
      * for a document.
@@ -1204,11 +1183,6 @@ declare namespace  __React {
         onSubmitEditing?: ( event: {nativeEvent: {text: string}} ) => void
 
         /**
-         * //FIXME: Not part of the doc but found in examples
-         */
-        password?: boolean
-
-        /**
          * The string that will be rendered before text input has been entered
          */
         placeholder?: string
@@ -1298,7 +1272,7 @@ declare namespace  __React {
     /**
      * @see https://facebook.github.io/react-native/docs/textinput.html#methods
      */
-    export interface TextInputStatic extends NativeComponent, TimerMixin, React.ComponentClass<TextInputProperties> {
+    export interface TextInputStatic extends NativeMethodsMixin, TimerMixin, React.ComponentClass<TextInputProperties> {
         State: TextInputState
 
         /**
@@ -1469,7 +1443,7 @@ declare namespace  __React {
      *
      * [0]: https://developer.android.com/reference/android/support/v7/widget/Toolbar.html
      */
-    export interface ToolbarAndroidStatic extends NativeComponent, React.ComponentClass<ToolbarAndroidProperties> {}
+    export interface ToolbarAndroidStatic extends NativeMethodsMixin, React.ComponentClass<ToolbarAndroidProperties> {}
 
 
     /**
@@ -1804,7 +1778,7 @@ declare namespace  __React {
      * View maps directly to the native view equivalent on whatever platform React is running on,
      * whether that is a UIView, <div>, android.view, etc.
      */
-    export interface ViewStatic extends NativeComponent, React.ClassicComponentClass<ViewProperties> {
+    export interface ViewStatic extends NativeMethodsMixin, React.ClassicComponentClass<ViewProperties> {
         AccessibilityTraits: [
             'none',
             'button',
@@ -1909,7 +1883,7 @@ declare namespace  __React {
         pageMargin?: number
     }
 
-    export interface ViewPagerAndroidStatic extends NativeComponent, React.ComponentClass<ViewPagerAndroidProperties> {
+    export interface ViewPagerAndroidStatic extends NativeMethodsMixin, React.ComponentClass<ViewPagerAndroidProperties> {
         /**
          * A helper function to scroll to a specific page in the ViewPager.
          * The transition between pages will be animated.
@@ -2264,7 +2238,7 @@ declare namespace  __React {
      * />
      * ````
      */
-    export interface SegmentedControlIOSStatic extends NativeComponent, React.ClassicComponentClass<SegmentedControlIOSProperties> {}
+    export interface SegmentedControlIOSStatic extends NativeMethodsMixin, React.ClassicComponentClass<SegmentedControlIOSProperties> {}
 
 
     export interface NavigatorIOSProperties extends React.Props<NavigatorIOSStatic> {
@@ -2435,7 +2409,7 @@ declare namespace  __React {
         ref?: Ref<ActivityIndicatorStatic>
     }
 
-    export interface ActivityIndicatorStatic extends React.NativeComponent, React.ClassicComponentClass<ActivityIndicatorProperties> {
+    export interface ActivityIndicatorStatic extends React.NativeMethodsMixin, React.ClassicComponentClass<ActivityIndicatorProperties> {
     }
 
 
@@ -2533,7 +2507,7 @@ declare namespace  __React {
         ref?: Ref<DatePickerIOSStatic & ViewStatic>
     }
 
-    export interface DatePickerIOSStatic extends React.NativeComponent, React.ComponentClass<DatePickerIOSProperties> {
+    export interface DatePickerIOSStatic extends React.NativeMethodsMixin, React.ComponentClass<DatePickerIOSProperties> {
     }
 
     export interface DrawerSlideEvent extends NativeSyntheticEvent<NativeTouchEvent> {
@@ -2636,7 +2610,7 @@ declare namespace  __React {
         ref?: Ref<DrawerLayoutAndroidStatic & ViewStatic>
     }
 
-    export interface DrawerLayoutAndroidStatic extends NativeComponent, React.ClassicComponentClass<DrawerLayoutAndroidProperties> {
+    export interface DrawerLayoutAndroidStatic extends NativeMethodsMixin, React.ClassicComponentClass<DrawerLayoutAndroidProperties> {
 
         /**
          * Opens the drawer.
@@ -2780,7 +2754,7 @@ declare namespace  __React {
      * @see https://facebook.github.io/react-native/docs/pickerios.html
      * @see PickerIOS.ios.js
      */
-    export interface PickerIOSStatic extends NativeComponent, React.ClassicComponentClass<PickerIOSProperties> {
+    export interface PickerIOSStatic extends NativeMethodsMixin, React.ClassicComponentClass<PickerIOSProperties> {
         Item: PickerIOSItemStatic
     }
 
@@ -2830,7 +2804,7 @@ declare namespace  __React {
      * React component that wraps the Android-only `ProgressBar`. This component is used to indicate
      * that the app is loading or there is some activity in the app.
     */
-    export interface ProgressBarAndroidStatic extends NativeComponent, React.ClassicComponentClass<ProgressBarAndroidProperties> {}
+    export interface ProgressBarAndroidStatic extends NativeMethodsMixin, React.ClassicComponentClass<ProgressBarAndroidProperties> {}
 
     /**
      * @see https://facebook.github.io/react-native/docs/progressviewios.html
@@ -2871,7 +2845,7 @@ declare namespace  __React {
         ref?: Ref<ProgressViewIOSStatic & ViewStatic>
     }
 
-    export interface ProgressViewIOSStatic extends NativeComponent, React.ClassicComponentClass<ProgressViewIOSProperties> {}
+    export interface ProgressViewIOSStatic extends NativeMethodsMixin, React.ClassicComponentClass<ProgressViewIOSProperties> {}
 
     export interface RefreshControlPropertiesIOS extends ViewProperties, React.Props<RefreshControlStatic> {
 
@@ -2984,7 +2958,7 @@ declare namespace  __React {
      * __Note:__ `refreshing` is a controlled prop, this is why it needs to be set to true
      * in the `onRefresh` function otherwise the refresh indicator will stop immediately.
      */
-    export interface RefreshControlStatic extends NativeComponent, React.ClassicComponentClass<RefreshControlProperties> {
+    export interface RefreshControlStatic extends NativeMethodsMixin, React.ClassicComponentClass<RefreshControlProperties> {
         SIZE: Object // Undocumented
     }
 
@@ -3133,22 +3107,12 @@ declare namespace  __React {
     /**
      * A component used to select a single value from a range of values.
      */
-    export interface SliderStatic extends NativeComponent, React.ClassicComponentClass<SliderProperties> {}
-
-    /**
-     * //FIXME: no dcumentation, inferred
-     * @see SwitchIOS.ios.js
-     */
-    export interface SwitchIOSStyle extends ViewStyle {
-        height?: number
-        width?: number
-    }
-
+    export interface SliderStatic extends NativeMethodsMixin, React.ClassicComponentClass<SliderProperties> {}
 
     /**
      * https://facebook.github.io/react-native/docs/switchios.html#props
      */
-    export interface SwitchIOSProperties extends React.Props<SwitchIOSStatic> {
+    export interface SwitchIOSProperties extends ViewProperties, React.Props<SwitchIOSStatic> {
 
         /**
          * If true the user won't be able to toggle the switch. Default value is false.
@@ -3180,7 +3144,7 @@ declare namespace  __React {
          */
         value?: boolean
 
-        style?: SwitchIOSStyle
+        ref?: Ref<SwitchIOSStatic>
     }
 
     /**
@@ -3459,13 +3423,12 @@ declare namespace  __React {
 
     }
 
-    export interface ImageStatic extends React.NativeComponent, React.ComponentClass<ImageProperties> {
+    export interface ImageStatic extends React.NativeMethodsMixin, React.ComponentClass<ImageProperties> {
         resizeMode: ImageResizeMode
         getSize(uri: string, success: (width: number, height: number) => void, failure: (error: any) => void): any
         prefetch(url: string): any
-        // TODO: methods below available on android only
-        abortPrefetch(requestId: number): void
-        queryCache(urls: string[]): Promise<Map<string, 'memory' | 'disk'>>
+        abortPrefetch?(requestId: number): void
+        queryCache?(urls: string[]): Promise<Map<string, 'memory' | 'disk'>>
     }
 
     /**
@@ -3616,8 +3579,7 @@ declare namespace  __React {
         cancelAnimationFrame: typeof cancelAnimationFrame,
     }
 
-    // TODO: extend ScrollResponder.Mixin (https://github.com/facebook/react-native/blob/master\Libraries\CustomComponents\ListView\ListView.js#L116)
-    export interface ListViewStatic extends TimerMixin, React.ComponentClass<ListViewProperties> {
+    export interface ListViewStatic extends ScrollResponderMixin, TimerMixin, React.ComponentClass<ListViewProperties> {
         DataSource: ListViewDataSource;
 
         /**
@@ -3804,7 +3766,7 @@ declare namespace  __React {
     /**
      * @see https://facebook.github.io/react-native/docs/mapview.html#content
      */
-    export interface MapViewStatic extends React.NativeComponent, React.ComponentClass<MapViewProperties> {
+    export interface MapViewStatic extends React.NativeMethodsMixin, React.ComponentClass<MapViewProperties> {
         PinColors: {
             RED: string,
             GREEN: string,
@@ -3902,28 +3864,21 @@ declare namespace  __React {
          */
         touchableHandleLongPress(e: Event): void
 
-        // TODO: Define result type as separate type
         /**
          * Returns the amount to extend the `HitRect` into the `PressRect`. Positive
          * numbers mean the size expands outwards.
          */
-        touchableGetPressRectOffset(): {
-            top: number;
-            left: number;
-            right: number;
-            bottom: number;
-        }
+        touchableGetPressRectOffset(): Insets
 
         /**
          * Returns the number of millis to wait before triggering a highlight.
          */
         touchableGetHighlightDelayMS(): number
 
-        // TODO: these methods are undocumented but still being used by TouchableMixin internals
+        // These methods are undocumented but still being used by TouchableMixin internals
         touchableGetLongPressDelayMS(): number
         touchableGetPressOutDelayMS(): number
-        // TODO: refine result type
-        touchableGetHitSlop(): boolean
+        touchableGetHitSlop(): Insets | null
     }
 
     export interface TouchableWithoutFeedbackAndroidProperties {
@@ -4083,7 +4038,7 @@ declare namespace  __React {
      *
      * @see https://facebook.github.io/react-native/docs/touchablehighlight.html
      */
-    export interface TouchableHighlightStatic extends NativeComponent, TimerMixin, TouchableMixin, React.ClassicComponentClass<TouchableHighlightProperties> {}
+    export interface TouchableHighlightStatic extends NativeMethodsMixin, TimerMixin, TouchableMixin, React.ClassicComponentClass<TouchableHighlightProperties> {}
 
 
     /**
@@ -4105,7 +4060,7 @@ declare namespace  __React {
      *
      * @see https://facebook.github.io/react-native/docs/touchableopacity.html
      */
-    export interface TouchableOpacityStatic extends TimerMixin, TouchableMixin, NativeComponent, React.ClassicComponentClass<TouchableOpacityProperties> {
+    export interface TouchableOpacityStatic extends TimerMixin, TouchableMixin, NativeMethodsMixin, React.ClassicComponentClass<TouchableOpacityProperties> {
         /**
          * Animate the touchable to a new opacity.
          */
@@ -4335,9 +4290,9 @@ declare namespace  __React {
 
     }
 
-   /**
-   * Class that contains the info and methods for app navigation.
-   */
+    /**
+     * Class that contains the info and methods for app navigation.
+     */
     export interface NavigationContext {
         parent: NavigationContext;
         top: NavigationContext;
@@ -5042,11 +4997,11 @@ declare namespace  __React {
     /**
      * @see https://facebook.github.io/react-native/docs/platform-specific-code.html#content
      */
+    type PlatformOSType = 'ios' | 'android'
 
-    export type PlatformOSType = 'ios' | 'android'
-
-    export interface PlatformStatic {
-        OS: PlatformOSType,
+    interface PlatformStatic {
+        OS: PlatformOSType
+        Version?: number
 
         /**
          * @see https://facebook.github.io/react-native/docs/platform-specific-code.html#content
@@ -5054,27 +5009,14 @@ declare namespace  __React {
         select<T>( specifics: { ios?: T, android?: T} ): T;
     }
 
-    export interface DeviceEventSubscriptionStatic {
-        remove(): void;
-    }
-
-    export interface DeviceEventEmitterStatic {
-        addListener<T>( type: string, onReceived: ( data: T ) => void ): DeviceEventSubscription;
-
-        /**
-         * Removes the given listener for event of specific type.
-         *
-         * @param {string} eventType - Name of the event to emit
-         * @param {function} listener - Function to invoke when the specified event is
-         *   emitted
-         *
-         * @example
-         *   emitter.removeListener('someEvent', function(message) {
-         *     console.log(message);
-         *   }); // removes the listener if already registered
-         *
-         */
-        removeListener( eventType: String, listener: Function): void
+    /**
+     * Deprecated - subclass NativeEventEmitter to create granular event modules instead of
+     * adding all event listeners directly to RCTDeviceEventEmitter.
+     */
+    interface RCTDeviceEventEmitter extends EventEmitter {
+        sharedSubscriber: EventSubscriptionVendor
+        new(): RCTDeviceEventEmitter;
+        addListener<T>( type: string, listener: ( data: T ) => void, context?: any ): EmitterSubscription;
     }
 
     // Used by Dimensions below
@@ -5196,7 +5138,7 @@ declare namespace  __React {
          * @param {string} eventType
          * @returns {?array}
          */
-        getSubscriptionsForType(eventType: string): EventSubscription[] 
+        getSubscriptionsForType(eventType: string): EventSubscription[]
     }
 
     /**
@@ -5368,16 +5310,6 @@ declare namespace  __React {
          */
         setDeadline(deadline: number): void
     }
-
-    export class NativeEventEmitterStatic extends EventEmitterStatic {
-        constructor(nativeModule: Object)
-        addListener(
-            eventType: string, listener: Function, context?: Object): EmitterSubscription
-        removeAllListeners(eventType: string): void
-        removeSubscription(subscription: EmitterSubscription): void
-    }
-
-    export var Keyboard: NativeEventEmitter
 
     export interface ScrollViewStyle extends FlexStyle, TransformsStyle {
 
@@ -6003,7 +5935,7 @@ declare namespace  __React {
         ref?: Ref<ViewStatic & SnapshotViewIOSStatic>
     }
 
-    export interface SnapshotViewIOSStatic extends NativeComponent, React.ComponentClass<SnapshotViewIOSProperties> {}
+    export interface SnapshotViewIOSStatic extends NativeMethodsMixin, React.ComponentClass<SnapshotViewIOSProperties> {}
 
     // Deduced from
     // https://github.com/facebook/react-native/commit/052cd7eb8afa7a805ef13e940251be080499919c
@@ -6734,7 +6666,7 @@ declare namespace  __React {
         getInitialURL(callback: (url: string) => void):void
     }
 
-    export class LinkingStatic extends NativeEventEmitterStatic {
+    export class LinkingStatic extends NativeEventEmitter {
         /**
          * Add a handler to Linking changes by listening to the `url` event type
          * and providing the handler
@@ -6802,7 +6734,6 @@ declare namespace  __React {
         popInitialURL(): string;
     }
 
-
     /**
      * NetInfo exposes info about online/offline status
      *
@@ -6814,13 +6745,12 @@ declare namespace  __React {
      * - `unknown` - error case and the network status is unknown
      * @see https://facebook.github.io/react-native/docs/netinfo.html#content
      */
-
     // This is from code, a few items more than documentation@0.25
     export type NetInfoReturnType = "none" | "wifi" | "cell" | "unknown" |
-   "NONE" | "MOBILE" | "WIFI" | "MOBILE_MMS" | "MOBILE_SUPL" | "MOBILE_DUN" |
-   "MOBILE_HIPRI" | "WIMAX" | "BLUETOOTH" | "DUMMY" | "ETHERNET" | "MOBILE_FOTA" |
-   "MOBILE_IMS" | "MOBILE_CBS" | "WIFI_P2P" | "MOBILE_IA" | "MOBILE_EMERGENCY" |
-   "PROXY" | "VPN" | "UNKNOWN"
+        "NONE" | "MOBILE" | "WIFI" | "MOBILE_MMS" | "MOBILE_SUPL" | "MOBILE_DUN" |
+        "MOBILE_HIPRI" | "WIMAX" | "BLUETOOTH" | "DUMMY" | "ETHERNET" | "MOBILE_FOTA" |
+        "MOBILE_IMS" | "MOBILE_CBS" | "WIFI_P2P" | "MOBILE_IA" | "MOBILE_EMERGENCY" |
+        "PROXY" | "VPN" | "UNKNOWN"
 
     export interface NetInfoStatic extends FetchableListenable<NetInfoReturnType> {
 
@@ -6993,8 +6923,8 @@ declare namespace  __React {
          * (https://developer.android.com/training/permissions/requesting.html#explain)
          * and then shows the system permission dialog
          */
-        requestPermission(permission: Permission, rationale?: Rationale): Promise<boolean>  
-    } 
+        requestPermission(permission: Permission, rationale?: Rationale): Promise<boolean>
+    }
 
     export interface PushNotificationPermissions {
         alert?: boolean
@@ -7458,11 +7388,11 @@ declare namespace  __React {
      * If the `value` prop is not updated, the component will continue to render
      * the supplied `value` prop instead of the expected result of any user actions.
      */
-    export interface SwitchStatic extends NativeComponent, React.ClassicComponentClass<SwitchProperties> {}
+    export interface SwitchStatic extends NativeMethodsMixin, React.ClassicComponentClass<SwitchProperties> {}
 
     /**
      * NOTE: `VibrationIOS` is being deprecated. Use `Vibration` instead.
-     * 
+     *
      * The Vibration API is exposed at VibrationIOS.vibrate().
      * On iOS, calling this function will trigger a one second vibration.
      * The vibration is asynchronous so this method will return immediately.
@@ -7892,41 +7822,6 @@ declare namespace  __React {
         stopObserving(): void
     }
 
-    export type ImageCropData = {
-        /**
-         * The top-left corner of the cropped image, specified in the original
-         * image's coordinate space.
-         */
-        offset: {
-            x: number,
-            y: number,
-        },
-        /**
-         * The size (dimensions) of the cropped image, specified in the original
-         * image's coordinate space.
-         */
-        size: {
-            width: number,
-            height: number,
-        },
-        /**
-         * (Optional) size to scale the cropped image to.
-         */
-        displaySize?: {
-            width: number,
-            height: number,
-        },
-        /**
-         * (Optional) the resizing mode to use when scaling the image. If the
-         * `displaySize` param is not specified, this has no effect.
-         */
-        resizeMode?: "contain" | "cover" | "stretch"
-    }
-
-    export interface ImageEditorStatic {
-        cropImage(uri: string, cropData: ImageCropData, success: (uri: string) => void, failure: (error: Object) => void): void
-    }
-
     export interface OpenCameraDialogOptions {
         /** Defaults to false */
         videoMode?: boolean
@@ -7940,7 +7835,7 @@ declare namespace  __React {
     }
 
     /** [imageURL|tempImageTag, height, width] */
-    export type ImagePickerResult = [string, number, number] 
+    export type ImagePickerResult = [string, number, number]
 
     export interface ImagePickerIOSStatic {
         canRecordVideos(callback: (value: boolean) => void): void
@@ -8322,12 +8217,60 @@ declare namespace  __React {
 
     /**
      * Receive events from native-code
+     * Deprecated - subclass NativeEventEmitter to create granular event modules instead of
+     * adding all event listeners directly to RCTNativeAppEventEmitter.
+     * @see https://github.com/facebook/react-native/blob/0.34-stable\Libraries\EventEmitter\RCTNativeAppEventEmitter.js
      * @see https://facebook.github.io/react-native/docs/native-modules-ios.html#sending-events-to-javascript
      */
-    export interface NativeAppEventEmitterStatic {
-        addListener(event: string, handler: (data: any) => void): NativeEventSubscription;
+    type RCTNativeAppEventEmitter = RCTDeviceEventEmitter
+
+    interface ImageCropData {
+        /**
+         * The top-left corner of the cropped image, specified in the original
+         * image's coordinate space.
+         */
+        offset: {
+            x: number;
+            y: number;
+        }
+
+        /**
+         * The size (dimensions) of the cropped image, specified in the original
+         * image's coordinate space.
+         */
+        size: {
+            width: number;
+            height: number;
+        }
+
+        /**
+         * (Optional) size to scale the cropped image to.
+         */
+        displaySize?: null | {
+            width: number,
+            height: number,
+        }
+
+        /**
+         * (Optional) the resizing mode to use when scaling the image. If the
+         * `displaySize` param is not specified, this has no effect.
+         */
+        resizeMode?: null | 'contain' | 'cover' | 'stretch'
     }
 
+    interface ImageEditorStatic {
+        /**
+         * Crop the image specified by the URI param. If URI points to a remote
+         * image, it will be downloaded automatically. If the image cannot be
+         * loaded/downloaded, the failure callback will be called.
+         *
+         * If the cropping process is successful, the resultant cropped image
+         * will be stored in the ImageStore, and the URI returned in the success
+         * callback will point to the image in the store. Remember to delete the
+         * cropped image from the ImageStore when you are done with it.
+         */
+        cropImage( uri: string, cropData: ImageCropData, success: (uri: string) => void, failure: (error: Object) => void ): void
+    }
 
     //////////////////////////////////////////////////////////////////////////
     //
@@ -8355,15 +8298,8 @@ declare namespace  __React {
     export var Image: ImageStatic
     export type Image = ImageStatic
 
-    // TODO: KeyboardAvoidingView
-    export var ImageEditor: ImageEditorStatic
-    export type ImageEditor = ImageEditorStatic
-
     export var ImagePickerIOS: ImagePickerIOSStatic
     export type ImagePickerIOS = ImagePickerIOSStatic
-
-    export var ImageStore: ImageStoreStatic
-    export type ImageStore = ImageStoreStatic
 
     export var LayoutAnimation: LayoutAnimationStatic
     export type LayoutAnimation = LayoutAnimationStatic
@@ -8400,6 +8336,9 @@ declare namespace  __React {
 
     export var RecyclerViewBackedScrollView: RecyclerViewBackedScrollViewStatic
     export type RecyclerViewBackedScrollView = RecyclerViewBackedScrollViewStatic
+
+    export var SegmentedControlIOS: SegmentedControlIOSStatic
+    export type SegmentedControlIOS = SegmentedControlIOSStatic
 
     export var Slider: SliderStatic
     export type Slider = SliderStatic
@@ -8505,8 +8444,25 @@ declare namespace  __React {
     export var DatePickerAndroid: DatePickerAndroidStatic
     export type DatePickerAndroid = DatePickerAndroidStatic
 
+    export var Geolocation: GeolocationStatic
+    export type Geolocation = GeolocationStatic
+
+    /** http://facebook.github.io/react-native/blog/2016/08/19/right-to-left-support-for-react-native-apps.html */
+    export var I18nManager: I18nManagerStatic
+    export type I18nManager = I18nManagerStatic
+
+    export var ImageEditor: ImageEditorStatic
+    export type ImageEditor = ImageEditorStatic
+
+    export var ImageStore: ImageStoreStatic
+    export type ImageStore = ImageStoreStatic
+
+    export var InteractionManager: InteractionManagerStatic
+
     export var IntentAndroid: IntentAndroidStatic
     export type IntentAndroid = IntentAndroidStatic
+
+    export var Keyboard: NativeEventEmitter
 
     export var KeyboardAvoidingView: KeyboardAvoidingViewStatic
     export type KeyboardAvoidingView = KeyboardAvoidingViewStatic
@@ -8519,6 +8475,7 @@ declare namespace  __React {
 
     export var NativeMethodsMixin: NativeMethodsMixinStatic
     export type NativeMethodsMixin = NativeMethodsMixinStatic
+
     export var NativeComponent: NativeMethodsMixinStatic
     export type NativeComponent = NativeMethodsMixinStatic
 
@@ -8564,65 +8521,59 @@ declare namespace  __React {
     export type Easing = EasingStatic;
     export var Easing: EasingStatic;
 
-    //Native Modules written in ObjectiveC/Swift/Java exposed via the RCTBridge
-    //See https://facebook.github.io/react-native/docs/native-modules-ios.html
+    //////////// Plugins //////////////
 
+    export var DeviceEventEmitter: RCTDeviceEventEmitter
     /**
-     * Define lazy getters for each module. These will return the module if already loaded, or load it if not.
-     * Use:
-     * <code>const MyModule = NativeModules.ModuleName</code>
+     * Abstract base class for implementing event-emitting modules. This implements
+     * a subset of the standard EventEmitter node module API.
      */
-    export var NativeModules: any
+    export interface NativeEventEmitter extends EventEmitter {}
+    export var NativeEventEmitter: NativeEventEmitter
     /**
      * Deprecated - subclass NativeEventEmitter to create granular event modules instead of
      * adding all event listeners directly to RCTNativeAppEventEmitter.
      */
-    export var NativeAppEventEmitter: NativeAppEventEmitterStatic
+    export var NativeAppEventEmitter: RCTNativeAppEventEmitter
+    /**
+     * Native Modules written in ObjectiveC/Swift/Java exposed via the RCTBridge
+     * Define lazy getters for each module. These will return the module if already loaded, or load it if not.
+     * See https://facebook.github.io/react-native/docs/native-modules-ios.html
+     * Use:
+     * <code>const MyModule = NativeModules.ModuleName</code>
+     */
+    export var NativeModules: any
+    export var Platform: PlatformStatic
+    export var PixelRatio: PixelRatioStatic
 
-
-    //////////// Plugins //////////////
     export interface ComponentInterface<P> {
         name?: string;
         displayName?: string;
         propTypes: P
     }
 
+    /**
+     * Used to create React components that directly wrap native component
+     * implementations.  Config information is extracted from data exported from the
+     * UIManager module.  You should also wrap the native component in a
+     * hand-written component with full propTypes definitions and other
+     * documentation - pass the hand-written component in as `componentInterface` to
+     * verify all the native props are documented via `propTypes`.
+     *
+     * If some native props shouldn't be exposed in the wrapper interface, you can
+     * pass null for `componentInterface` and call `verifyPropTypes` directly
+     * with `nativePropsToIgnore`;
+     *
+     * Common types are lined up with the appropriate prop differs with
+     * `TypeToDifferMap`.  Non-scalar types not in the map default to `deepDiffer`.
+     */
     export function requireNativeComponent<P>(
         viewName: string,
-        componentInterface?: ComponentInterface<P>,
-        extraConfig?: {nativeOnly: Object}
+        componentInterface?: ComponentInterface<P> | null,
+        extraConfig?: {nativeOnly?: any} | null
     ): React.ComponentClass<P>;
 
-    //
-    // /TODO: BGR: These are leftovers of the initial port that must be revisited
-    //
-
-    export var SegmentedControlIOS: SegmentedControlIOSStatic
-    export type SegmentedControlIOS = SegmentedControlIOSStatic
-
-    export var PixelRatio: PixelRatioStatic
-    export var Platform: PlatformStatic
-    export var DeviceEventEmitter: DeviceEventEmitterStatic
-    export var DeviceEventSubscription: DeviceEventSubscriptionStatic
-    export type DeviceEventSubscription = DeviceEventSubscriptionStatic
-    export var InteractionManager: InteractionManagerStatic
-
-    /**
-     * Abstract base class for implementing event-emitting modules. This implements
-     * a subset of the standard EventEmitter node module API.
-     */
-    export var NativeEventEmitter: NativeEventEmitterStatic
-    export type NativeEventEmitter = NativeEventEmitterStatic
-
-    export var EventEmitter: EventEmitterStatic
-    export type EventEmitter = EventEmitterStatic
-
-    /** http://facebook.github.io/react-native/blog/2016/08/19/right-to-left-support-for-react-native-apps.html */
-    export var I18nManager: I18nManagerStatic
-    export type I18nManager = I18nManagerStatic
-
-    export var Geolocation: GeolocationStatic
-    export type Geolocation = GeolocationStatic
+    export function processColor(color: any): number | undefined;
 
     //////////////////////////////////////////////////////////////////////////
     //
@@ -8660,6 +8611,13 @@ declare namespace  __React {
         export var TestModule: TestModuleStatic
         export type TestModule = TestModuleStatic
     }
+
+    //
+    // Prop Types
+    //
+    export var ColorPropType: Requireable<any>
+    export var EdgeInsetsPropType: Requireable<any>
+    export var PointPropType: Requireable<any>
 }
 
 declare module "react-native" {
