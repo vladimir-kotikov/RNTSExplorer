@@ -1,4 +1,4 @@
-// Type definitions for react-native 0.29
+// Type definitions for react-native 0.34
 // Project: https://github.com/facebook/react-native
 // Definitions by: Bruno Grieder <https://github.com/bgrieder>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -652,7 +652,7 @@ declare namespace __React {
         flexGrow?: number
         flexShrink?: number
         flexBasis?: number
-        flexDirection?: "row" | "column" | "row-reverse" | "column-reverse"
+        flexDirection?: FlexDirection
         flexWrap?: "wrap" | "nowrap"
         height?: number
         justifyContent?: FlexJustifyType
@@ -6530,8 +6530,6 @@ declare namespace __React {
         /**
          * Saves the image to the camera roll / gallery.
          *
-         * The CameraRoll API is not yet implemented for Android.
-         *
          * @tag On Android, this is a local URI, such as "file:///sdcard/img.png".
          * On iOS, the tag can be one of the following:
          *      local URI
@@ -6539,7 +6537,6 @@ declare namespace __React {
          *      a tag not maching any of the above, which means the image data will be stored in memory (and consume memory as long as the process is alive)
          *
          * @deprecated use saveToCameraRoll instead
-         *
          */
         saveImageWithTag( tag: string ): Promise<string>
 
