@@ -29,9 +29,6 @@ import {
           View,
           } from 'react-native';
 
-const NAVIGATOR_REF = 'navigator'
-const JUMPING_NAV_BAR_REF = 'jumpingNavBar'
-
 interface Style {
   button: React.ViewStyle,
   buttonText: React.TextStyle,
@@ -181,17 +178,14 @@ class JumpingNavSample extends React.Component<any,any> {
                 // TODO: double-check debugOverlay existence on Navigator
                 // debugOverlay={false}
                 //TODO: Fix this use case
-                //ref={(navigator: React.Navigator) => this._navigator = navigator}
-                ref={NAVIGATOR_REF}
+                ref={(navigator: any) => this._navigator = navigator}
                 initialRoute={ROUTE_STACK[INIT_ROUTE_INDEX]}
                 initialRouteStack={ROUTE_STACK}
                 renderScene={this.renderScene}
                 configureScene={() => Navigator.SceneConfigs.HorizontalSwipeJump}
                 navigationBar={
                     <JumpingNavBar
-                        //TODO: Fix this use case
-                        //ref={(navBar: React.NavigatorStatic.NavigationBar) => this._navBar = navBar }
-                        ref={JUMPING_NAV_BAR_REF}
+                        ref={(navBar: any) => this._navBar = navBar }
                         initTabIndex={INIT_ROUTE_INDEX}
                         routeStack={ROUTE_STACK}
                         onTabIndex={(index) => {

@@ -96,30 +96,12 @@ class NavigatorIOSExample extends React.Component<any,any> {
         this._updatePosition()
     }
 
-// TODO: Fix this error:
-// [ts] Type '(circle: ViewStatic) => void' is not assignable to type '(string | ((instance: Component<ViewProperties, {} | void>) => any)) & (string | ((instance: View...'.
-//   Type '(circle: ViewStatic) => void' is not assignable to type 'string | ((instance: Component<ViewProperties, {} | void>) => any)'.
-//     Type '(circle: ViewStatic) => void' is not assignable to type '(instance: Component<ViewProperties, {} | void>) => any'.
-//       Types of parameters 'circle' and 'instance' are incompatible.
-//         Type 'Component<ViewProperties, {} | void>' is not assignable to type 'ViewStatic'.
-//           Property 'measure' is missing in type 'Component<ViewProperties, {} | void>'.
-// (parameter) circle: React.ViewStatic
-
-    // type CElement<P, T extends Component<P, ComponentState>> = ComponentElement<P, T>;
-    // ComponentState = {} | void
-    // instance: Component<ViewProperties, {} | void>
-
-    // export interface ViewProperties extends ViewPropertiesAndroid, ViewPropertiesIOS, GestureResponderHandlers, Touchable, React.Props<ViewStatic> {
-
-    // export interface ViewStatic extends NativeComponent, React.ComponentClass<ViewProperties> {
-
     render() {
         return (
             <View
                 style={styles.container}>
                 <View
-                    //ref={(circle: React.View) => {this.circle = circle}}
-                    ref={PAN_RESPONDER_REF}
+                    ref={(circle: any) => {this.circle = circle}}
                     style={styles.circle}
                     {...this._panResponder.panHandlers}
                 />
